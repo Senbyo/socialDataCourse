@@ -156,10 +156,37 @@ https://nbviewer.jupyter.org/github/suneman/socialdataanalysis2018/blob/master/l
 
 		<h2>Part 5</h2>
 			<script type='text/javascript'>
-				var dataset = [5, 10, 15, 20, 15];
-				d3.select('body').selectAll().data(dataset).enter().append('p').text("New paragraph!");
+				var dataset = [5, 10, 15, 20, 25];
+				// Because I have other paragraphs I selectAll empty instead of using existing paragraphs
+				d3.select('body')
+					.selectAll()
+					.data(dataset)
+					.enter()
+					.append('p')
+					.text(function(d) { 
+						return "I can count up to " + d;
+					})
+					.style("color", function(d){
+						if (d > 15 ){
+							return "red";
+						} else {
+							return "black";
+						}
+					});
 
 			</script>
+			<svg width='500' height='133' class='block'>
+				<rect x='0' y='52' width='80' height='80' fill='purple'
+				stroke='gray' stroke-width='2' opacity='1.0'/>
+				<rect x='53' y='39' width='80' height='80' fill='blue'
+				stroke='gray' stroke-width='2' opacity='0.75'/>
+				<rect x='106' y='26' width='80' height='80' fill='green'
+				stroke='gray' stroke-width='2' opacity='0.50'/>
+				<rect x='159' y='13' width='80' height='80' fill='yellow'
+				stroke='gray' stroke-width='2' opacity='0.25'/>
+				<rect x='212' y='0' width='80' height='80' fill='red'
+				stroke='gray' stroke-width='2' opacity='0.1'/>									
+			</svg>
 		<a href='../index.html'>Back</a>
 	</body>
 </html>
