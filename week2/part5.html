@@ -38,7 +38,7 @@
 			var dataset;
 			var w = 500;
 			var h = 250;
-			var padding = 20;
+			var padding = 30;
 			var histData
 			var barpadding = 3
 
@@ -49,10 +49,15 @@
 
 
 			var yScale = d3.scaleLinear()
-						.domain([0,15])
+						.domain([15,0])
 						.range([padding, h - padding])
 						.nice()
-
+			/*
+			var xScale = d3.scaleBand()
+							.domain(d3.range(histData.length))
+							.range([0,w])
+							.padding(0.05)
+			*/
 			var xAxis = d3.axisBottom(scale);
 			var yAxis = d3.axisLeft(yScale)
 
@@ -76,7 +81,19 @@
 
 				var svgDotPlot = d3.select("div").append("svg").attr("width", w).attr("height", h)
 				.attr("stroke", 'black').attr("stroke-width", 2);
+				
 
+				svgDotPlot.append("rect")
+						.attr("width", w)
+						.attr("height", h)
+						.attr("fill", "none")
+						.attr("x", 0)
+						.attr("y", 0)
+						.attr("stroke", "black")
+						.attr("stroke-width", "2")
+
+
+				/*
 				svgDotPlot.selectAll("circle")
 					.data(dataset)
 					.enter()
@@ -88,6 +105,45 @@
 						return 50;
 					} )
 					.attr("r", 5)
+				*/
+				var offset = 4
+				var y1 = 47
+				var y2 = 55
+				svgDotPlot.selectAll("line")
+					.data(dataset)
+					.enter()
+					.append("line")
+					.attr("x1", function(d){
+						return scale(d.months ) - offset
+					})
+					.attr("y1", function(d){
+						return y1
+					})
+					.attr("x2", function(d){
+						return scale(d.months ) + offset
+					})
+					.attr("y2", function(d){
+						return y2
+					})
+					.attr("stroke-width", "1")
+
+				svgDotPlot.selectAll()
+					.data(dataset)
+					.enter()
+					.append("line")
+					.attr("x1", function(d){
+						return scale(d.months ) + offset
+					})
+					.attr("y1", function(d){
+						return y1
+					})
+					.attr("x2", function(d){
+						return scale(d.months ) - offset
+					})
+					.attr("y2", function(d){
+						return y2
+					})
+					.attr("stroke-width", "1")
 
 				svgDotPlot.selectAll()
 					.data(dataset)
@@ -114,7 +170,16 @@
 				var svgHist = d3.select("#hist").append("svg").attr("width", w).attr("height", h)
 				.attr("stroke", 'black').attr("stroke-width", 2);
 
-				svgHist.selectAll("rect")
+				svgHist.append("rect")
+						.attr("width", w)
+						.attr("height", h)
+						.attr("fill", "none")
+						.attr("x", 0)
+						.attr("y", 0)
+						.attr("stroke", "black")
+						.attr("stroke-width", "2")
+
+				svgHist.selectAll()
 						.data(histData)
 						.enter()
 						.append("rect")
@@ -140,12 +205,12 @@
 
 				svgHist.append("g")
 					.attr("class", "axis")
-					.attr("transform", "translate(0," + (padding) + ")")
+					.attr("transform", "translate(" + (padding ) + ",0)")
 					.call(yAxis);				
 			};
 		</script>
-		<div style="border-style: solid; border-width: 1pt;"}></div>
-		<div style="border-style: solid; border-width: 1pt;" id="hist"}></div>
+		<div id="jitter"></div>
+		<div id="hist"}></div>
 		<a href='index.html' class="block">Back</a>								
 	</body>
 </html>
