@@ -5,12 +5,41 @@
 		<meta charset="utf-8">
 		<title>Social Data Analysis and Visualization</title>
 		<script type="text/javascript" src="../d3/d3.js"></script>
-		<link rel='stylesheet' href=../week1/style.css>
+		<link rel='stylesheet' href=style.css>
 	</head>
 	<body>
 		<script type="text/javascript">
-			// mah code will go here
+			var rowConverter = function(d) {
+				return {
+					numbers: parseInt(d.numbers)
+				};
+			}
+
+			var dataset;
+
+			d3.csv("data.csv", rowConverter, function(error, data){
+
+				if (error) {
+					console.log(error);
+				} else {
+					console.log(data)
+					dataset = data;
+
+					generateVisualization();
+				}
+			});
+
+			var generateVisualization = function() {
+				d3.select("#h5").selectAll("div")
+				.data(dataset)
+				.enter()
+				.append("div")
+				.text(function(d) { return d.numbers; });
+			};
 		</script>
+
+		<div id="h5"> hello </div>
+		<div> world </div>
 		<a href='index.html'>Back</a>								
 	</body>
 </html>
