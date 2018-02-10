@@ -1,0 +1,12 @@
+h4 {
+	color: green;
+}
+
+.block {
+	display: block;
+}
+
+html * {
+	font-family: sans-serif;
+	font-size: 24pt;
+}
