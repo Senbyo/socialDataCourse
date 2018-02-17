@@ -2,10 +2,6 @@ h4 {
 	color: gray;
 }
 
-p {
-	color: black;
-}
-
 .block {
 	display: block;
 }
@@ -19,9 +15,34 @@ html * {
 	font-size: 24pt;
 }
 
+p {
+	color: black;
+	font-size: 10pt;
+}
+
+a {
+	font-size: 10pt;
+}
+
+.axis {
+   shape-rendering: crispEdges;
+}
 .axis text {
 	font-size: 10pt;
 	font-family: Optima, Futura, sans-serif;
 	font-weight: italic;
 	stroke-width: 0.5pt;
+	fill: gray;
+}
+
+.axis path {
+   fill: none;
+   stroke: gray;
+   stroke-opacity: .75;
+ }
+
+ .axis line{
+  stroke: gray;
+  stroke-width: 1.5pt;
+  stroke-opacity: 0.75;
 }
