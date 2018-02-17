@@ -17,11 +17,15 @@ html * {
 
 p {
 	color: black;
-	font-size: 10pt;
+	font-size: 14pt;
 }
 
 a {
-	font-size: 10pt;
+	font-size: 14pt;
+}
+
+i {
+	font-size: 14pt;
 }
 
 .axis {
