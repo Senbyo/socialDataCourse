@@ -3,7 +3,7 @@
 <html lang='en'>
 	<head>
 		<meta charset="utf-8">
-		<title>Social Data Analysis and Visualization</title>
+		<title>Week 2 Part 5</title>
 		<script type="text/javascript" src="../d3/d3.js"></script>
 		<link rel='stylesheet' href=style.css>
 	</head>
@@ -19,7 +19,7 @@
 			}
 
 			var histOccu = function(data) {
-				
+
 				array = []
 
 				for (i = 0;  i < 146; i++){
@@ -27,7 +27,7 @@
 				}
 
 				for (i = 0;  i < data.length; i++){
-					array[data[i].months-1] += 1 
+					array[data[i].months-1] += 1
 				}
 
 				console.log(array)
@@ -81,7 +81,7 @@
 
 				var svgDotPlot = d3.select("#jitter").append("svg").attr("width", w).attr("height", h)
 				.attr("stroke", 'black').attr("stroke-width", 2);
-				
+
 
 				svgDotPlot.append("rect")
 						.attr("width", w)
@@ -206,11 +206,11 @@
 				svgHist.append("g")
 					.attr("class", "axis")
 					.attr("transform", "translate(" + (padding ) + ",0)")
-					.call(yAxis);				
+					.call(yAxis);
 			};
 		</script>
 		<div id="jitter"></div>
 		<div id="hist"></div>
-		<a href='index.html' class="block">Back</a>								
+		<a href='index.html' class="block">Back</a>
 	</body>
 </html>
