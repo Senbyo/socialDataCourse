@@ -9,21 +9,25 @@
   <body>
     <script type="text/javascript">
       // Your beautiful D3 code will go here
-    </script> 
+    </script>
 
     <ol>
       <h3>Exercise: Questions for chapter 7.</h3>
         <li><h4>Explain in your own words: What is the point of scales?</h4></li>
           <p>
-            answer
+               Because input data points doesn’t necessarily corresponds to a physical dimension or size, like pixel, one can use a scale to scale the points up or down to suit the dimensions of the element that they are visualised in.
           </p>
         <li><h4>Why are <i>d3.min()</i> and <i>d3.max()</i> useful? And what's the accessor function? When do you need that?</h4></li>
           <p>
-            answer
+               <i>d3.min()</i> and <i>d3.max()</i> are used to make the scale dynamic. Say a new data point which is significantly different (in terms of size) from the rest is added, the min and max could be used to pick up the smallest and largest number in the data set and set the scales accordingly.
+               </br>
+               An accessor function is to access a specific element from an object.
+               </br>
+               It the context of scales it is needed when using <i>d3.min()</i> and <i>d3.max()</i> on multi dimensional arrays. The accessor function specifies which element in the multidimensional array should be used for comparison.
           </p>
         <li><h4>What is Bostock's margin convention mentioned on page 125?</h4></li>
           <p>
-            answer
+               Bostock's margin is a convention to create SVG elements with a margin, such that the margin can be ignored within the SVG element. See <a href="https://bl.ocks.org/mbostock/3019563">https://bl.ocks.org/mbostock/3019563</a>
           </p>
         <li><h4>Can you mention an example when you might need other scales than linear?</h4></li>
           <p>
@@ -31,7 +35,11 @@
           </p>
         <li><h4>How do you convert strings to <i>Date</i> objects? When is it good to check that your conversion works? Do you have to be extra careful with Danish dates? Why?</h4></li>
           <p>
-            answer
+               Create a function like var <i>parseTime = d3.timeParse(“%m/%d/%y”)</i>
+               </br>
+               Before you start to use the converted data.
+               </br>
+               One can parse the string differently like <i>(“%d/%m/%y”)</i>. It is more important to understand the data and follow the convention for the domain you are working in.
           </p>
     </ol>
     <ol>
