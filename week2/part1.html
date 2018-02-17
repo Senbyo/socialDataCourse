@@ -17,12 +17,14 @@
 					    <i>Data</i> can simply be a piece of information, a list of measurements, or observations, a story or a description of a certain thing.
 					    <br/>
 					    <i>Metadata</i> specifies the relevant information about the data which helps in identifying the nature and feature of the data.
+					    <br/>
+					    In terms of the bike example, the data would be the measurements of coordinates. Where the metadata is the markup of lon and lat, which are used to infer that the measurements are coordinates and not just a random collection of numbers.
 				</p>
 			<li><h4>Sune says that the human eye is a great tool for data analysis. Do you agree? Explain why/why not. Mention something that the human eye is very good at. Can you think of something that is difficult for the human eye. Explain why your example is difficult. </h4></li>
 				<p>
 					Visual perseption has been a big topic in cognitive science, and has been researched a lot. One theory is that recognition starts with the identification of features. This coinsides well with the explanation of outlier detection from the lecture. When all the percieved object share a feature, except one that one sticks out. However when in the example where one has to locate waldo each visual object has a combination of features, and searching for a combination of features is significantly slower. Because of this we need to examine the image one person at the time to see if the features match those that define Waldo.
-					<!-- Marc's answer. Don't know if it's useful as the answer above is pretty good. -->
-					<!-- Sort of agreeing but the eye is only capturing the world as presented to use, whereas the brain is performing the complex “algorithms” for interpreting  the world as seen by the eye. -->
+					<br/>
+					Sort of agreeing but the eye is only capturing the world as presented to use, whereas the brain is performing the complex “algorithms” for interpreting  the world as seen by the eye.
 				</p>
 			<li><h4>Simpson's paradox is hard to explain. Come up with your own example - or find one on line.</h4></li>
 				<p>
@@ -30,14 +32,17 @@
 					</br>
 					Another example can be seen at <a href='http://blog.revolutionanalytics.com/2013/07/a-great-example-of-simpsons-paradox.html'>http://blog.revolutionanalytics.com/2013/07/a-great-example-of-simpsons-paradox.html</a>
 				</p>
-			<li><h4>In your own words, explain the differnece between exploratory and explanatory data analysis. </h4></li>
+			<li><h4>In your own words, explain the difference between exploratory and explanatory data analysis. </h4></li>
 				<p>
-					<i>Exploratory</i> is about finding meaning in data.
+					<i>Exploratory</i> is about finding part of the data (which can be huge data set) which might be interesting.
 					</br>
-					<i>Explanatory</i> is about presenting the meaning from data.
+					<i>Explanatory</i> is about presenting the interesting parts of the data, that was found in the exploratory analysis.
+					</br>
+					<a href='http://www.storytellingwithdata.com/blog/2014/04/exploratory-vs-explanatory-analysis'>http://www.storytellingwithdata.com/blog/2014/04/exploratory-vs-explanatory-analysis</a>
 				</p>
 			<li><h4>As mentioned earlier, visualization is not the only way to test for correlation. We can (for example) calculate the Pearson correlation. Explain in your own words how the Pearson correlation works and write down it's mathematical formulation. Can you think of an example where it fails (and visualization works)?</h4></li>
 				<p>
+					<a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#For_a_population">https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#For_a_population</a>
 					<a href='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/506px-Correlation_examples2.svg.png'>506px-Correlation_examples2</a>
 					</br>
 					The Pearson correlation fails, as shown in the picture, when data aren’t linear correlated.
@@ -48,7 +53,8 @@
 				</p>
 			<li><h4>I mention in the video that it's important to choose the right bin-size in histograms. But how do you do that? Do a Google search to find a criterion you like and explain it. </h4></li>
 				<p>
-			    		Use Sturge’s Rule as a rule of thumb, as it has been criticised for over smoothing the plot.
+					K = 1 + 3.322 logN
+			    		Use Sturge’s Rule as a rule of thumb, as it has been criticised for over-smoothing the plot.
 				</p>
 		</ol>
 		<a href='index.html'>Back</a>
