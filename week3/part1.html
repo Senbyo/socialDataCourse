@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
       <meta charset="utf-8">
-      <title>Week 3 Part 1e</title>
+      <title>Week 3 Part 1</title>
       <script type="text/javascript" src="../d3/d3.js"></script>
       <link rel="stylesheet" href="style.css">
   </head>
@@ -46,58 +46,59 @@
         <h3>Exercise: Questions for chapter 8.</h3>
         <li><h4>Explain in your own words: What is the point of axes?</h4></li>
           <p>
-            answer
+            Axes are used to give the viewer of the data a sense of the scale of the data. Making such things at outliers visible and connecting the data point with each other as well as setting them in a common world.
           </p>
         <li><h4>On page 136-7, Scott notes: "You might be wondering why this looks so different from our friendly scale functions". Answer in your own words.</h4></li>
           <p>
-            answer
+            This looks different because the scale acts on the date, scaling it, and the axis do not. The axis are simply there to better our understanding of the data. They do not interact with the data. They do however interact with the elements that are being drawn on the screen, and as such need to be drawn last because they need to be drawn on top of everything else.
           </p>
         <li><h4>What are SVG transformations?</h4></li>
           <p>
-            answer
+            SVG transformations are transformation that can be done to the entire svg object. These include translation, as well as toration and scale.
           </p>
         <li><h4>Why might D3 give you different axes-ticks than you ask for?</h4></li>
           <p>
-            answer
+            When using <i>tick(#)</i> one is simply telling d3.js the prefered amount of ticks to use. However d3.js will overrule this if it causes awkward spacing in the ticks.
           </p>
     </ol>
     <ol>
         <h3>Exercise: Questions for chapter 9.</h3>
         <li><h4>Explain in your own words, what is an ordinal scale? When do you need it?</h4></li>
           <p>
-            answer
+            An ordinal scale is a scale for discrete categories that have a neutral order. Such as days of the week, or one ranging from, agree to disagree, or grades ranging from the lowest to the highest.
           </p>
         <li><h4>If you were plotting data related to months (Jan, Feb, ... , Dec), would you use time-based scales or ordinal scales? Justify your answer.</h4></li>
           <p>
-            answer
+            Using a time-based scale requres the use of JavaScripts time object. And as such I would only use the time-based scale if it made sense to convert the categories to Date objects. Typically if I just wanted to group based on day or month and the yScale was not time sensitive an ordinal scale would be preferable.
           </p>
         <li><h4>What is an event listener? Why is it useful?</h4></li>
           <p>
-            answer
+            An event listener is a listener than returns a callback when an event happens. As such you can set a listener on a paragraph to listen for a click or a mouse over. This in turn can then be used to tricker an event. It is very usefull because it provides a simple yet powerfull way for a user to interact with a graph or a website, that does not require the extensive user interfaces and buttons.
           </p>
         <li><h4>What is your favorite <i>D3</i> transition?</h4></li>
           <p>
-            answer
+            The backInOut and BounceInOut are great! There is no doubt that they will be tried out first whenever a transition needs to be implemented, but as Scott says "easeCubicInOut is the default for a reason".
+            See all here -> <a href="https://bl.ocks.org/mbostock/248bac3b8e354a9103c4">https://bl.ocks.org/mbostock/248bac3b8e354a9103c4</a>
           </p>
         <li><h4>Under what circumstances do you need to update your scale while doing transtions?</h4></li>
           <p>
-            answer
+            A scenario where one would need to update the scale during a transition would be when a graph is updated to reflect changes in the data that it is visualizing. In more general words, a transition should update scales whenever new min or max values, or new categories are added to the data.
           </p>
         <li><h4>Under what circumstances do you need to update your axes while doing transtions?</h4></li>
           <p>
-            answer
+            When ever the scale is being updated to reflect new data The axes will also need be updated to reflect the changes in the scales.
           </p>
         <li><h4>What's the point of <i>on()</i>?</h4></li>
           <p>
-            answer
+            It is to give the ability to change the visualisation on the start or the end of a transition. However one should be careful not to initiate new transitions in the start() and end() because they will cancel out the started transition.
           </p>
         <li><h4>Can you think of a real-world situation where you might want to add/remove bars to/from your histogram?</h4></li>
           <p>
-            answer
+            For instance if one was to measure hours slept, the scale would need to be udated adding new days to reflect more data points as more days pass.
           </p>
         <li><h4>Why might you want to use a key function when adding/removing data?</h4></li>
           <p>
-            answer
+            Key function can be used when one wants more control over the process of adding or removing data. This is especilly helpful for adding or removing data that is not at the start or end of a visualization.
           </p>
     </ol>
     <li><a href='index.html'>Back</a></li>
