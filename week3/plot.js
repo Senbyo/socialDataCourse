@@ -43,8 +43,6 @@ var xAxisVal = d3.scaleBand()
 				.range([padding, w - padding])
 				.paddingInner(0.5);
 
-//var xAxisVal = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
 var xScale = d3.scaleBand()
 				.domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 				.range([padding, w - padding])
@@ -53,10 +51,6 @@ var xScale = d3.scaleBand()
 var yScale = d3.scaleLinear()
 			.domain([0, 50])
 			.range([h- padding, padding]);
-
-// Research or delete
-// var colorScale = d3.scaleBand()
-// 					.range(["green", "green", "green", "green"])
 
 var lineOffset= 1
 
@@ -123,8 +117,6 @@ var convertToStack = function(dataset) {
 	return stack(convertedData)
 
 };
-
-
 
 var generateVisualization = function() {
 	var svgPlot = d3.select("#plot").append("svg").attr("width", w).attr("height", h);
