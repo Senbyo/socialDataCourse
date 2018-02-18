@@ -28,6 +28,7 @@ var rowConverter = function(d) {
 	};
 }
 
+// Global variables.
 var dataset;
 var w = 504;
 var h = 314;
@@ -35,18 +36,15 @@ var padding = 30;
 var series
 var dataIntermediate
 
-var test = [
-{ apples: 5, oranges: 10, grapes: 22 },
-{ apples: 4, oranges: 12, grapes: 28 },
-{ apples: 2, oranges: 19, grapes: 32 },
-{ apples: 7, oranges: 23, grapes: 35 },
-{ apples: 23, oranges: 17, grapes: 43 }
-];
-
 var lineInterval = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
-var xScale = d3.scaleBand()
+var xAxisVal = d3.scaleBand()
 				.domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
+				.range([padding, w - padding])
+				.paddingInner(0.5);
+
+var xScale = d3.scaleBand()
+				.domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 				.range([padding, w - padding])
 				.paddingInner(0.5);
 
@@ -54,16 +52,12 @@ var yScale = d3.scaleLinear()
 			.domain([0, 50])
 			.range([h- padding, padding]);
 
-// Research or delete
-var colorScale = d3.scaleBand()
-					.range(["green", "green", "green", "green"])
-
 var lineOffset= 1
 
-var xAxis = d3.axisBottom(xScale)
+var xAxis = d3.axisBottom(xAxisVal)
 			.ticks(13);
 var yAxis = d3.axisLeft(yScale);
-var colors = ["red", "green", "salmon", "grey"];
+
 
 d3.csv("data.csv", rowConverter, function(error, data){
 
@@ -73,19 +67,56 @@ d3.csv("data.csv", rowConverter, function(error, data){
 		console.log(data)
 		dataset = data;
 
-		var stack = d3.stack()
-				.keys(["0", "1", "2", "3"]);
-
-		series = stack(dataset)
+		series = convertToStack(dataset)
 
 		generateVisualization()
-
 
 	}
 });
 
 
+// convertToStack will transform the dataset into a stack, which is suitable
+// for creating stacked bar charts.
+// Index 0 = Fresh Fruit (Colour: Red)
+// Index 1 = Storage Fruit (Colour: Salmon)
+// Index 2 = Fresh Vegetables (Colour: Green)
+// Index 3 = Storage Vegetables (Colour: Olive)
+var convertToStack = function(dataset) {
 
+	// Create an empty two dimensional array
+	var array = [];
+	for(var i = 0; i < dataset.length/4; i++){
+    		array[i] = [];
+	}
+
+	// Run through data set and add the values to the two dimensional array.
+	// arr[0][x] corresponds to Jan, arr[1][x] corresponds to Feb and so on.
+	var months = 12
+	for (i = 0; i < dataset.length; i++) {
+		array[i % months].push(dataset[i].Count)
+	}
+
+	// Run through the two dimensional array and create objects corresponding
+	// to the months.
+	var convertedData = []
+	for (i = 0; i < array.length; i++) {
+		var fFruit = array[i][0]
+		var sFruit = array[i][1]
+		var fVegetable = array[i][2]
+		var sVegetable = array[i][3]
+
+		var record = {0: fFruit, 1: sFruit, 2: fVegetable, 3: sVegetable}
+		convertedData.push(record)
+	}
+
+	// The order if the keys is a bit peculiar but it is to get the data
+	// stacked correctly.
+	var stack = d3.stack()
+				.keys([ 3, 1, 2, 0 ]);
+
+	return stack(convertedData)
+
+};
 
 var generateVisualization = function() {
 	var svgPlot = d3.select("#plot").append("svg").attr("width", w).attr("height", h);
@@ -100,6 +131,7 @@ var generateVisualization = function() {
 			.attr("stroke-width", "3")
 			.attr("stroke-opacity", "0.5")
 
+	// Draw horisontal lines, that strecthes over the entire plot.
 	svgPlot.selectAll("line")
 		.data(lineInterval)
 		.enter()
@@ -120,48 +152,47 @@ var generateVisualization = function() {
 		.attr("stroke-width", "2")
 		.attr("stroke-opacity", "0.5")
 
-	svgPlot.selectAll()
-			.data(dataset)
-			.enter()
-			.append("rect")
-			.attr("x", function(d,i) {
-				return xScale(d.Month);
-			})
-			.attr("y", function(d){
-				return yScale(d.Count);
-			})
-			.attr("width", xScale.bandwidth())
-			.attr("height", function(d){
-				return h - padding - yScale(d.Count);
-			})
-			.attr("fill", function(d) {
-				return colors[d.Index];
-			})
+	var colors = d3.schemeCategory20;
+
+	// Add a group for each row of data
+	var groups = svgPlot.selectAll("g")
+		.data(series)
+		.enter()
+		.append("g")
+		.style("fill", function(d, i) {
+			return colors[i];
+		});
+
+	// Add a rect for each data value
+	var rects = groups.selectAll("rect")
+		.data(function(d) {
+			return d;
+		})
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+			//console.log(i);
+			return xScale(i);
+		})
+		.attr("y", function(d) {
+			return yScale(d[1]);
+		})
+		.attr("height", function(d) {
+			return yScale(d[0]) - yScale(d[1]);
+		})
+		.attr("width", xScale.bandwidth());
 
 
+	// Draw x-axis included values along the axis.
 	svgPlot.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(0," + (h - padding) + ")")
 		.call(xAxis);
 
+	// Draw y-axis included values along the axis.
 	svgPlot.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(" + (padding ) + ",0)")
 		.call(yAxis);
 
-	var count = 0;
-	//var xData = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-	var xData = [0,1,2,3]
-	dataIntermediate = xData.map(function (c) {
-	    return dataset.map(function (d) {
-	    	array = []
-	    	count += 1
-			array.push(1)
-
-	    	if (count % 3 == 0) 
-		        return {Month: d.Month, array};
-	    });
-	});		
 }
-
-
