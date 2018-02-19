@@ -36,7 +36,7 @@ i {
 	font-family: Optima, Futura, sans-serif;
 	font-weight: italic;
 	stroke-width: 0.5pt;
-	fill: gray;
+	fill: black;
 }
 
 .axis path {
@@ -49,4 +49,33 @@ i {
   stroke: gray;
   stroke-width: 1.5pt;
   stroke-opacity: 0.75;
+}
+
+.Legend {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 9pt;
+	letter-spacing: -10pt;
+	fill: black;
+}
+
+
+.yAxisLabel {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 9pt;
+	letter-spacing: -10pt;
+	fill: black;
+}
+
+.xAxisLabel {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 15pt;
+	letter-spacing: -10pt;
+	fill: black;
+}
+
+.values {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 10pt;
+	letter-spacing: -10pt;
+	fill: black;
 }

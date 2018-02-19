@@ -32,25 +32,42 @@ var rowConverter = function(d) {
 var dataset;
 var w = 504;
 var h = 314;
-var padding = 30;
-var series
-var dataIntermediate
+// Added a width for the bar chart to leave room for the legend
+var barchartWidth = 404;
+var padding = 40;
+var horizontalPadding = 40;
+var legendStart = 150;
+var legendHeight = 100;
+var legendRectSize = 10;
+var legendItems = [
+					{color: 3, name:"Fresh Fruit" }, 
+					{color: 2, name:"Fresh Vegetable" }, 
+					{color: 1, name:"Storage Fruit" }, 
+					{color: 0, name:"Storage Vegetable"}]
+
+//Changed colors to reflect the other graph
+//var colors = d3.schemeCategory20;
+var colors = ["beige", "salmon", "green", "red"]
 
 var lineInterval = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
 var xAxisVal = d3.scaleBand()
 				.domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
-				.range([padding, w - padding])
+				.range([padding, barchartWidth - padding])
 				.paddingInner(0.5);
 
 var xScale = d3.scaleBand()
 				.domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-				.range([padding, w - padding])
+				.range([padding, barchartWidth - padding])
 				.paddingInner(0.5);
 
 var yScale = d3.scaleLinear()
 			.domain([0, 50])
 			.range([h- padding, padding]);
+
+var legendScale = d3.scaleBand()
+				.domain(["Fresh Fruit", "Fresh Vegetable", "Storage Fruit", "Storage Vegetable"])
+				.range([legendStart, legendStart + legendHeight])
 
 var lineOffset= 1
 
@@ -68,7 +85,7 @@ d3.csv("data.csv", rowConverter, function(error, data){
 		dataset = data;
 
 		series = convertToStack(dataset)
-
+		console.log(series)
 		generateVisualization()
 
 	}
@@ -143,7 +160,7 @@ var generateVisualization = function() {
 			return yScale(d)
 		})
 		.attr("x2", function(d){
-			return w - padding
+			return barchartWidth - padding
 		})
 		.attr("y2", function(d){
 			return yScale(d)
@@ -151,8 +168,6 @@ var generateVisualization = function() {
 		.attr("stroke", "gray")
 		.attr("stroke-width", "2")
 		.attr("stroke-opacity", "0.5")
-
-	var colors = d3.schemeCategory20;
 
 	// Add a group for each row of data
 	var groups = svgPlot.selectAll("g")
@@ -182,6 +197,74 @@ var generateVisualization = function() {
 		})
 		.attr("width", xScale.bandwidth());
 
+	groups.selectAll("text")
+		.data(function(d) {
+			return d;
+		})
+		.enter()
+		.append("text")
+		.attr("x", function(d, i) {
+			return xScale(i)+1;
+		})
+		.attr("y", function(d) {
+			return (yScale(d[0]) + yScale(d[1]))/2;
+		})
+		.text(function(d, i) {
+			if (i == 8 & d[1] > 0) {
+				return d[1] - d[0];
+			}
+		})
+		.attr("class", "Legend");
+
+
+	// Adding the legend as a group so that it can contain text
+	var legend = svgPlot.append("g")
+			.attr("x", barchartWidth - horizontalPadding )
+			.attr("y", 0)
+
+	// Adding the rects
+	legend.selectAll("rect")
+			.data(legendItems)
+			.enter()
+			.append("rect")
+			.attr("width", legendRectSize)
+			.attr("height", legendRectSize)
+			.attr("fill", function(d){
+				return colors[d.color]
+			})
+			.attr("x", function(d) {
+				return barchartWidth-legendRectSize;
+			})
+			.attr("y", function(d) {
+				return legendScale(d.name)-legendRectSize;
+			});
+
+
+
+	// Adding the text
+	// formatting is in css
+	legend.selectAll("text")
+			.data(legendItems)
+			.enter()
+			.append("text")
+			.text(function(d){
+				return d.name;
+			})
+			.attr("x", function(d) {
+				return barchartWidth + 2;
+			})
+			.attr("y", function(d) {
+				return legendScale(d.name);
+			})
+			.attr("class", "Legend");
+
+	var plotText = svgPlot.append("g")
+			.attr("x", barchartWidth - horizontalPadding )
+			.attr("y", 0);
+
+	var plotText = svgPlot.append("g")
+			.attr("x", barchartWidth - horizontalPadding )
+			.attr("y", 0)
 
 	// Draw x-axis included values along the axis.
 	svgPlot.append("g")
@@ -194,5 +277,25 @@ var generateVisualization = function() {
 		.attr("class", "axis")
 		.attr("transform", "translate(" + (padding ) + ",0)")
 		.call(yAxis);
+
+	// Adding text to the y-axis
+  	svgPlot.append("text")
+     	.attr("transform", "rotate(-90)")
+     	.attr("x", 0 - (h / 2))
+     	.attr("y", 0 )
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("# of Unique Kinds of Produce")
+     	.attr("class", "yAxisLabel");  
+
+  	svgPlot.append("text")
+
+      	.attr("transform",
+            "translate(" + (w/2) + " ," + 
+                           (0) + ")")
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("NYC Green Markets - Unique Produce Types")
+     	.attr("class", "xAxisLabel");  
 
 }
