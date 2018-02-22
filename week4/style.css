@@ -1,0 +1,27 @@
+h4 {
+	color: gray;
+}
+
+p {
+	color: black;
+}
+
+.block {
+	display: block;
+}
+
+div {
+	display: block;
+}
+
+html * {
+	font-family: sans-serif;
+	font-size: 24pt;
+}
+
+.axis text {
+	font-size: 10pt;
+	font-family: Optima, Futura, sans-serif;
+	font-weight: italic;
+	stroke-width: 0.5pt;
+}

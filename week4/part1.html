@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>Week 3 Part 1</title>
+      <script type="text/javascript" src="../d3/d3.js"></script>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script type="text/javascript">
+      // Your beautiful D3 code will go here
+    </script>
+
+    <ol>
+      <h3>Exercises: DAOST chapter 3.</h3>
+        <li><h4>Looking at Fig 3-1, Janert writes "the data itself shows clearly that the amount of random noise in the data is small". What do you think his argument is?</h4></li>
+          <p>
+               The argument is that the relationship between x and y is clearly replicated throughout the data, and does not vary a lot.
+          </p>
+        <li><h4>Can you think of a real-world example of a multivariate relationship like the one in Fig 3-3 (lower right panel)?</h4></li>
+          <p>
+               The curve look very much like a plot of the test and training error. Where the training error of a given stistical model goes towards zero, but as the model starts to overfit the test error starts to increase.
+          </p>
+        <li><h4>What are the two methods Janert metions for smoothing noisy data? Can you think of other ones?</h4></li>
+          <p>
+               Janert mentions weighted spiles and locally weighted regression(LOWESS).
+               There are others, for example ordinary least squares or K nearest neighbours, and radial basis functions. ( Janert says that OLS is very much misused, so maybe we should remove it from this list?)
+          </p>
+        <li><h4>What is problematic about using straight lines to fit the data in Fig 3-5? </h4></li>
+          <p>
+              It is problematic to use a straight curve for the data in figure 3-5 because it does not relfect the underlying property of the data. Furthermore the ridgidness can potentially show a trend that is not represented in the data.
+          </p>
+        <li><h4>What are residuals? Why is it a good idea to plot the residuals of your fit?</h4></li>
+          <p>
+               Residuals is the distance between the estimated y values and the actual y values. In other words it is a measurement for how well the estimated y values actually fit to the underlying data.
+          </p>
+        <li><h4>Explain in your own words the point of the smooth tube in figure 3-7.</h4></li>
+          <p>
+               THe point of the smooth tube in figure 3-7 is to give an interval for which most of the data lies within. This can be seen as a confidence interval for the approximation. Furthermore it can be used to indentify regions that could potentially have outliners. This can be observed through width of the tube expanding.
+          </p>
+        <li><h4>What kind of relationships will a semi-log plot help you discover?</h4></li>
+          <p>
+               They will help deiscover exponential and power law behavior. It can help you plot the relative change of the y value rather than the absolute. 
+          </p>
+        <li><h4>What kind of functions will loglog plots help you see?</h4></li>
+          <p>
+               THey make it possible to visualize data that is spanning many orders of magnituide, as well as revealing power law relationships.
+          </p>
+        <li><h4>What the h#ll is banking and what part of our visual system does it use to help us see patterns? What are potential problems with banking?</h4></li>
+          <p>
+               Baking is controlling the slope of the curve that is being plotted. With banking one aims to create a 45 degree slope on the curve.. This is done because it is much harder to see the change in a curve that is  nearly vertical and horiziontal. THis is done by changing the aspect ration between the y and x-axis.
+               A potential problem with baking is that one could lose to much detail by shrinking one of the axes a lot, which in turn can make it hard to compare each extreme of the axis that has not been shrunk. Furthermore it does make the reading of the plot harder because of the crooked aspect ratio of the two axis.
+          </p>
+        <li><h4>I think figure 3-14 makes an important point about linear fits that is rarely made. What is it? </h4></li>
+          <p>
+               The point here is that linear regression is not something that should be used to find a best fit of the plotted data. It should be used to create a predictor based on the data. When doing graphs and visualizing data it is about visualizing and summarizing the data and trends in the data and not create a model that predicts the data well.
+          </p>
+        <li><h4>I know you love Ascombe's Quartet (Figure 3-15), but have you seen this: https://www.autodeskresearch.com/publications/samestats (That page is pretty darn cool)</h4></li>
+          <p>
+               The datasaurus rocks!
+          </p>
+        <li><h4>Summarize the discussion of Graphical Analysis and Presentation Graphics on pp. 68-69 in your own words</h4></li>
+          <p>
+               In short there are two different approaches to graphical visualization. The first one is graphical Analysis. In this case one wants to investigate and explore that data with the purpose of finding new information about the data. This could be considered exploratory data analysis. When graphical analysis is appropriate the approach to the data should be to create many graphics, varying as much as possible in order to view the data from as many different angles as possible.
+               <br>
+               In the case of graphical presentation one strives to visualize information about the data that has already been invesitated and understood. This could be considered explanatory data analysis. For graphical presentation very polished graphs that are easy to understand with appropiate embellishment is the goal.
+               <br>
+               This distinction is very important when it comes to creating plots and using 3D.js mainly because a more time consuming plot quickly makes one reluctant to start over, and as such it might make sense to do quick visualizations in other software before the graphical presentation is created in 3d.js.
+          </p>
+    </ol>
+    <li><a href='index.html'>Back</a></li>
+  </body>
+</html>
