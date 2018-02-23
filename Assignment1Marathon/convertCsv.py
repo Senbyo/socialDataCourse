@@ -26,8 +26,6 @@ def get_min(time_str):
 
 #testing
 print(get_sec('1:23:45'))
-print(get_sec('0:04:15'))
-print(get_sec('0:00:25'))
 
 men['Time'] = men['Time'].apply(get_min)
 women['Time'] = women['Time'].apply(get_min)
@@ -35,3 +33,12 @@ women['Time'] = women['Time'].apply(get_min)
 
 men.to_csv('processed_men.csv',index = False)
 women.to_csv('processed_women.csv',index = False)
+
+men_pr = pd.read_csv('processed_men.csv')
+women_pr = pd.read_csv('processed_women.csv')
+men_pr = men_pr.rename(columns={'Time' : 'TimeM'})
+women_pr = women_pr.rename(columns={'Time' : 'TimeW'})
+men_pr['TimeW'] = women_pr['TimeW'] 
+men_pr = men_pr.fillna(0)
+
+men_pr.to_csv('all.csv',index = False)
