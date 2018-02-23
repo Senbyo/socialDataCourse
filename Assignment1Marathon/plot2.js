@@ -92,7 +92,7 @@ d3.csv("processed_men.csv", function(error, data) {
       .attr("r", 3.5)
       .attr("cx", xMap)
       .attr("cy", yMap)
-      .style("fill", function(d) { return color(cValue("Men"));})
+    .style("fill", function(d) { return color(cValue("Men"));})
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)
@@ -140,5 +140,31 @@ d3.csv("processed_men.csv", function(error, data) {
 									 .style("opacity", 0);
 					});
 
+          var lineFunction = d3.line()
+                         .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; });
+
+          //line slope and intercept
+          var aMen = -0.29;
+          var bMen = 709.71;
+
+          var aWomen=-0.93;
+          var bWomen=2018.72;
+
+          var lineData = [ { "x": 1900,   "y":aMen * 1900 +bMen },  { "x": 2013,  "y": aMen * 2013 +bMen}];
+
+          svg.append("line")
+          					.attr("class", "line safeLevel")
+          					.attr("x1", 1900)
+          					.attr("x2", 2013)
+          					.attr("y1", aMen * 1900 +bMen)
+          					.attr("y2", aMen * 2013 +bMen);
+
+//The line SVG Path we draw
+          var lineGraph = svg.append("path")
+                            .attr("d", lineFunction(lineData))
+                            .attr("stroke", "blue")
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none");
 
 })});
