@@ -1,31 +1,7 @@
 var rowConverter = function(d) {
-	if (d.Index == 0) {
-		return {
-			"0" : d.Index,
-			Month: d.Month,
-			Count: parseInt(d.Count)
-		};
-	} if (d.Index == 1) {
-		return {
-			"1" : d.Index,
-			Month: d.Month,
-			Count: parseInt(d.Count)
-
-		};
-	} if (d.Index == 2) {
-		return {
-			"2" : d.Index,
-			Month: d.Month,
-			Count: parseInt(d.Count)
-
-		};
-	}
-	return {
-		"3" : d.Index,
-		Month: d.Month,
-		Count: parseInt(d.Count)
-
-	};
+		return { index: parseInt(d.Index),
+				Month: d.Month,
+				Count: parseInt(d.Count) }
 }
 
 // Global variables.
@@ -47,7 +23,7 @@ var legendItems = [
 
 //Changed colors to reflect the other graph
 //var colors = d3.schemeCategory20;
-var colors = ["beige", "salmon", "green", "red"]
+
 
 var lineInterval = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
@@ -72,9 +48,13 @@ var legendScale = d3.scaleBand()
 var lineOffset= 1
 
 var xAxis = d3.axisBottom(xAxisVal)
-			.ticks(13);
 var yAxis = d3.axisLeft(yScale);
 
+var svgPlot
+var groups
+var keys = [3, 1, 2, 0]
+var colors = ["beige", "salmon", "green", "red"]
+var stacked = true;
 
 d3.csv("data.csv", rowConverter, function(error, data){
 
@@ -84,9 +64,10 @@ d3.csv("data.csv", rowConverter, function(error, data){
 		console.log(data)
 		dataset = data;
 
-		series = convertToStack(dataset)
+		series = convertToStack(dataset, keys)
 		console.log(series)
 		generateVisualization()
+		generateBars()
 
 	}
 });
@@ -98,7 +79,7 @@ d3.csv("data.csv", rowConverter, function(error, data){
 // Index 1 = Storage Fruit (Colour: Salmon)
 // Index 2 = Fresh Vegetables (Colour: Green)
 // Index 3 = Storage Vegetables (Colour: Olive)
-var convertToStack = function(dataset) {
+var convertToStack = function(dataset, keys) {
 
 	// Create an empty two dimensional array
 	var array = [];
@@ -129,14 +110,99 @@ var convertToStack = function(dataset) {
 	// The order if the keys is a bit peculiar but it is to get the data
 	// stacked correctly.
 	var stack = d3.stack()
-				.keys([ 3, 1, 2, 0 ]);
-
+				.keys(keys);
 	return stack(convertedData)
 
 };
 
+var changeGraph = function(keys, color) {
+	series = convertToStack(dataset, keys);
+
+	groups
+	.transition()
+	.duration(500)
+	.remove();
+
+	groups = svgPlot.selectAll()
+		.data(series)
+		.enter()
+		.append("g")
+		.style("fill", function(d, i) {
+			if (color.length > 1) {
+				return colors[i];
+			} else {
+				return colors[color];
+			}
+		});
+	
+	//generateBars()
+	// Add a rect for each data value
+	
+	var rects = groups.selectAll("rect")
+		.data(function(d) {
+			return d;
+		})
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+			return xScale(i);
+		})
+		.attr("y", function(d) {
+			return yScale(d[1]);
+		})
+		.transition()
+		.delay(function(d, i) {
+			return i * 50 + 500;
+		})
+		.duration(500)
+		.attr("height", function(d) {
+			return yScale(d[0]) - yScale(d[1]);
+		})
+		.attr("width", xScale.bandwidth());
+
+		/*
+        select()
+        	.transition()
+			.delay(function(d, i) {
+				return i * 50 + 500;
+			})
+			.duration(500)
+			.range([0, 30]);
+		*/
+        stacked = false;
+
+}
+
+var stackedAndGrouped = function(keys, color) {
+
+	if (stacked) {
+		var rects = groups.selectAll("rect")
+			.data(function(d) {
+				return d;
+			})
+			.enter()
+			.append("rect")
+			.attr("x", function(d, i) {
+				return xScale(i);
+			})
+			.attr("y", function(d) {
+				return yScale(d[1]);
+			})
+			.attr("height", function(d) {
+				return yScale(d[0]) - yScale(d[1]);
+			})
+			.attr("width", xScale.bandwidth() / 4);
+
+	}
+
+	else {
+		changeGraph([3, 1, 2, 0],[3, 2, 1, 0])
+		stacked = true;
+	}
+}
+
 var generateVisualization = function() {
-	var svgPlot = d3.select("#plot").append("svg").attr("width", w).attr("height", h);
+	svgPlot = d3.select("#plot").append("svg").attr("width", w).attr("height", h);
 
 	svgPlot.append("rect")
 			.attr("width", w)
@@ -170,52 +236,13 @@ var generateVisualization = function() {
 		.attr("stroke-opacity", "0.5")
 
 	// Add a group for each row of data
-	var groups = svgPlot.selectAll("g")
+	groups = svgPlot.selectAll("g")
 		.data(series)
 		.enter()
 		.append("g")
 		.style("fill", function(d, i) {
 			return colors[i];
 		});
-
-	// Add a rect for each data value
-	var rects = groups.selectAll("rect")
-		.data(function(d) {
-			return d;
-		})
-		.enter()
-		.append("rect")
-		.attr("x", function(d, i) {
-			//console.log(i);
-			return xScale(i);
-		})
-		.attr("y", function(d) {
-			return yScale(d[1]);
-		})
-		.attr("height", function(d) {
-			return yScale(d[0]) - yScale(d[1]);
-		})
-		.attr("width", xScale.bandwidth());
-
-	groups.selectAll("text")
-		.data(function(d) {
-			return d;
-		})
-		.enter()
-		.append("text")
-		.attr("x", function(d, i) {
-			return xScale(i)+1;
-		})
-		.attr("y", function(d) {
-			return (yScale(d[0]) + yScale(d[1]))/2;
-		})
-		.text(function(d, i) {
-			if (i == 8 & d[1] > 0) {
-				return d[1] - d[0];
-			}
-		})
-		.attr("class", "Legend");
-
 
 	// Adding the legend as a group so that it can contain text
 	var legend = svgPlot.append("g")
@@ -237,6 +264,9 @@ var generateVisualization = function() {
 			})
 			.attr("y", function(d) {
 				return legendScale(d.name)-legendRectSize;
+			})
+			.on("click", function(d) {
+				changeGraph([keys[d.color]], d.color)
 			});
 
 
@@ -286,16 +316,65 @@ var generateVisualization = function() {
      	.attr("dy", "1em")
      	.style("text-anchor", "middle")
      	.text("# of Unique Kinds of Produce")
-     	.attr("class", "yAxisLabel");  
+     	.attr("class", "yAxisLabel")
 
   	svgPlot.append("text")
-
       	.attr("transform",
             "translate(" + (w/2) + " ," + 
                            (0) + ")")
      	.attr("dy", "1em")
      	.style("text-anchor", "middle")
      	.text("NYC Green Markets - Unique Produce Types")
-     	.attr("class", "xAxisLabel");  
+     	.attr("class", "xAxisLabel")
+		.on("mouseout", function() {
+				stackedAndGrouped()
+			});
+}
+
+var generateBars = function() {
+
+	// Add a rect for each data value
+	var rects = groups.selectAll("rect")
+		.data(function(d) {
+			return d;
+		})
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+			return xScale(i);
+		})
+		.attr("y", function(d) {
+			return yScale(d[1]);
+		})
+		.attr("height", function(d) {
+			return yScale(d[0]) - yScale(d[1]);
+		})
+		.attr("width", xScale.bandwidth());
+
+	// Adding the 33 and 10
+	groups.selectAll("text")
+		.data(function(d) {
+			return d;
+		})
+		.enter()
+		.filter(function(d, i) {
+			if (i == 8) {
+				return d;
+			}
+		})
+		.append("text")
+		.attr("x", function(d) {
+			return xScale(8);
+		})
+		.attr("y", function(d) {
+			return (yScale(d[0]) + yScale(d[1]))/2;
+		})
+		.text(function(d){
+			return d[1] - d[0];
+		})
+		.attr("class", "Legend");
+
+
+
 
 }
