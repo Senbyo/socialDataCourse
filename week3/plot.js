@@ -1,7 +1,9 @@
 var rowConverter = function(d) {
-		return { index: parseInt(d.Index),
+		return { 
+				Index: parseInt(d.Index),
 				Month: d.Month,
-				Count: parseInt(d.Count) }
+				Count: parseInt(d.Count) 
+			}
 }
 
 // Global variables.
@@ -9,6 +11,7 @@ var dataset;
 var w = 504;
 var h = 314;
 // Added a width for the bar chart to leave room for the legend
+var scalepadding = 3;
 var barchartWidth = 404;
 var padding = 40;
 var horizontalPadding = 40;
@@ -20,7 +23,7 @@ var legendItems = [
 					{color: 2, name:"Fresh Vegetable" }, 
 					{color: 1, name:"Storage Fruit" }, 
 					{color: 0, name:"Storage Vegetable"}]
-
+var lineGroup
 //Changed colors to reflect the other graph
 //var colors = d3.schemeCategory20;
 
@@ -51,8 +54,12 @@ var xAxis = d3.axisBottom(xAxisVal)
 var yAxis = d3.axisLeft(yScale);
 
 var svgPlot
+var lines
+var rects
 var groups
+var yaxis
 var keys = [3, 1, 2, 0]
+var singleGroups = [ 0, 2, 1, 3]
 var colors = ["beige", "salmon", "green", "red"]
 var stacked = true;
 
@@ -61,17 +68,16 @@ d3.csv("data.csv", rowConverter, function(error, data){
 	if (error) {
 		console.log(error);
 	} else {
-		console.log(data)
+		//console.log(data)
 		dataset = data;
 
 		series = convertToStack(dataset, keys)
-		console.log(series)
+		//console.log(series)
 		generateVisualization()
 		generateBars()
 
 	}
 });
-
 
 // convertToStack will transform the dataset into a stack, which is suitable
 // for creating stacked bar charts.
@@ -115,89 +121,127 @@ var convertToStack = function(dataset, keys) {
 
 };
 
-var changeGraph = function(keys, color) {
-	series = convertToStack(dataset, keys);
+var changeGraph = function(groupNumber) {
 
-	groups
-	.transition()
-	.duration(500)
-	.remove();
+	var maxVal = d3.max(dataset, function(d){
+			if (d.Index == groupNumber) {
+	    		return d.Count };
+			});
 
-	groups = svgPlot.selectAll()
-		.data(series)
-		.enter()
-		.append("g")
-		.style("fill", function(d, i) {
-			if (color.length > 1) {
-				return colors[i];
-			} else {
-				return colors[color];
-			}
-		});
+	rescale(maxVal + scalepadding);
 	
-	//generateBars()
-	// Add a rect for each data value
-	
-	var rects = groups.selectAll("rect")
-		.data(function(d) {
-			return d;
+	moveBackgroundbars()
+
+	rects.transition()
+		.attr("y", function(d){
+			return h - padding; 
 		})
-		.enter()
-		.append("rect")
+		.attr("height", 0);
+
+	rects.transition()
 		.attr("x", function(d, i) {
 			return xScale(i);
 		})
-		.attr("y", function(d) {
-			return yScale(d[1]);
-		})
-		.transition()
 		.delay(function(d, i) {
-			return i * 50 + 500;
+			return 500 + i * 10;
 		})
-		.duration(500)
+		.attr("width", xScale.bandwidth())
+		.attr("y", function(d) {
+			if (this.parentNode.__data__.key == groupNumber){
+				return  yScale(d[1]- d[0]);				
+			} else {
+				return 0;
+			}
+		})
 		.attr("height", function(d) {
-			return yScale(d[0]) - yScale(d[1]);
-		})
-		.attr("width", xScale.bandwidth());
+			if (this.parentNode.__data__.key == groupNumber){
+				return h - padding - yScale(d[1]- d[0]);				
+			} else {
+				return 0;
+			}
+		});
 
-		/*
-        select()
-        	.transition()
-			.delay(function(d, i) {
-				return i * 50 + 500;
-			})
-			.duration(500)
-			.range([0, 30]);
-		*/
+
         stacked = false;
 
 }
 
-var stackedAndGrouped = function(keys, color) {
+
+var rescale = function(scaleMax) {
+	    yScale.domain([0, scaleMax]);
+	    yaxis.transition().duration(1500)
+		.ease(d3.easeQuadIn)
+		    .call(yAxis);
+	        }
+
+
+var stackedAndGrouped = function(color) {
+
+
 
 	if (stacked) {
-		var rects = groups.selectAll("rect")
-			.data(function(d) {
-				return d;
+
+		rescale(d3.max(dataset, function(d){
+	    	return d.Count }) + scalepadding);
+
+		moveBackgroundbars()
+
+		rects.transition()
+		.duration(500)
+		.attr("width", xScale.bandwidth() / 4)
+		.attr("x", function(d, i) {
+			return xScale(i) + (xScale.bandwidth() / 4) * this.parentNode.__data__.key;
+		})
+		.transition()
+		.attr("y", function(d) {
+			return  yScale(d[1]- d[0]);
+		})
+		.attr("height", function(d) {
+			return h - padding - yScale(d[1]- d[0]);
+		})
+
+
+		stacked = false;
+
+	}
+	else {
+
+		var maxVal = d3.max(series, function(d){
+			return d3.max(d, function(d){
+				return d[1];
+			});
+		});
+
+		rescale(maxVal + scalepadding + 3)
+
+
+
+		rects.transition()
+			.attr("height", 0)
+			.delay(function(d, i){
+				return 500 + 10 * i;
 			})
-			.enter()
-			.append("rect")
-			.attr("x", function(d, i) {
-				return xScale(i);
+			.attr("y", function(d){
+				return h - padding; 
 			})
+
+		rects.transition()
+			.delay(500)
+			.attr("width", xScale.bandwidth())
 			.attr("y", function(d) {
 				return yScale(d[1]);
 			})
-			.attr("height", function(d) {
-				return yScale(d[0]) - yScale(d[1]);
+			.transition()
+			.attr("x", function(d, i) {
+				return xScale(i);
 			})
-			.attr("width", xScale.bandwidth() / 4);
+		.attr("height", function(d) {
+			return yScale(d[0]) - yScale(d[1]);
+		});
 
-	}
-
-	else {
-		changeGraph([3, 1, 2, 0],[3, 2, 1, 0])
 		stacked = true;
+
+		moveBackgroundbars()
 	}
 }
 
@@ -214,8 +258,11 @@ var generateVisualization = function() {
 			.attr("stroke-width", "3")
 			.attr("stroke-opacity", "0.5")
 
-	// Draw horisontal lines, that strecthes over the entire plot.
-	svgPlot.selectAll("line")
+	lineGroup = svgPlot.append("g")
+			.attr("x", barchartWidth - horizontalPadding )
+			.attr("y", 0)
+
+	lines = lineGroup.selectAll("line")
 		.data(lineInterval)
 		.enter()
 		.append("line")
@@ -233,15 +280,19 @@ var generateVisualization = function() {
 		})
 		.attr("stroke", "gray")
 		.attr("stroke-width", "2")
-		.attr("stroke-opacity", "0.5")
+		.attr("stroke-opacity", "0.5");
 
 	// Add a group for each row of data
-	groups = svgPlot.selectAll("g")
+
+	groups = svgPlot.selectAll()
 		.data(series)
 		.enter()
 		.append("g")
 		.style("fill", function(d, i) {
 			return colors[i];
+		})
+		.attr("class", function(d, i){
+			return "rectGrp" + i;
 		});
 
 	// Adding the legend as a group so that it can contain text
@@ -265,8 +316,8 @@ var generateVisualization = function() {
 			.attr("y", function(d) {
 				return legendScale(d.name)-legendRectSize;
 			})
-			.on("click", function(d) {
-				changeGraph([keys[d.color]], d.color)
+			.on("click", function(d, i) {
+				changeGraph(singleGroups[i])
 			});
 
 
@@ -303,8 +354,8 @@ var generateVisualization = function() {
 		.call(xAxis);
 
 	// Draw y-axis included values along the axis.
-	svgPlot.append("g")
-		.attr("class", "axis")
+	yaxis = svgPlot.append("g")
+		.attr("class", "axis yaxis")
 		.attr("transform", "translate(" + (padding ) + ",0)")
 		.call(yAxis);
 
@@ -327,14 +378,78 @@ var generateVisualization = function() {
      	.text("NYC Green Markets - Unique Produce Types")
      	.attr("class", "xAxisLabel")
 		.on("mouseout", function() {
-				stackedAndGrouped()
+				stackedAndGrouped([3, 2, 1, 0])
+				//moveBackgroundbars()
 			});
+}
+
+var moveBackgroundbars = function() {
+
+	// Draw horisontal lines, that strecthes over the entire plot.
+
+	console.log(yScale.ticks());
+	lineInterval = yScale.ticks();
+
+	var selection = lineGroup.selectAll("line").data(lineInterval);
+
+	console.log(selection)
+
+	selection.enter()
+		.append("line")
+		.attr("x1", function(d){
+			return padding
+		})
+		.attr("y1", function(d){
+			return 0;
+		})
+		.attr("x2", function(d){
+			return barchartWidth - padding
+		})
+		.attr("y2", function(d){
+			return 0;
+		})
+		.attr("stroke", "gray")
+		.attr("stroke-width", "2")
+		.attr("stroke-opacity", "0.5")
+		.transition()
+		.duration(1500)
+		.ease(d3.easeQuadIn)
+		.attr("y1", function(d){
+			return yScale(d)
+		})
+		.attr("y2", function(d){
+			return yScale(d)
+		});
+
+	selection.exit()
+		.transition()
+		.duration(1500)
+		.ease(d3.easeQuadIn)
+		.attr("y1", -50)
+		.attr("y2", -50)
+		.remove();
+
+	selection.transition()
+		.duration(1500)
+		.ease(d3.easeQuadIn)
+		.attr("x1", function(d){
+			return padding
+		})
+		.attr("y1", function(d){
+			return yScale(d)
+		})
+		.attr("x2", function(d){
+			return barchartWidth - padding
+		})
+		.attr("y2", function(d){
+			return yScale(d)
+		});
 }
 
 var generateBars = function() {
 
 	// Add a rect for each data value
-	var rects = groups.selectAll("rect")
+	rects = groups.selectAll("rect")
 		.data(function(d) {
 			return d;
 		})
@@ -350,31 +465,4 @@ var generateBars = function() {
 			return yScale(d[0]) - yScale(d[1]);
 		})
 		.attr("width", xScale.bandwidth());
-
-	// Adding the 33 and 10
-	groups.selectAll("text")
-		.data(function(d) {
-			return d;
-		})
-		.enter()
-		.filter(function(d, i) {
-			if (i == 8) {
-				return d;
-			}
-		})
-		.append("text")
-		.attr("x", function(d) {
-			return xScale(8);
-		})
-		.attr("y", function(d) {
-			return (yScale(d[0]) + yScale(d[1]))/2;
-		})
-		.text(function(d){
-			return d[1] - d[0];
-		})
-		.attr("class", "Legend");
-
-
-
-
 }
