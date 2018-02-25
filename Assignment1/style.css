@@ -1,3 +1,73 @@
+.block {
+	display: block;
+}
+
+div {
+	display: block;
+}
+
+html * {
+	font-family: sans-serif;
+}
+
+.copy {
+	font-size: 14pt;
+}
+
+i {
+	font-size: 14pt;
+}
+
+.axis {
+   shape-rendering: crispEdges;
+}
+.axis text {
+	font-size: 10pt;
+	font-family: Optima, Futura, sans-serif;
+	font-weight: italic;
+	stroke-width: 0.5pt;
+	fill: black;
+}
+
+.axis path {
+   fill: none;
+   stroke: gray;
+   stroke-opacity: .75;
+ }
+
+ .axis line{
+  stroke: gray;
+  stroke-width: 1.5pt;
+  stroke-opacity: 0.75;
+}
+
+.Legend {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 9pt;
+	fill: black;
+}
+
+
+.yAxisLabel {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 9pt;
+	fill: black;
+}
+
+.xAxisLabel {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 15pt;
+	fill: black;
+}
+
+.values {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 10pt;
+	fill: black;
+}
+
+
+
 a.link {
 	font-size: 20pt;
 }
@@ -54,4 +124,37 @@ h1.courseNumber {
 .button.back:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+	position: absolute;
+	width: 200px;
+	height: 28px;
+	pointer-events: none;
+	font-size: 14px;
+	/* Insert a background-color */
+	background-color: gray;
+}
+
+.safeLevel {
+	stroke: red;
+	stroke-dasharray: 2, 3;
+}
+
+.legend {
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: right;
 }
