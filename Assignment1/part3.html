@@ -17,6 +17,22 @@
       To show the current offerings, we charted how many types of fruits and vegetables are available by month, and showed if they were fresh or from storage. </p>
 
       <div id="plot"> </div>
+      <button class="button filter" onclick="stackedAndGrouped([3, 2, 1, 0])">
+          <span>Stacked/Grouped</span>
+      </button>
+      <button class="button filter" onclick="changeGraph(0)">
+          <span>Fresh Fruit</span>
+      </button>
+      <button class="button filter" onclick="changeGraph(2)">
+          <span>Fresh Vege.</span>
+      </button>
+      <button class="button filter" onclick="changeGraph(1)">
+          <span>Storage Fruit</span>
+      </button>
+      <button class="button filter" onclick="changeGraph(3)">
+          <span>Storage Vege.</span>
+      </button>
+      </br>
       <p>If you miss the month of September, you might be behind the fruit curve, but there are plenty more months of vegetables left.  The chart shows that fresh vegetables are available 9 out of 12 months, but fruit is only available 5 out of 12. Now if only we could quantify how delicious the produce is…
       <br>
       —–
