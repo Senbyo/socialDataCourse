@@ -158,3 +158,46 @@ h1.courseNumber {
     font-weight: bold;
     text-anchor: right;
 }
+
+.line {
+	fill: none;
+	stroke: black;
+	stroke-width: 0.5;
+}
+
+.line.men {
+	stroke: blue;
+}
+
+.line.women {
+	stroke: blue;
+}
+
+.dot {
+	stroke: black;
+	stroke-width: 0.5;
+}
+
+.dot.men {
+	fill: blue;
+}
+
+.dot.women {
+	fill: orange;
+}
+
+/*
+.safeLevel {
+	stroke: red;
+	stroke-dasharray: 2, 3;
+}
+
+.danger {
+	stroke: red;
+}
+
+.dangerLabel {
+	font-family: Helvetica, sans-serif;
+	font-size: 12px;
+	fill: red;
+} */
