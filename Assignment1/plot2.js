@@ -92,17 +92,46 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
            .attr("dy", "1em")
            .style("text-anchor", "middle")
            .text("Time (minutes)");
-      drawDots()
+     drawDots()
 
      drawPath()
 
      //drawLinearLine()
 
      drawLegend()
-     
+
      })
 });
 
+
+
+function loadMen()
+{
+  drawDotsMenOnly()
+  drawPath()
+  //drawLinearLine()
+  drawLegend()
+}
+
+
+function loadWomen()
+{
+  drawDotsWomenOnly()
+  drawPath()
+  //drawLinearLine()
+  drawLegend()
+}
+
+
+function loadBoth()
+{
+  drawDots()
+  drawPath()
+  //drawLinearLine()
+  drawLegend()
+}
+
+//TODO
 var drawPath = function() {
 
 }
@@ -142,6 +171,9 @@ var drawPath = function() {
 
 var drawDots = function() {
      // Draw dots for men.
+     d3.selectAll(".dot").remove();
+
+
      svg.selectAll(".dot")
           .data(data)
           .enter().append("circle")
@@ -228,4 +260,64 @@ var drawLegend = function() {
           .attr('x', legendRectSize + legendSpacing)
           .attr('y', legendRectSize - legendSpacing)
           .text(function(d) { return d; });
+}
+
+var drawDotsMenOnly = function() {
+     // Draw dots for men.
+     d3.selectAll(".dot").remove();
+
+     svg.selectAll(".dot")
+          .data(data)
+          .enter().append("circle")
+          .attr("class", "dot")
+          .attr("r", 3.5)
+          .attr("cx", xMap)
+          .attr("cy", yMap)
+          .style("fill", function(d) { return color(cValue("Men"));})
+          .on("mouseover", function(d) {
+               tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+
+               tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY + 20) + "px");
+         })
+         .on("mouseout", function(d) {
+             tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+         });
+
+}
+
+var drawDotsWomenOnly = function() {
+
+d3.selectAll(".dot").remove();
+
+svg.selectAll(".dot")
+   .data(data2)
+   .enter().append("rect")
+       .attr("class", "dot")
+       .attr("x", xMap)         // Position the left of the rectangle
+       .attr("y", yMap)         // Position the top of the rectangle
+       .attr("height", 6)       // Set the height
+       .attr("width", 6)        // Set the width
+       .attr("rx", 2)           // Set the x corner curve radius
+       .attr("ry", 1)           // Set the y corner curve radius
+ .style("fill", function(d) {  return color(cValue("Women"));})
+ .on("mouseover", function(d) {
+            tooltip.transition()
+                 .duration(200)
+                 .style("opacity", .9);
+
+            tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
+                 .style("left", (d3.event.pageX + 5) + "px")
+                 .style("top", (d3.event.pageY - 20) + "px");
+       })
+ .on("mouseout", function(d) {
+            tooltip.transition()
+                 .duration(500)
+                 .style("opacity", 0);
+ });
 }
