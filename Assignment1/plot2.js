@@ -72,25 +72,7 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
           xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
           yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
 
-          xAxis = d3.axisBottom()
-               .scale(xScale)
-               .ticks(10)
-               .tickFormat(formatTime);
-
-          svg.append("g")
-               .attr("class", "x axis")
-               .attr("transform", "translate(0," + (height) + ")")
-               .call(xAxis);
-
-          svg.append("text")
-               .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top) + ")")
-               .style("text-anchor", "middle")
-               .text("Year");
-
-          // y-axis
-          svg.append("g")
-               .attr("class", "y axis")
-               .call(yAxis);
+          doAxis()
 
           // text label for the y axis
           svg.append("text")
@@ -111,62 +93,66 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
      })
 });
 
+function doAxis(){
+  xAxis = d3.axisBottom()
+       .scale(xScale)
+       .ticks(10)
+       .tickFormat(d3.nice);
 
+  svg.append("g")
+       .attr("class", "x axis")
+       .attr("transform", "translate(0," + (height) + ")")
+       .call(xAxis);
 
-function loadMen()
-{
+  svg.append("text")
+       .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top) + ")")
+       .style("text-anchor", "middle")
+       .text("Year");
+
+  // y-axis
+  svg.append("g")
+       .attr("class", "y axis")
+       .call(yAxis);
+}
+//men
+function loadMen(){
+  d3.selectAll(".dot").remove();
+  d3.selectAll("path").remove();
+
   drawDotsMenOnly()
-  drawPath()
+  drawLinearLineMen()
+  drawPathMen()
   //drawLinearLine()
   drawLegend()
+  doAxis()
 }
 
+var drawDotsMenOnly = function() {
+     // Draw dots for men.
+     svg.selectAll(".dot")
+          .data(data)
+          .enter().append("circle")
+          .attr("class", "dot")
+          .attr("r", 3.5)
+          .attr("cx", xMap)
+          .attr("cy", yMap)
+          .style("fill", function(d) { return color(cValue("Men"));})
+          .on("mouseover", function(d) {
+               tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
 
-function loadWomen()
-{
-  drawDotsWomenOnly()
-  drawPath()
-  //drawLinearLine()
-  drawLegend()
-}
-
-
-function loadBoth()
-{
-  drawDots()
-  drawPath()
-  //drawLinearLine()
-  drawLegend()
-}
-
-var drawPath = function() {
-
-     line = d3.line()
-                    .x(function(d) { return xScale(d.Year); })
-                    .y(function(d) { return yScale(d.Time); });
-
-     //Create lines
-     svg.append("path")
-          .datum(data)
-          .attr("class", "line men")
-          .attr("d", line);
-
-     svg.append("path")
-          .datum(data2)
-          .attr("class", "line women")
-          .attr("d", line);
-}
-
-
-var drawLinearLine = function() {
-
-     drawLinearLineMen()
-
-     drawLinearLineWomen()
+               tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY + 20) + "px");
+         })
+         .on("mouseout", function(d) {
+             tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+         });
 
 }
-
-
 var drawLinearLineMen = function() {
 
      var aMen = -0.29;
@@ -186,7 +172,72 @@ var drawLinearLineMen = function() {
           .attr("d", regressionLine);
 
 }
+var drawPathMen = function() {
+     line = d3.line()
+                    .x(function(d) { return xScale(d.Year); })
+                    .y(function(d) { return yScale(d.Time); });
 
+    //Create lines
+    svg.append("path")
+         .datum(data)
+         .attr("class", "line men")
+         .attr("d", line);
+
+}
+
+
+
+//women
+function loadWomen(){
+  d3.selectAll(".dot").remove();
+  d3.selectAll("path").remove();
+
+  drawDotsWomenOnly()
+  drawLinearLineWomen()
+  drawPathWomen()
+  //drawLinearLine()
+  drawLegend()
+  doAxis()
+}
+var drawPathWomen = function() {
+
+     line = d3.line()
+                    .x(function(d) { return xScale(d.Year); })
+                    .y(function(d) { return yScale(d.Time); });
+
+     svg.append("path")
+          .datum(data2)
+          .attr("class", "line women")
+          .attr("d", line);
+}
+var drawDotsWomenOnly = function() {
+
+    svg.selectAll(".dot")
+       .data(data2)
+       .enter().append("rect")
+           .attr("class", "dot")
+           .attr("x", xMap)         // Position the left of the rectangle
+           .attr("y", yMap)         // Position the top of the rectangle
+           .attr("height", 6)       // Set the height
+           .attr("width", 6)        // Set the width
+           .attr("rx", 2)           // Set the x corner curve radius
+           .attr("ry", 1)           // Set the y corner curve radius
+     .style("fill", function(d) {  return color(cValue("Women"));})
+     .on("mouseover", function(d) {
+                tooltip.transition()
+                     .duration(200)
+                     .style("opacity", .9);
+
+                tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
+                     .style("left", (d3.event.pageX + 5) + "px")
+                     .style("top", (d3.event.pageY - 20) + "px");
+           })
+     .on("mouseout", function(d) {
+                tooltip.transition()
+                     .duration(500)
+                     .style("opacity", 0);
+     });
+    }
 var drawLinearLineWomen = function() {
 
      var aWomen=-0.93;
@@ -205,45 +256,47 @@ var drawLinearLineWomen = function() {
           .attr("class", "line women")
           .attr("d", regressionLine);
 
+    }
+
+
+//all
+function loadBoth(){
+  d3.selectAll(".dot").remove();
+  d3.selectAll("path").remove();
+
+  drawDots()
+  drawPath()
+  drawLinearLine()
+  //drawLinearLine()
+  drawLegend()
+  doAxis()
 }
+var drawPath = function() {
 
-// var drawLinearLine = function() {
-//      //TODO:
-//      ////////LINES.. NOT WORKING RIGHT NOW ///////////////////
-//
-//      //line slope and intercept
-//                // var aMen = -0.29;
-//                // var bMen = 709.71;
-//                //
-//                // var aWomen=-0.93;
-//                // var bWomen=2018.72;
-//                //
-//                // var lineData = [ { "x": 1900,   "y":aMen * 1900 +bMen },  { "x": 2013,  "y": aMen * 2013 +bMen}];
-//                // // define the line
-//                var valueline = d3.line()
-//                    .x(function(d) { return d.x; })
-//                    .y(function(d) { return d.y; });
-//      //aMen * 1900 +bMen
-//      //aMen * 2013 +bMen
-//
-//          //  svg.append("line")          // attach a line
-//        //    .style("stroke", "black")  // colour the line
-//        //  .attr("x1", 100)     // x position of the first end of the line
-//        //    .attr("y1", 100)      // y position of the first end of the line
-//        //    .attr("x2", 200)     // x position of the second end of the line
-//        //    .attr("y2", 200);    // y position of the second end of the line
-//
-//            // Add the valueline path.
-//            svg.append("path")
-//                  .data(lineData)
-//                  .attr("class", "line")
-//                  .attr("d", valueline);
-//}
+     line = d3.line()
+                    .x(function(d) { return xScale(d.Year); })
+                    .y(function(d) { return yScale(d.Time); });
 
+     //Create lines
+     svg.append("path")
+          .datum(data)
+          .attr("class", "line men")
+          .attr("d", line);
+
+     svg.append("path")
+          .datum(data2)
+          .attr("class", "line women")
+          .attr("d", line);
+}
+var drawLinearLine = function() {
+
+     drawLinearLineMen()
+
+     drawLinearLineWomen()
+
+}
 var drawDots = function() {
      // Draw dots for men.
-     d3.selectAll(".dot").remove();
-
 
      svg.selectAll(".dot")
           .data(data)
@@ -298,7 +351,6 @@ var drawDots = function() {
 
 
 }
-
 var drawLegend = function() {
      var lineFunction = d3.line()
           .x(function(d) { return d.x; })
@@ -331,64 +383,4 @@ var drawLegend = function() {
           .attr('x', legendRectSize + legendSpacing)
           .attr('y', legendRectSize - legendSpacing)
           .text(function(d) { return d; });
-}
-
-var drawDotsMenOnly = function() {
-     // Draw dots for men.
-     d3.selectAll(".dot").remove();
-
-     svg.selectAll(".dot")
-          .data(data)
-          .enter().append("circle")
-          .attr("class", "dot")
-          .attr("r", 3.5)
-          .attr("cx", xMap)
-          .attr("cy", yMap)
-          .style("fill", function(d) { return color(cValue("Men"));})
-          .on("mouseover", function(d) {
-               tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-
-               tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
-                    .style("left", (d3.event.pageX + 5) + "px")
-                    .style("top", (d3.event.pageY + 20) + "px");
-         })
-         .on("mouseout", function(d) {
-             tooltip.transition()
-                  .duration(500)
-                  .style("opacity", 0);
-         });
-
-}
-
-var drawDotsWomenOnly = function() {
-
-d3.selectAll(".dot").remove();
-
-svg.selectAll(".dot")
-   .data(data2)
-   .enter().append("rect")
-       .attr("class", "dot")
-       .attr("x", xMap)         // Position the left of the rectangle
-       .attr("y", yMap)         // Position the top of the rectangle
-       .attr("height", 6)       // Set the height
-       .attr("width", 6)        // Set the width
-       .attr("rx", 2)           // Set the x corner curve radius
-       .attr("ry", 1)           // Set the y corner curve radius
- .style("fill", function(d) {  return color(cValue("Women"));})
- .on("mouseover", function(d) {
-            tooltip.transition()
-                 .duration(200)
-                 .style("opacity", .9);
-
-            tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
-                 .style("left", (d3.event.pageX + 5) + "px")
-                 .style("top", (d3.event.pageY - 20) + "px");
-       })
- .on("mouseout", function(d) {
-            tooltip.transition()
-                 .duration(500)
-                 .style("opacity", 0);
- });
 }
