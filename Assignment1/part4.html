@@ -4,51 +4,25 @@
    <meta charset="utf-8">
    <title>Week 3 Part 3</title>
    <script type="text/javascript" src="d3/d3.js"></script>
+
    <link rel="stylesheet" href="style.css">
 </head>
-<style>
-    .button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        border-radius: 8px;
-        color: white;
-        padding: 15px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 10px;
-        transition-duration: 0.9s;
-        text-decoration: none;
-        overflow: hidden;
-        cursor: pointer;
-      }
-
-    .button:hover {
-        background-color: #4CAF50; /* Green */
-        color: white;
-      }
-}
-    }
-</style>
 <body>
-  <script type="text/javascript" src="plot2.js"></script>
-
-</br>
-  <button class="button" onclick="loadMen()">
-       <span>Men</span>
-  </button>
-  <button class="button" onclick="loadWomen()">
-       <span>Women</span>
-  </button>
-  <button class="button" onclick="loadBoth()">
-       <span>Men and Women</span>
-  </button>
-
-</br>
-</br>
-
-  <a class="button back" style="vertical-align:middle" href='index.html'>
-       <span>Back</span>
-  </a>
+     <script type="text/javascript" src="plot2.js"></script>
+     </br>
+     <button class="button filter" onclick="loadMen()">
+          <span>Men</span>
+     </button>
+     <button class="button filter" onclick="loadWomen()">
+          <span>Women</span>
+     </button>
+     <button class="button filter" onclick="loadBoth()">
+          <span>Men and Women</span>
+     </button>
+     </br>
+     </br>
+     <a class="button back" style="vertical-align:middle" href='index.html'>
+          <span>Back</span>
+     </a>
 </body>
 </html>

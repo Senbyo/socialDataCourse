@@ -66,8 +66,6 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
      		data2 = dataWomen;
           }
 
-          console.table(data, ["Year", "Time"]);
-
           // don't want dots overlapping axis, so add in buffer to data domain
           xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
           yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
@@ -148,7 +146,7 @@ var drawDotsMenOnly = function() {
          })
          .on("mouseout", function(d) {
              tooltip.transition()
-                  .duration(500)
+                  .duration(200)
                   .style("opacity", 0);
          });
 

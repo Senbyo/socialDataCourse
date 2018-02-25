@@ -123,6 +123,8 @@ var convertToStack = function(dataset, keys) {
 
 var changeGraph = function(groupNumber) {
 
+	console.log(groupNumber);
+
 	var maxVal = d3.max(dataset, function(d){
 			if (d.Index == groupNumber) {
 	    		return d.Count };
@@ -313,10 +315,7 @@ var generateVisualization = function() {
 			.attr("y", function(d) {
 				return legendScale(d.name)-legendRectSize;
 			})
-			.attr("class", "button back")
-			.on("click", function(d, i) {
-				changeGraph(singleGroups[i])
-			});
+			.attr("class", "button back");
 
 	// Adding the text
 	// formatting is in css
@@ -372,11 +371,11 @@ var generateVisualization = function() {
      	.attr("dy", "1em")
      	.style("text-anchor", "middle")
      	.text("NYC Green Markets - Unique Produce Types")
-     	.attr("class", "xAxisLabel")
-		.on("mouseout", function() {
-				stackedAndGrouped([3, 2, 1, 0])
-				//moveBackgroundbars()
-			});
+     	.attr("class", "xAxisLabel");
+		// .on("mouseout", function() {
+		// 		stackedAndGrouped([3, 2, 1, 0])
+		// 		//moveBackgroundbars()
+		// 	});
 }
 
 var moveBackgroundbars = function() {
