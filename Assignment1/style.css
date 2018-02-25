@@ -6,6 +6,39 @@ div {
 	display: block;
 }
 
+
+body {
+		background-color: white;
+		padding-right: 350px;
+		padding-left: 350px;
+}
+
+
+p {
+    border: 2px solid black;
+		padding: 10px;
+    border-radius: 10px;
+}
+
+p1 {
+		padding-bottom: 25px;
+}
+
+ul {
+    margin:0;
+    padding:0;
+    text-align: center;
+    list-style:none;
+}
+ul  li {
+    padding: 2px 5px;
+}
+
+centered
+{
+	text-align: center;
+}
+
 html * {
 	font-family: sans-serif;
 }
@@ -67,13 +100,36 @@ i {
 }
 
 
-
 a.link {
 	font-size: 20pt;
 }
 
-h1, h2 {
+h1 {
 	text-align: center;
+}
+h2 {
+		color: black;
+		text-align: center;
+		font-size: 25px;
+		break-after: always;
+}
+
+h5 {
+		color: black;
+		text-align:center;
+		font-size: 25px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		border-top-style: solid;
+		border-bottom-style: solid;
+		break-after: always;
+}
+h4 {
+   	padding-top: 60px;
+		color: black;
+		text-align: left;
+		font-size: 18px;
+		break-after: always;
 }
 
 h1.courseNumber {
@@ -121,6 +177,11 @@ h1.courseNumber {
   top: 0;
   right: -20px;
   transition: 0.5s;
+}
+
+.button.back{
+	text-align: center;
+	margin: auto;
 }
 
 .button.back:hover span {
