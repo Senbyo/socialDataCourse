@@ -130,22 +130,27 @@ var changeGraph = function(groupNumber) {
 	    		return d.Count };
 			});
 
-	rescale(maxVal + scalepadding);
+	rescale(maxVal + scalepadding, 500);
 
 	moveBackgroundbars()
 
 	rects.transition()
+		.duration(500)
 		.attr("y", function(d){
 			return h - padding;
 		})
 		.attr("height", 0);
 
 	rects.transition()
+		.delay(500)
+		.duration(100)
+		.ease(d3.easeBackOut)
 		.attr("x", function(d, i) {
 			return xScale(i);
 		})
+		.transition()
 		.delay(function(d, i) {
-			return 500 + i * 10;
+			return 400 + i * 20;
 		})
 		.attr("width", xScale.bandwidth())
 		.attr("y", function(d) {
@@ -169,9 +174,9 @@ var changeGraph = function(groupNumber) {
 }
 
 
-var rescale = function(scaleMax) {
+var rescale = function(scaleMax, duration) {
 	    yScale.domain([0, scaleMax]);
-	    yaxis.transition().duration(1500)
+	    yaxis.transition().duration(duration)
 		.ease(d3.easeQuadIn)
 		    .call(yAxis);
 	        }
@@ -182,7 +187,7 @@ var stackedAndGrouped = function(color) {
 	if (stacked) {
 
 		rescale(d3.max(dataset, function(d){
-	    	return d.Count }) + scalepadding);
+	    	return d.Count }) + scalepadding, 1500);
 
 		moveBackgroundbars()
 
@@ -212,7 +217,7 @@ var stackedAndGrouped = function(color) {
 			});
 		});
 
-		rescale(maxVal + scalepadding + 3)
+		rescale(maxVal + scalepadding + 3, 1500)
 
 
 
@@ -227,17 +232,16 @@ var stackedAndGrouped = function(color) {
 
 		rects.transition()
 			.delay(500)
-			.attr("width", xScale.bandwidth())
-			.attr("y", function(d) {
-				return yScale(d[1]);
-			})
-			.transition()
 			.attr("x", function(d, i) {
 				return xScale(i);
 			})
-		.attr("height", function(d) {
-			return yScale(d[0]) - yScale(d[1]);
-		});
+			.attr("height", function(d) {
+				return yScale(d[0]) - yScale(d[1]);
+			})
+			.attr("y", function(d) {
+					return yScale(d[1]);
+			})
+			.attr("width", xScale.bandwidth());
 
 		stacked = true;
 
@@ -382,12 +386,10 @@ var moveBackgroundbars = function() {
 
 	// Draw horisontal lines, that strecthes over the entire plot.
 
-	console.log(yScale.ticks());
+	var duration = 1000;
 	lineInterval = yScale.ticks();
 
 	var selection = lineGroup.selectAll("line").data(lineInterval);
-
-	console.log(selection)
 
 	selection.enter()
 		.append("line")
@@ -407,7 +409,7 @@ var moveBackgroundbars = function() {
 		.attr("stroke-width", "2")
 		.attr("stroke-opacity", "0.5")
 		.transition()
-		.duration(1500)
+		.duration(duration)
 		.ease(d3.easeQuadIn)
 		.attr("y1", function(d){
 			return yScale(d)
@@ -418,14 +420,14 @@ var moveBackgroundbars = function() {
 
 	selection.exit()
 		.transition()
-		.duration(1500)
+		.duration(duration)
 		.ease(d3.easeQuadIn)
 		.attr("y1", -50)
 		.attr("y2", -50)
 		.remove();
 
 	selection.transition()
-		.duration(1500)
+		.duration(duration)
 		.ease(d3.easeQuadIn)
 		.attr("x1", function(d){
 			return padding

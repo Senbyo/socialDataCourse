@@ -46,6 +46,12 @@ var rowConverter = function(d) {
      }
 }
 
+
+var menCircle;
+var womenCircle;
+var menLine;
+var womenLine
+
 var data;
 var data2;
 
@@ -114,41 +120,29 @@ function doAxis(){
 }
 //men
 function loadMen(){
-  d3.selectAll(".dot").remove();
-  d3.selectAll("path").remove();
+  //d3.selectAll(".dot").remove();
+  //d3.selectAll("path").remove();
 
   drawDotsMenOnly()
-  drawLinearLineMen()
+  //drawLinearLineMen()
   drawPathMen()
   //drawLinearLine()
-  drawLegend()
-  doAxis()
+  //drawLegend()
+  //doAxis()
 }
 
 var drawDotsMenOnly = function() {
      // Draw dots for men.
-     svg.selectAll(".dot")
-          .data(data)
-          .enter().append("circle")
-          .attr("class", "dot")
-          .attr("r", 3.5)
+      menCircle.transition()
+          .attr("r", 0)
           .attr("cx", xMap)
           .attr("cy", yMap)
-          .style("fill", function(d) { return color(cValue("Men"));})
-          .on("mouseover", function(d) {
-               tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-
-               tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
-                    .style("left", (d3.event.pageX + 5) + "px")
-                    .style("top", (d3.event.pageY + 20) + "px");
+         .transition()
+         .ease(d3.easeExpIn)
+         .delay(function(d, i){
+          return 500 + i * 20;
          })
-         .on("mouseout", function(d) {
-             tooltip.transition()
-                  .duration(200)
-                  .style("opacity", 0);
-         });
+         .attr("r", 3.5);
 
 }
 var drawLinearLineMen = function() {
@@ -171,15 +165,15 @@ var drawLinearLineMen = function() {
 
 }
 var drawPathMen = function() {
-     line = d3.line()
-                    .x(function(d) { return xScale(d.Year); })
-                    .y(function(d) { return yScale(d.Time); });
 
-    //Create lines
-    svg.append("path")
-         .datum(data)
-         .attr("class", "line men")
-         .attr("d", line);
+    menLine.transition()
+        .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+        .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
+        .transition()
+        .delay(10)
+        .duration(2000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
 
 }
 
@@ -276,12 +270,30 @@ var drawPath = function() {
                     .y(function(d) { return yScale(d.Time); });
 
      //Create lines
-     svg.append("path")
+
+   var menLineGroup = svg.append("g")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "menLine");
+
+    menLine = menLineGroup.append("path")
           .datum(data)
           .attr("class", "line men")
-          .attr("d", line);
+          .attr("d", line)
+          .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+          .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
 
-     svg.append("path")
+    menLine.transition()
+          .duration(2000)
+          .ease(d3.easeLinear)
+          .attr("stroke-dashoffset", 0);
+
+   var womenLineGroup = svg.append("g")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "womenLine");
+
+    womenLine = womenLineGroup.append("path")
           .datum(data2)
           .attr("class", "line women")
           .attr("d", line);
@@ -296,9 +308,15 @@ var drawLinearLine = function() {
 var drawDots = function() {
      // Draw dots for men.
 
-     svg.selectAll(".dot")
+    var menGroup = svg.append("g")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("class", "men");
+
+     menCircle = menGroup.selectAll("circle")
           .data(data)
-          .enter().append("circle")
+          .enter()
+          .append("circle")
           .attr("class", "dot")
           .attr("r", 3.5)
           .attr("cx", xMap)
@@ -319,8 +337,13 @@ var drawDots = function() {
                   .style("opacity", 0);
          });
 
+  var womenGroup = svg.append("g")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("class", "women");
+
      // Draw dots for women.
-	svg.selectAll()
+	womenCircle = womenGroup.selectAll("rect")
      	.data(data2)
      	.enter().append("rect")
           .attr("class", "dot")
