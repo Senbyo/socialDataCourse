@@ -231,7 +231,7 @@ var stackedAndGrouped = function(color) {
 			})
 
 		rects.transition()
-			.duration(1000)
+			.delay(500)
 			.attr("x", function(d, i) {
 				return xScale(i);
 			})
