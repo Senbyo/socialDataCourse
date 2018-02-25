@@ -145,7 +145,7 @@ h1.courseNumber {
 	pointer-events: none;
 	font-size: 14px;
 	/* Insert a background-color */
-	background-color: gray;
+	/* background-color: gray; */
 }
 
 .safeLevel {
@@ -157,4 +157,18 @@ h1.courseNumber {
     font-size: 16px;
     font-weight: bold;
     text-anchor: right;
+}
+
+.line {
+	fill: none;
+	stroke: black;
+	stroke-width: 0.5;
+}
+
+.line.men {
+	stroke: blue;
+}
+
+.line.women {
+	stroke: orange;
 }

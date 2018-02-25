@@ -25,6 +25,8 @@ var yValue = function(d) { return d.Time;}, // data -> value
 var cValue = function(d) { return d;},
     color = d3.scaleOrdinal(d3.schemeCategory10);
 
+var formatTime = d3.timeFormat("%Y");
+
 // add the graph canvas to the body of the webpage
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -51,12 +53,12 @@ var data2;
 d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
 
      if (error) {
-		console.log(error);
-	} else {
-		data = dataMen;
+     	console.log(error);
+     } else {
+     	data = dataMen;
      }
 
-	d3.csv("processed_women.csv", rowConverter, function(error2, dataWomen) {
+     d3.csv("processed_women.csv", rowConverter, function(error2, dataWomen) {
 
           if (error) {
      		console.log(error);
@@ -64,41 +66,47 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
      		data2 = dataWomen;
           }
 
-       // don't want dots overlapping axis, so add in buffer to data domain
-       xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
-       yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
+          console.table(data, ["Year", "Time"]);
 
-       // x-axis
-       svg.append("g")
-           .attr("class", "x axis")
-           .attr("transform", "translate(0," + height + ")")
-           .call(xAxis);
-           //x axis labels
+          // don't want dots overlapping axis, so add in buffer to data domain
+          xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
+          yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
+
+          xAxis = d3.axisBottom()
+               .scale(xScale)
+               .ticks(10)
+               .tickFormat(formatTime);
+
+          svg.append("g")
+               .attr("class", "x axis")
+               .attr("transform", "translate(0," + (height) + ")")
+               .call(xAxis);
+
           svg.append("text")
                .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top) + ")")
-         .style("text-anchor", "middle")
-         .text("Year");
+               .style("text-anchor", "middle")
+               .text("Year");
 
-       // y-axis
-       svg.append("g")
-           .attr("class", "y axis")
-           .call(yAxis);
+          // y-axis
+          svg.append("g")
+               .attr("class", "y axis")
+               .call(yAxis);
 
-           // text label for the y axis
-       svg.append("text")
-           .attr("transform", "rotate(-90)")
-           .attr("y", 0 - margin.left)
-           .attr("x",0 - (height / 2))
-           .attr("dy", "1em")
-           .style("text-anchor", "middle")
-           .text("Time (minutes)");
-     drawDots()
+          // text label for the y axis
+          svg.append("text")
+               .attr("transform", "rotate(-90)")
+               .attr("y", 0 - margin.left)
+               .attr("x",0 - (height / 2))
+               .attr("dy", "1em")
+               .style("text-anchor", "middle")
+               .text("Time (minutes)");
+          drawDots()
 
-     drawPath()
+          drawPath()
 
-     //drawLinearLine()
+          drawLinearLine()
 
-     drawLegend()
+          drawLegend()
 
      })
 });
@@ -131,8 +139,71 @@ function loadBoth()
   drawLegend()
 }
 
-//TODO
 var drawPath = function() {
+
+     line = d3.line()
+                    .x(function(d) { return xScale(d.Year); })
+                    .y(function(d) { return yScale(d.Time); });
+
+     //Create lines
+     svg.append("path")
+          .datum(data)
+          .attr("class", "line men")
+          .attr("d", line);
+
+     svg.append("path")
+          .datum(data2)
+          .attr("class", "line women")
+          .attr("d", line);
+}
+
+
+var drawLinearLine = function() {
+
+     drawLinearLineMen()
+
+     drawLinearLineWomen()
+
+}
+
+
+var drawLinearLineMen = function() {
+
+     var aMen = -0.29;
+     var bMen = 709.71;
+
+     regressionLine = d3.line()
+          .x(function(d) {
+               return xScale(d.Year)
+          })
+          .y(function(d) {
+               return yScale(aMen * d.Year + bMen)
+          });
+
+     svg.append("path")
+          .datum(data)
+          .attr("class", "line men")
+          .attr("d", regressionLine);
+
+}
+
+var drawLinearLineWomen = function() {
+
+     var aWomen=-0.93;
+     var bWomen=2018.72;
+
+     regressionLine = d3.line()
+          .x(function(d) {
+               return xScale(d.Year)
+          })
+          .y(function(d) {
+               return yScale(aWomen * d.Year + bWomen)
+          });
+
+     svg.append("path")
+          .datum(data2)
+          .attr("class", "line women")
+          .attr("d", regressionLine);
 
 }
 
