@@ -20,19 +20,19 @@
 			<li>
 				<h4>Explain in your own words the point of the jitter plot.</h4>
 				<p>
-					The point of a jitter plot is to inspect data and see if it clusters together. It is a mutation of the dot plot, however, the difference is that the points on a jitter plot are moved with a slight random value on the axis of choice. This makes it posible to view points that would otherwise be placed on top of each other.
+					The point of a jitter plot is to inspect data and whether clusters are present. It is a mutation of the dot plot, however, the difference is that the points on a jitter plot are moved with a slight random value on the axis of choice. This makes it posible to view points that would otherwise be obscured.
 				</p>
 			</li>
 			<li>
-				<h4>Explain in your own words the point of figure 2-3. (I'm going to skip saying "in your own words" going forward, but I hope you get the point; I expect all answers to be in your own words).</h4>
+				<h4>Explain in your own words the point of figure 2-3.</h4>
 				<p>
-					Figure 2-3 shows that the choice of where the bins of a histogram are anchored can potentially alter how the histogram is presented. To such a large extend that the histogram might end up misrepresenting the data. The point of showing this is that one should take great care when visualising data because it can very easily be visualised in a misleading way.
+					Figure 2-3 shows that the choice of where the bins of a histogram are anchored can potentially alter the information conveyed to a large extend, thus allowing for very incorrect assumption to be made. The point of the demonstration is that one should take great care when visualising data, as it can easily do more harm than good.
 				</p>
 			</li>
 			<li>
-				<h4>The author of DAOST (Philipp Janert) likes KDEs (and think they're better than histograms). And I don't. I didn't give a detailed explanation in the video, but now that works to my advantage. I'll ask you guys to think about this and thereby create an excellent exercise: When can KDEs be misleading?</h4>
+				<h4>When can KDEs be misleading?</h4>
 				<p>
-					Kernel density estimates are hard to read because of the interpolation of the different kernels. They work by keeping the ROC(Area under the curve) at 1, however, we humans are not very good at estimating areas, and because of this we have a hard time properly reading information about the data from a kernel density estimate.
+					Kernel density estimates are hard to read because of the interpolation of the different kernels. They work by keeping the ROC(Area under the curve) at 1, however we humans are not very good at accurately estimating areas. As such, one could have a hard time understanding the information conveyed from a kernel density estimate.
 				</p>
 			</li>
 			<li>
@@ -49,25 +49,30 @@
 				<h4>How is a Probablity plot defined? What is it useful for? Have you ever seen one before?</h4>
 				<p>
 					A probability plot is a plot that is used in order to find the distribution of the data. This is done by plotting the data as a function of the inverse of the distribution we suspect the data to have. It can also be used to compare two data sets in order to see if they both follow the same distribution.
-					We do not recall ever having seen such a plot.
+					We do not recall ever having seen such a plot. The fact that the axis of this plot (and thus its point) are hard to read and understand to the uninitiated might be why.
 				</p>
 			</li>
 			<li>
 				<h4>One of the reasons I like DAOST is that Janert is so suspicious of mean, median, and related summary statistics. Explain why one has to be careful when using those - and why visualization of the full data is always better.</h4>
 				<p>
-					This really boils down to the fact that the mean, median and related summary statistics are really nice to use when you have data collected from very controlled experiments and controlled environments. However with most of the data collected now a days it is messy, might have errors and potential outliers, and summary statistics does a poor job of describing this data fully. By visualizing the data instead of calculating these summary statistics, outliers and the like are more easy to spot.
+					This really boils down to the fact that the mean, median and related summary statistics are really nice to use when one analyzes data collected from very controlled sources.
+					However, reality is that most data collected is messy and might have errors and other potential outliers that summary statistics get heavily affected from and do a poor job describing.
+					By visualizing the data instead, outliers and patterns are much easier to spot, understand and analyze.
 				</p>
 			</li>
 			<li>
 				<h4>I love box plots. When are box plots most useful?</h4>
 				<p>
-					A box plot is the most useful for showing potential outliers in the dataset.
+					A box plot is most useful for showing potential outliers in the dataset, while also offering a very condenced overview of the data
+					 and its metrics (mean, median etc.) that can be used to plot many similar features together (quite a feat when using histograms, for example).
 				</p>
 			</li>
 			<li>
 				<h4>The book doesn't mention violin plots. Are those better or worse than box plots? Why?</h4>
 				<p>
-					The violin plot is useful for showing the distribution of the data set, which may add some useful information about the wiskers of the data. Which not only shows the point located at the whisker but if more data is in the tails. However having just googled my first violin plot, it is hard to read because it is trying to convey a lot of information at once.
+					The violin plot is useful when one needs to make the distribution of a dataset more apparent. In some cases it may add important information about the wiskers (tails) of the data which would not be conveyed as clearly with a simple box-plot.
+					However having just googled our first violin plot, we can assume it is hardly used and the unintuitive way it presents information might be the reason why. We have to admit though that, to the initiated, it adds much more information to a simple box-plot without
+					sacrificing much space or clarity. Thus, it would make a decent plot to use in exloratory data analysis.
 				</p>
 			</li>
 		</ol>
