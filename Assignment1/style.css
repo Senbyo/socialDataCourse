@@ -8,38 +8,20 @@ div {
 
 
 body {
-<<<<<<< HEAD
 		background-color: white;
 		padding-right: 350px;
 		padding-left: 300px;
 		text-align: center;
-=======
-	background-color: white;
-	padding-right: 350px;
-	padding-left: 350px;
->>>>>>> 068a8a132891044d8a0650f6caee273c9cbbf039
 }
 
 
 p {
-<<<<<<< HEAD
     border: 2px solid black;
 		padding: 5px;
     border-radius: 10px;
 		text-align: left;
 }
 
-
-=======
-    	border: 2px solid black;
-	padding: 10px;
-    	border-radius: 10px;
-}
-
-p1 {
-	padding-bottom: 25px;
-}
->>>>>>> 068a8a132891044d8a0650f6caee273c9cbbf039
 
 ul {
 	margin:0;
