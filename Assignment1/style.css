@@ -8,34 +8,51 @@ div {
 
 
 body {
+<<<<<<< HEAD
 		background-color: white;
 		padding-right: 350px;
-		padding-left: 350px;
+		padding-left: 300px;
+		text-align: center;
+=======
+	background-color: white;
+	padding-right: 350px;
+	padding-left: 350px;
+>>>>>>> 068a8a132891044d8a0650f6caee273c9cbbf039
 }
 
 
 p {
+<<<<<<< HEAD
     border: 2px solid black;
-		padding: 10px;
+		padding: 5px;
     border-radius: 10px;
+		text-align: left;
+}
+
+
+=======
+    	border: 2px solid black;
+	padding: 10px;
+    	border-radius: 10px;
 }
 
 p1 {
-		padding-bottom: 25px;
+	padding-bottom: 25px;
 }
+>>>>>>> 068a8a132891044d8a0650f6caee273c9cbbf039
 
 ul {
-    margin:0;
-    padding:0;
-    text-align: center;
-    list-style:none;
+	margin:0;
+	padding:0;
+	text-align: center;
+	list-style:none;
 }
-ul  li {
+
+ul li {
     padding: 2px 5px;
 }
 
-centered
-{
+centered {
 	text-align: center;
 }
 
@@ -68,10 +85,10 @@ i {
    stroke-opacity: .75;
  }
 
- .axis line{
-  stroke: gray;
-  stroke-width: 1.5pt;
-  stroke-opacity: 0.75;
+.axis line{
+	stroke: gray;
+	stroke-width: 1.5pt;
+	stroke-opacity: 0.75;
 }
 
 .Legend {
@@ -108,28 +125,29 @@ h1 {
 	text-align: center;
 }
 h2 {
-		color: black;
-		text-align: center;
-		font-size: 25px;
-		break-after: always;
+	color: black;
+	text-align: center;
+	font-size: 25px;
+	break-after: always;
 }
 
 h5 {
-		color: black;
-		text-align:center;
-		font-size: 25px;
-		padding-top: 5px;
-		padding-bottom: 5px;
-		border-top-style: solid;
-		border-bottom-style: solid;
-		break-after: always;
+	color: black;
+	text-align:center;
+	font-size: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	break-after: always;
 }
+
 h4 {
    	padding-top: 60px;
-		color: black;
-		text-align: left;
-		font-size: 18px;
-		break-after: always;
+	color: black;
+	text-align: left;
+	font-size: 18px;
+	break-after: always;
 }
 
 h1.courseNumber {
@@ -137,17 +155,17 @@ h1.courseNumber {
 }
 
 .button {
-    background-color: white;
-    color: black;
-    border: 2px solid #e7e7e7;
-    border-radius: 4px;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
+	background-color: white;
+	color: black;
+	border: 2px solid #e7e7e7;
+	border-radius: 4px;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
 }
 
 .button.filter {
@@ -164,19 +182,19 @@ h1.courseNumber {
 
 
 .button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
 }
 
 .button span:after {
-  content: '\00ab';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+	content: '\00ab';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
 }
 
 .button.back{
@@ -185,35 +203,35 @@ h1.courseNumber {
 }
 
 .button.back:hover span {
-  padding-right: 25px;
+  	padding-right: 25px;
 }
 
 .button.back:hover span:after {
-  opacity: 1;
-  right: 0;
+	opacity: 1;
+	right: 0;
 }
 
 
 .axis path,
 .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
 }
 
 .dot {
-  stroke: #000;
+	stroke: #000;
 }
 
 .tooltip {
-    width: 90px;
-    background-color: #e7e7e7;
-    color: black;
-    text-align: center;
-    border-radius: 6px;
-    padding: 2px 0;
-    position: absolute;
-    z-index: 1;
+	width: 90px;
+	background-color: #e7e7e7;
+	color: black;
+	text-align: center;
+	border-radius: 6px;
+	padding: 2px 0;
+	position: absolute;
+	z-index: 1;
 }
 
 .safeLevel {
@@ -222,9 +240,9 @@ h1.courseNumber {
 }
 
 .legend {
-    font-size: 16px;
-    font-weight: bold;
-    text-anchor: right;
+	font-size: 16px;
+	font-weight: bold;
+	text-anchor: right;
 }
 
 .line {
