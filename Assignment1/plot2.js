@@ -9,11 +9,23 @@ var margin = {top: 50, right: 100, bottom: 100, left: 60},
  * axis - sets up axis
  */
 
+var formatTime = d3.timeFormat("%Y");
+
 // setup x
 var xValue = function(d) { return d.Year;}, // data -> value
-    xScale = d3.scaleLinear().range([0, width]), // value -> display
-    xMap = function(d) { return xScale(xValue(d));}, // data -> display
-    xAxis = d3.axisBottom(xScale);
+    xScale = d3.scaleTime().range([0, width]), // value -> display
+    xMap = function(d) {
+
+
+         var number = parseInt(d.Year.getFullYear.toString())
+
+         if (Number.isInteger(number)) {
+              console.log("Is NaN");
+         }
+
+         // return xScale(xValue(d));}, // data -> display
+         return xScale(number)}
+    xAxis = d3.axisBottom(xScale).ticks(10).tickFormat(formatTime);;
 
 // setup y
 var yValue = function(d) { return d.Time;}, // data -> value
@@ -24,8 +36,6 @@ var yValue = function(d) { return d.Time;}, // data -> value
 // setup fill color
 var cValue = function(d) { return d;},
     color = d3.scaleOrdinal(d3.schemeCategory10);
-
-var formatTime = d3.timeFormat("%Y");
 
 // add the graph canvas to the body of the webpage
 var svg = d3.select("body").append("svg")
@@ -41,7 +51,8 @@ var tooltip = d3.select("body")
 
 var rowConverter = function(d) {
      return {
-          Year: parseInt(d.Year),
+          Year: new Date(+d.Year + 1, 0),
+          // Year: parseInt(d.Year),
           Time: parseInt(d.Time)
      }
 }
@@ -258,8 +269,8 @@ var generateVisualization = function(){
       });
   svg.selectAll('.Men')
       .append('circle')
-      .attr("cx", 9)     
-      .attr("cy", 9)   
+      .attr("cx", 9)
+      .attr("cy", 9)
       .attr("r", 10)
       .style('fill', function(d) {  return color(cValue("Men"));});
       //.style('stroke', color);
@@ -278,10 +289,10 @@ var generateVisualization = function(){
       .attr('y', legendRectSize - legendSpacing)
       .text(function(d) { return d; });
 
-  xAxis = d3.axisBottom()
-       .scale(xScale)
-       .ticks(10)
-       .tickFormat(d3.nice);
+  // xAxis = d3.axisBottom()
+  //      .scale(xScale)
+  //      .ticks(10)
+  //      .tickFormat(d3.nice);
 
   svg.append("g")
        .attr("class", "x axis")
@@ -306,7 +317,7 @@ function loadMen(){
   womenCircle.transition()
       .duration(1000)
       .attr("height", 0)       // Set the height
-      .attr("width", 0);  
+      .attr("width", 0);
 
   womenLine.transition()
       .duration(500)
@@ -365,14 +376,14 @@ function loadWomen(){
 
   womenCircle.transition()
       .attr("height", 0)       // Set the height
-      .attr("width", 0)   
+      .attr("width", 0)
      .transition()
      .ease(d3.easeExpIn)
      .delay(function(d, i){
       return 500 + i * 20;
      })
       .attr("height", 6)       // Set the height
-      .attr("width", 6)   
+      .attr("width", 6)
 
   womenRegressionLine.transition()
       .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
@@ -404,7 +415,7 @@ function loadBoth(){
   womenCircle.transition()
       .duration(1000)
       .attr("height", 0)
-      .attr("width", 0); 
+      .attr("width", 0);
 
   menLine.transition()
       .duration(500)
@@ -457,14 +468,14 @@ function loadBoth(){
 
   womenCircle.transition()
       .attr("height", 0)       // Set the height
-      .attr("width", 0)   
+      .attr("width", 0)
      .transition()
      .ease(d3.easeExpIn)
      .delay(function(d, i){
       return 500 + i * 20;
      })
       .attr("height", 6)       // Set the height
-      .attr("width", 6)   
+      .attr("width", 6)
 
   womenRegressionLine.transition()
       .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
@@ -483,4 +494,3 @@ function loadBoth(){
         .attr("stroke-dashoffset", 0);
 
 }
-
