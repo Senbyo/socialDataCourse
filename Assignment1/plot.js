@@ -123,8 +123,6 @@ var convertToStack = function(dataset, keys) {
 
 var changeGraph = function(groupNumber) {
 
-	console.log(groupNumber);
-
 	var maxVal = d3.max(dataset, function(d){
 			if (d.Index == groupNumber) {
 	    		return d.Count };
