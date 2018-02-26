@@ -14,17 +14,7 @@ var formatTime = d3.timeFormat("%Y");
 // setup x
 var xValue = function(d) { return d.Year;}, // data -> value
     xScale = d3.scaleTime().range([0, width]), // value -> display
-    xMap = function(d) {
-
-
-         var number = parseInt(d.Year.getFullYear.toString())
-
-         if (Number.isInteger(number)) {
-              console.log("Is NaN");
-         }
-
-         // return xScale(xValue(d));}, // data -> display
-         return xScale(number)}
+    xMap = function(d) {return xScale(xValue(d));}, // data -> display
     xAxis = d3.axisBottom(xScale).ticks(10).tickFormat(formatTime);;
 
 // setup y
@@ -51,8 +41,7 @@ var tooltip = d3.select("body")
 
 var rowConverter = function(d) {
      return {
-          Year: new Date(+d.Year + 1, 0),
-          // Year: parseInt(d.Year),
+          Year: parseInt(d.Year),
           Time: parseInt(d.Time)
      }
 }
@@ -85,8 +74,8 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
           }
 
           // don't want dots overlapping axis, so add in buffer to data domain
-          xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
-          yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
+          // xScale.domain([d3.min(data,  xValue)-1, d3.max(data,xValue)+1]);
+          // yScale.domain([d3.min(data, yValue)-1, d3.max(data2,yValue)+1]);
 
           //doAxis()
 
@@ -292,7 +281,18 @@ var generateVisualization = function(){
   // xAxis = d3.axisBottom()
   //      .scale(xScale)
   //      .ticks(10)
-  //      .tickFormat(d3.nice);
+  //      .tickFormat(formatTime);
+
+  xScale = d3.scaleTime()
+                       .domain([
+                              d3.min(data, function(d) { return new Date(+d.Year + 1, 0); }),
+                              d3.max(data, function(d) { return new Date(+d.Year + 1, 0); })
+                         ])
+                       .range([0, width]);
+   xAxis = d3.axisBottom()
+                 .scale(xScale)
+                 .ticks(10)
+                 .tickFormat(formatTime);
 
   svg.append("g")
        .attr("class", "x axis")
