@@ -50,7 +50,8 @@ var rowConverter = function(d) {
 var menCircle;
 var womenCircle;
 var menLine;
-var womenLine
+var womenLine;
+var womenRegressionLine;
 
 var data;
 var data2;
@@ -123,12 +124,29 @@ function loadMen(){
   //d3.selectAll(".dot").remove();
   //d3.selectAll("path").remove();
 
+  womenCircle.transition()
+      .attr("height", 0)       // Set the height
+      .attr("width", 0);  
+
+  womenLine.transition()
+      .duration(500)
+      .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+      .attr("stroke-dashoffset", function(d){ return this.getTotalLength() });
+
+  womenRegressionLine.transition()
+    .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+    .attr("stroke-dashoffset", function(d){ return this.getTotalLength() });
+
   drawDotsMenOnly()
-  //drawLinearLineMen()
   drawPathMen()
-  //drawLinearLine()
-  //drawLegend()
-  //doAxis()
+
+  menRegressionLine.transition()
+    .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+    .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
+    .transition()
+    .delay(1000)
+    .attr("stroke-dashoffset", function(d){ return 0 });
+
 }
 
 var drawDotsMenOnly = function() {
@@ -147,10 +165,10 @@ var drawDotsMenOnly = function() {
 }
 var drawLinearLineMen = function() {
 
-     var aMen = -0.29;
-     var bMen = 709.71;
+    var aMen = -0.29;
+    var bMen = 709.71;
 
-     regressionLine = d3.line()
+    regressionLine = d3.line()
           .x(function(d) {
                return xScale(d.Year)
           })
@@ -158,7 +176,12 @@ var drawLinearLineMen = function() {
                return yScale(aMen * d.Year + bMen)
           });
 
-     svg.append("path")
+    var menRegressionGroup = svg.append("g")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "womenRegression");
+
+    menRegressionLine = menRegressionGroup.append("path")
           .datum(data)
           .attr("class", "line men")
           .attr("d", regressionLine);
@@ -167,7 +190,6 @@ var drawLinearLineMen = function() {
 var drawPathMen = function() {
 
     menLine.transition()
-        .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
         .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
         .transition()
         .delay(10)
@@ -181,18 +203,44 @@ var drawPathMen = function() {
 
 //women
 function loadWomen(){
-  d3.selectAll(".dot").remove();
-  d3.selectAll("path").remove();
+
+  menCircle.transition()
+    .duration(500)
+    .attr("r", 0);
+
+  menLine.transition()
+      .duration(500)
+      .attr("stroke-dashoffset", function(d){ return this.getTotalLength() });
 
   drawDotsWomenOnly()
-  drawLinearLineWomen()
+  //drawLinearLineWomen()
+
+  womenRegressionLine.transition()
+      .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+      .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
+      .transition()
+      .delay(1000)
+      .attr("stroke-dashoffset", function(d){ return 0 });
+
   drawPathWomen()
-  //drawLinearLine()
-  drawLegend()
-  doAxis()
+
+  menRegressionLine.transition()
+    .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+    .attr("stroke-dashoffset", function(d){ return this.getTotalLength() });
 }
 var drawPathWomen = function() {
 
+
+    womenLine.transition()
+        .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+        .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
+        .transition()
+        .delay(10)
+        .duration(2000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+
+    /*
      line = d3.line()
                     .x(function(d) { return xScale(d.Year); })
                     .y(function(d) { return yScale(d.Time); });
@@ -201,34 +249,21 @@ var drawPathWomen = function() {
           .datum(data2)
           .attr("class", "line women")
           .attr("d", line);
+
+    */
 }
 var drawDotsWomenOnly = function() {
 
-    svg.selectAll(".dot")
-       .data(data2)
-       .enter().append("rect")
-           .attr("class", "dot")
-           .attr("x", xMap)         // Position the left of the rectangle
-           .attr("y", yMap)         // Position the top of the rectangle
-           .attr("height", 6)       // Set the height
-           .attr("width", 6)        // Set the width
-           .attr("rx", 2)           // Set the x corner curve radius
-           .attr("ry", 1)           // Set the y corner curve radius
-     .style("fill", function(d) {  return color(cValue("Women"));})
-     .on("mouseover", function(d) {
-                tooltip.transition()
-                     .duration(200)
-                     .style("opacity", .9);
-
-                tooltip.html("("+d["Year"] + ","+d["Time"]+")" )
-                     .style("left", (d3.event.pageX + 5) + "px")
-                     .style("top", (d3.event.pageY - 20) + "px");
-           })
-     .on("mouseout", function(d) {
-                tooltip.transition()
-                     .duration(500)
-                     .style("opacity", 0);
-     });
+    womenCircle.transition()
+        .attr("height", 0)       // Set the height
+        .attr("width", 0)   
+       .transition()
+       .ease(d3.easeExpIn)
+       .delay(function(d, i){
+        return 500 + i * 20;
+       })
+        .attr("height", 6)       // Set the height
+        .attr("width", 6)   
     }
 var drawLinearLineWomen = function() {
 
@@ -243,18 +278,26 @@ var drawLinearLineWomen = function() {
                return yScale(aWomen * d.Year + bWomen)
           });
 
-     svg.append("path")
+   var womenRegressionGroup = svg.append("g")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "womenRegression");
+
+
+   womenRegressionLine = womenRegressionGroup.append("path")
           .datum(data2)
           .attr("class", "line women")
-          .attr("d", regressionLine);
+          .attr("d", regressionLine)
+          .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+          .attr("stroke-dashoffset", function(d){ return 0 });
 
     }
 
 
 //all
 function loadBoth(){
-  d3.selectAll(".dot").remove();
-  d3.selectAll("path").remove();
+  //d3.selectAll(".dot").remove();
+  //d3.selectAll("path").remove();
 
   drawDots()
   drawPath()
@@ -281,12 +324,7 @@ var drawPath = function() {
           .attr("class", "line men")
           .attr("d", line)
           .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
-          .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
-
-    menLine.transition()
-          .duration(2000)
-          .ease(d3.easeLinear)
-          .attr("stroke-dashoffset", 0);
+          .attr("stroke-dashoffset", function(d){ return 0 });
 
    var womenLineGroup = svg.append("g")
         .attr("x", 0)
@@ -308,12 +346,12 @@ var drawLinearLine = function() {
 var drawDots = function() {
      // Draw dots for men.
 
-    var menGroup = svg.append("g")
+  var menGroup = svg.append("g")
       .attr("x", 0)
       .attr("y", 0)
       .attr("class", "men");
 
-     menCircle = menGroup.selectAll("circle")
+   menCircle = menGroup.selectAll("circle")
           .data(data)
           .enter()
           .append("circle")
@@ -343,6 +381,8 @@ var drawDots = function() {
   .attr("class", "women");
 
      // Draw dots for women.
+
+
 	womenCircle = womenGroup.selectAll("rect")
      	.data(data2)
      	.enter().append("rect")
@@ -373,9 +413,9 @@ var drawDots = function() {
 
 }
 var drawLegend = function() {
-     var lineFunction = d3.line()
-          .x(function(d) { return d.x; })
-          .y(function(d) { return d.y; });
+   var lineFunction = d3.line()
+        .x(function(d) { return d.x; })
+        .y(function(d) { return d.y; });
 
     var legendRectSize = 18;
     var legendSpacing = 4;
