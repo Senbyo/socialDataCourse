@@ -89,13 +89,6 @@ d3.csv("processed_men.csv", rowConverter, function(error, dataMen) {
                .text("Time (minutes)");
 
           generateVisualization()
-          //drawDots()
-
-          //drawPath()
-
-          //drawLinearLine()
-
-          //drawLegend()
 
      })
 });
