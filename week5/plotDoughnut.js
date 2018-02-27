@@ -13,7 +13,7 @@ var w = 500;
 var h = 300;
 var r = 300
 var outerRadius = r / 2;
-var innerRadius = 0;
+var innerRadius = r / 4;
 var arc = d3.arc()
                .innerRadius(innerRadius)
                .outerRadius(outerRadius);
@@ -48,6 +48,8 @@ var generateVisualization = function() {
                     .attr("width", w)
                     .attr("height", h);
 
+     console.log(pie(dataset))
+
      //Set up groups
      var arcs = svg.selectAll("g.arc")
                       .data(pie(dataset))
@@ -63,13 +65,14 @@ var generateVisualization = function() {
           })
           .attr("d", arc);
 
-     // //Labels
-     // arcs.append("text")
-     //      .attr("transform", function(d) {
-     //           return "translate(" + arc.centroid(d) + ")";
-     //      })
-     //      .attr("text-anchor", "middle")
-     //      .text(function(d) {
-     //           return d.borough;
-     //      });
+     //Labels
+     arcs.append("text")
+          .attr("transform", function(d) {
+               return "translate(" + arc.centroid(d) + ")";
+          })
+          .attr("text-anchor", "middle")
+          .text(function(d, i) {
+               //return dataset[i].borough   // Label bar chart with borough
+               return Math.round(d.value * 100) + "%";               // Label bar chart with fraction.
+          });
 }
