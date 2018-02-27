@@ -18,7 +18,6 @@ var arc = d3.arc()
                .innerRadius(innerRadius)
                .outerRadius(outerRadius);
 var pie = d3.pie()
-               .sort(null)
                .value(function(d) {
                     return d.fotc;
                });
@@ -73,6 +72,6 @@ var generateVisualization = function() {
           .attr("text-anchor", "middle")
           .text(function(d, i) {
                //return dataset[i].borough   // Label bar chart with borough
-               return Math.round(d.value * 100) + "%";               // Label bar chart with fraction.
+               return Math.round(d.value * 1000) / 10 + "%";               // Label bar chart with fraction.
           });
 }
