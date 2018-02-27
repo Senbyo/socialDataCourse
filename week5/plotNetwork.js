@@ -28,9 +28,10 @@ var dataset = {
 
 
 //Initialize a simple force layout, using the nodes and edges in dataset
+// TODO: Could add slider for changing the strength.
 var force = d3.forceSimulation(dataset.nodes)
-			.force("charge", d3.forceManyBody())
-			.force("link", d3.forceLink(dataset.edges))
+			.force("charge", d3.forceManyBody().strength(-500)) // Strong reprelling with -500
+			.force("link", d3.forceLink(dataset.edges).distance(100))
                .force("center", d3.forceCenter().x(w/2).y(h/2));
 
 var colors = d3.scaleOrdinal(d3.schemeCategory10);
@@ -47,6 +48,7 @@ var edges = svg.selectAll("line")
 			.data(dataset.edges)
 			.enter()
 			.append("line")
+			.attr("class", "line")
 			.style("stroke", "#ccc")
 			.style("stroke-width", 1);
 
@@ -56,13 +58,14 @@ var nodes = svg.selectAll("circle")
 			.enter()
 			.append("circle")
 			.attr("r", 10)
+			.attr("class", "node")
 			.style("fill", function(d, i) {
 				return colors(i);
-				})
+			})
 			.call(d3.drag()  //Define what to do on drag events
-				.on("start", dragStarted)
-				.on("drag", dragging)
-				.on("end", dragEnded));
+					.on("start", dragStarted)
+					.on("drag", dragging)
+					.on("end", dragEnded));
 
 //Add a simple tooltip
 nodes.append("title")
