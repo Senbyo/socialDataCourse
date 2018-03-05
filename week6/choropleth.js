@@ -51,21 +51,48 @@ d3.json("nyc.json", function(error, json)  {
 //---------------- marquee functionality ----------------------
 
 var marqueeRect;
+var startX;
+var startY;
+var width;
+var height;
+
 
 var dragStarted = function(xy){ 
 
+	startX = xy[0];
+	startY = xy[1];
+	console.log(startX);
 	marqueeRect.transition()
 			.duration(0)
 			.attr("x", xy[0])
 			.attr("y", xy[1]);
 
 }
-
 var dragging = function (xy){
+
+	var x = parseInt(d3.select('#marquee').attr("x"));
+	var y = parseInt(d3.select('#marquee').attr("y"));
+	var width = xy[0] - x;
+	var height = xy[1] - y;
+
+	if (xy[0] <= startX){
+		x = xy[0];
+		var difference =  parseInt(d3.select('#marquee').attr("x")) - xy[0];
+		width = parseInt(d3.select('#marquee').attr("width")) + difference;
+	}
+
+	if (xy[1] <= startY){
+		y = xy[1];
+		var difference = parseInt(d3.select('#marquee').attr("y")) - xy[1];
+		height = parseInt(d3.select('#marquee').attr("height")) + difference;
+	}
+
 	marqueeRect.transition()
 			.duration(0)
-			.attr("width", xy[0] -  parseInt(d3.select('#marquee').attr("x")))
-			.attr("height", xy[1] - parseInt(d3.select('#marquee').attr("y")));
+			.attr("x", x)
+			.attr("y", y)
+			.attr("width", width)
+			.attr("height", height);
 }
 var dragEnded = function (xy){
 	marqueeRect.transition()
