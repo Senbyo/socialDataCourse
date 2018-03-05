@@ -48,15 +48,32 @@ d3.json("nyc.json", function(error, json)  {
 
 	}
 });
-//---------------- helper functions ----------------------
-var dragStarted = function (){
-	console.log("hello")
+//---------------- marquee functionality ----------------------
+
+var marqueeRect;
+
+var dragStarted = function(xy){ 
+
+	marqueeRect.transition()
+			.duration(0)
+			.attr("x", xy[0])
+			.attr("y", xy[1]);
+
 }
-var dragging = function (){
-	console.log("hello")
+
+var dragging = function (xy){
+	marqueeRect.transition()
+			.duration(0)
+			.attr("width", xy[0] -  parseInt(d3.select('#marquee').attr("x")))
+			.attr("height", xy[1] - parseInt(d3.select('#marquee').attr("y")));
 }
-var dragEnded = function (){
-	console.log("hello")
+var dragEnded = function (xy){
+	marqueeRect.transition()
+			.duration(0)
+			.attr("width", 0)
+			.attr("height", 0)
+			.attr("x", 0)
+			.attr("y", 0);
 }
 
 //---------------- Generate choropleth ----------------------
@@ -69,11 +86,11 @@ var generateChoropleth = function(){
 	svgChoropleth
 			.call(d3.drag()
 			.on("start", function(){
-				dragStarted() })
+				dragStarted(d3.mouse(this)) })
 			.on("drag", function(){
-				dragging() })
+				dragging(d3.mouse(this)) })
 			.on("end",  function(){
-				dragEnded() }));
+				dragEnded(d3.mouse(this)) }));
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	var projection = d3.geoMercator()
@@ -94,6 +111,16 @@ var generateChoropleth = function(){
 		.style("fill", function(d, i){
 			return colors(i);
 		});
+
+	// Marquee tool needs to drawn at the very end to be on top of everything else.
+	marqueeRect = svgChoropleth.append("rect")
+			.attr("id", "marquee")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", 0)
+			.attr("height", 0)
+			.attr("fill", "orange")
+			.attr("opacity", 0.5);
 
 };
 
