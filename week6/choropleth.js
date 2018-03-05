@@ -58,6 +58,7 @@ var height;
 
 
 var dragStarted = function(xy){ 
+	//make sure that the marquee starts with invisible
 
 	startX = xy[0];
 	startY = xy[1];
@@ -65,7 +66,8 @@ var dragStarted = function(xy){
 	marqueeRect.transition()
 			.duration(0)
 			.attr("x", xy[0])
-			.attr("y", xy[1]);
+			.attr("y", xy[1])
+			.attr("opacity", 0.5);
 
 }
 var dragging = function (xy){
@@ -75,13 +77,13 @@ var dragging = function (xy){
 	var width = xy[0] - x;
 	var height = xy[1] - y;
 
-	if (xy[0] <= startX){
+	if (xy[0] < startX){
 		x = xy[0];
 		var difference =  parseInt(d3.select('#marquee').attr("x")) - xy[0];
 		width = parseInt(d3.select('#marquee').attr("width")) + difference;
 	}
 
-	if (xy[1] <= startY){
+	if (xy[1] < startY){
 		y = xy[1];
 		var difference = parseInt(d3.select('#marquee').attr("y")) - xy[1];
 		height = parseInt(d3.select('#marquee').attr("height")) + difference;
@@ -95,6 +97,7 @@ var dragging = function (xy){
 			.attr("height", height);
 }
 var dragEnded = function (xy){
+
 	marqueeRect.transition()
 			.duration(0)
 			.attr("width", 0)
