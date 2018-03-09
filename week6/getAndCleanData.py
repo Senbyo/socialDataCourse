@@ -12,7 +12,7 @@ import os
 
 os.getcwd()
 
-df = pd.read_csv('murder_Data.csv')
+df = pd.read_csv('murder_data_2016.csv')
 
 #drop entire collumns
 df = df.drop(["OFNS_DESC"], axis=1)
