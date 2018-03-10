@@ -1,8 +1,8 @@
 var rowConverter = function(d) {
-		return { 
+		return {
 				Index: parseInt(d.Index),
 				Month: d.Month,
-				Count: parseInt(d.Count) 
+				Count: parseInt(d.Count)
 			}
 }
 

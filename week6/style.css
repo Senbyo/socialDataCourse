@@ -1,3 +1,24 @@
 svg {
 	display: inline-block;
+
+}
+.brushed {
+	fill: red;
+	stroke: purple;
+	opacity: 1;
+}
+
+
+.un_brushed {
+	fill: gray;
+	stroke: black;
+	opacity: 1;
+}
+
+.boroNames {
+	text-anchor: middle;
+	stroke: white;
+	stroke-width: 0.4px;
+	font-family: sans-serif;
+	font-size: 16pt;
 }
