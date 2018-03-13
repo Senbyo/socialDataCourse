@@ -45,9 +45,9 @@ function recalculateBarChart() {
 function highlightCircles() {
 	if (d3.event.selection != null) {
 		circles.attr("class", "un_brushed")
-			.transition()
+			//.transition()
 			//.ease(d3.easeBackIn)
-			.attr("r", 2);
+			//.attr("r", 2);
 
 		var brush_selection = d3.brushSelection(this);
 
@@ -60,7 +60,7 @@ function highlightCircles() {
 			.transition()
 			.attr("r", 3);
 
-		// Attempt to call a bar udate on end of transition
+		// Attempt to call a bar update on end of transition
 		marqueeRect.transition()
 			.duration(1000)
 			.attr("opacity", 0)
@@ -79,6 +79,8 @@ function checkCircle(brush_selection, cx, cy) {
 	return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
 }
 
+
+// Consider to recal
 function brushEnd() {
 	// Return if nothing is selected
 	if (!d3.event.selection) return;
@@ -416,9 +418,10 @@ var updateRects = function(selection) {
 			return "Murders: " + hours[d];
 		});
 
-}
+};
 
 
+/*
 
 "rgb(242,240,247)"
 "rgb(218,218,235)"
@@ -426,3 +429,4 @@ var updateRects = function(selection) {
 "rgb(158,154,200)"
 "rgb(117,107,177)"
 "rgb(84,39,143)"
+*/
