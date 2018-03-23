@@ -2,10 +2,6 @@ html * {
 	font-family: sans-serif;
 }
 
-.block {
-	display: block;
-}
-
 div {
 	display: block;
 }
@@ -22,4 +18,9 @@ h1 {
 
 h2 {
 	text-align: center;
+}
+
+dl {
+	display: block;
+	margin: 1em 0;
 }
