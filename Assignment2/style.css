@@ -1,0 +1,25 @@
+html * {
+	font-family: sans-serif;
+}
+
+.block {
+	display: block;
+}
+
+div {
+	display: block;
+}
+
+body {
+	background-color: white;
+	padding-right: 50px;
+	padding-left: 50px;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
