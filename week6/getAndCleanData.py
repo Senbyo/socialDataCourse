@@ -12,7 +12,7 @@ import os
 
 os.getcwd()
 
-df = pd.read_csv('murder_data.csv')
+df = pd.read_csv('murder_data_2006.csv')
 
 #drop entire collumns
 df = df.drop(["OFNS_DESC"], axis=1)
@@ -32,6 +32,9 @@ df["Full_Time"] = df["CMPLNT_FR_TM"]
 df["CMPLNT_FR_TM"] = hour
 
 df = df.rename(columns={"CMPLNT_FR_TM": "Hour", "CMPLNT_FR_DT": "Date", "LOC_OF_OCCUR_DESC":"Location"})
-
+df["Date"] = pd.to_datetime(df.Date, format = "%m/%d/%Y")
+df = df.sort_values(by = 'Date')
+df["Date"] = df["Date"].dt.date
+df["Date"].describe()
 
 df.to_csv('murder_data_processed.csv',index = False)
