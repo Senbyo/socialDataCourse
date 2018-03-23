@@ -1,14 +1,17 @@
 //---------------- Global variables ----------------------
 var dataset;
 var svgChoropleth;
+var svgTimeLine;
+var svgBarChart;
 var projection;
 var rectsGrp;
 var selection;
 var circles;
 var rects;
+var dataSeries;
+var line;
 
 var murderDataSet;
-var svgBarChart;
 var hours;
 var xDomain = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 var padding = 40;
@@ -19,6 +22,110 @@ var choroplethWidth = 500;
 var choroplethHeight = 500;
 var w = 550;
 var h = 500;
+var timelineW = 900;
+var timelineH = 300;
+
+//---------------- row converter ----------------------
+var rowConverter = function(d) {
+		dateSplit = d.Date.split("/")
+		return {
+				Hour: parseInt(d.Hour),
+				Lon: d.Longitude,
+				Lat: d.Latitude,
+				Loc: d.Location,
+				Time: d.Full_Time,
+				Date: d.Date
+				//Date: new Date(dateSplit[2], dateSplit[1], dateSplit[0])
+				//Date: parseDate(formatDate(new Date(d.Date)))
+			}
+};
+
+//---------------- loading murder data ----------------------
+d3.csv("murder_data_processed.csv", rowConverter, function(error, data){
+
+	if (error) {
+		console.log(error);
+	} else {
+		//console.log(data);
+		murderDataSet = data;
+
+		dataSeries = d3.nest()
+		  .key(function(d) { return d.Date; })
+		  .rollup(function(v) { return v.length; })
+		  .entries(data);
+
+	  	//console.log(dataSeries)
+
+
+	}
+});
+
+//---------------- loading nyc data ----------------------
+d3.json("nyc.json", function(error, json)  {
+	if (error) {
+		console.log(error);
+	} else {
+
+		dataset = json;
+
+
+		generateTimeline();
+		generateChoropleth();
+		generateBarChart();
+		generateMurders();
+
+	}
+});
+
+//---------------- date object ----------------------
+// Functions to parse timestamps
+var parseUTCDate = d3.utcParse("%m/%d/%Y");
+var formatUTCDate = d3.timeFormat("%Y-%m-%d");
+var parseDate = d3.timeParse("%Y-%m-%d");
+
+//---------------- scales ----------------------
+var xScaleTimeline = d3.scaleTime()
+						//.domain([
+						//	new Date(2001, 01, 01),
+						//	new Date(2016, 12, 32)
+						//	])
+						.range([padding, timelineW - padding]);
+
+
+var yScaleTimeLine = d3.scaleLinear()
+						.domain([0, 9])
+						.range([timelineH - padding, padding]);
+
+
+var xScale = d3.scaleBand()
+		.domain(xDomain)
+		.range([padding, w - padding])
+		.paddingInner(0.05);
+
+var yScale = d3.scaleLinear()
+		.domain([0, 30])
+		.range([h- yPadding, yPadding]);
+
+//---------------- Axis ----------------------
+var xAxisTimeline = d3.axisBottom(xScaleTimeline);
+var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
+
+
+var xAxis = d3.axisBottom(xScale);
+var yAxis = d3.axisLeft(yScale);
+var yaxis;
+
+
+var colors = d3.scaleQuantize()
+				.domain([0,4])
+				//.range(["rgb(237,248,233)", "rgb(186,228,179)","rgb(116,196,118)", "rgb(49,163,84)", "rgb(0,109,44)"]);
+				//.range(["rgb(242,240,247)","rgb(203,201,226)","rgb(158,154,200)","rgb(117,107,177)","rgb(84,39,143)"]);
+				.range(["rgb(242,240,247)",
+						"rgb(218,218,235)",
+						"rgb(188,189,220)",
+						"rgb(158,154,200)",
+						"rgb(117,107,177)"])
+// var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
 //---------------- d3.brush functions ----------------------
 
@@ -32,39 +139,43 @@ function resetCircles() {
 	}
 
 }
-function recalculateBarChart() {
-	var brushedSelection = d3.selectAll(".brushed").data()
-
-	if (brushedSelection.length > 0 ){
-		updateRects(brushedSelection)		
-	} else {
-		updateRects(murderDataSet)
-	}
-}
 
 function highlightCircles() {
 	if (d3.event.selection != null) {
-		circles.attr("class", "un_brushed")
-			//.transition()
-			//.ease(d3.easeBackIn)
-			//.attr("r", 2);
+		var visible =  d3.select("#geo").selectAll(".visible");
+		var hidden = d3.select("#geo").selectAll(".hidden");
+
+		visible.attr("class", "un_brushed visible")
+		hidden.attr("class", "un_brushed hidden")
 
 		var brush_selection = d3.brushSelection(this);
 
-		circles.filter(function() {
+		// Set brushed both for hidden and visible circles
+		visible.filter(function() {
 			var cx = d3.select(this).attr("cx");
 			var cy = d3.select(this).attr("cy");
+			console.log("checking");
 			return checkCircle(brush_selection, cx, cy);
  	
-			}).attr("class", "brushed")
+			}).attr("class", "brushed visible")
 			.transition()
 			.attr("r", 3);
+
+		hidden.filter(function() {
+			var cx = d3.select(this).attr("cx");
+			var cy = d3.select(this).attr("cy");
+			console.log("checking");
+			return checkCircle(brush_selection, cx, cy);
+ 	
+			}).attr("class", "brushed hidden")
+			.transition()
+			.attr("r", 3);
+
 
 		// Attempt to call a bar update on end of transition
 		marqueeRect.transition()
 			.duration(1000)
-			.attr("opacity", 0)
-			.each("end", recalculateBarChart());
+			.attr("opacity", 0);
 
 	}
 }
@@ -86,82 +197,93 @@ function brushEnd() {
 	if (!d3.event.selection) return;
 
 	// Make selection go away
-	d3.select(this).call(brush.move, null);
+	//d3.select(this).call(brush.move, null);
+
+	var brushedSelection = d3.selectAll(".brushed.visible").data()
+
+	if (brushedSelection.length > 0 ){
+		updateRects(brushedSelection)		
+	} else {
+		updateRects(murderDataSet)
+	}
 }
 
-var brush = d3.brush()
-			.on("start", resetCircles)
+function highlightTimeLine() {
+
+	if (d3.event.selection != null) {
+		//circles.attr("class", "hidden un_brushed")
+
+		var un_brushed =  d3.select("#geo").selectAll(".un_brushed");
+		var brushed = d3.select("#geo").selectAll(".brushed");
+
+		un_brushed.attr("class", "hidden un_brushed");
+		brushed.attr("class", "hidden brushed");
+
+		var brush_selection = d3.brushSelection(this);
+
+		un_brushed.filter(function() {
+
+			var date = new Date(this.__data__.Date);
+			return checkDate(brush_selection, date);
+ 	
+			}).attr("class", "visible un_brushed")
+			.transition()
+			.attr("r", 3);
+
+		brushed.filter(function() {
+
+			var date = new Date(this.__data__.Date);
+			return checkDate(brush_selection, date);
+ 	
+			}).attr("class", "visible brushed")
+			.transition()
+			.attr("r", 3);
+
+
+		// Attempt to call a bar update on end of transition
+		marqueeRect.transition()
+			.duration(1000)
+			.attr("opacity", 0);
+
+	}
+}
+
+function checkDate(brush_selection, date) {
+
+	var x0 = brush_selection[0];
+	var x1 = brush_selection[1];
+
+	return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
+}
+
+
+// Consider to recal
+function brushEndTimeLine() {
+	// Return if nothing is selected
+	if (!d3.event.selection) return;
+
+	var brushedSelection = d3.selectAll(".visible.brushed").data()
+
+	if (brushedSelection.length > 0 ){
+		updateRects(brushedSelection)		
+	} else {
+		updateRects(murderDataSet)
+	}
+}
+
+var brushChoropleth = d3.brush()
 			.on("brush", highlightCircles)
 			.on("end", brushEnd);
 
-//---------------- scales ----------------------
-var xScale = d3.scaleBand()
-		.domain(xDomain)
-		.range([padding, w - padding])
-		.paddingInner(0.05);
 
-var yScale = d3.scaleLinear()
-		.domain([0, 30])
-		.range([h- yPadding, yPadding]);
+var brushTimeline = d3.brushX()
+			.on("brush", highlightTimeLine)
+			.on("end", brushEndTimeLine);
 
 
-var colors = d3.scaleQuantize()
-				.domain([0,4])
-				//.range(["rgb(237,248,233)", "rgb(186,228,179)","rgb(116,196,118)", "rgb(49,163,84)", "rgb(0,109,44)"]);
-				//.range(["rgb(242,240,247)","rgb(203,201,226)","rgb(158,154,200)","rgb(117,107,177)","rgb(84,39,143)"]);
-				.range(["rgb(242,240,247)",
-						"rgb(218,218,235)",
-						"rgb(188,189,220)",
-						"rgb(158,154,200)",
-						"rgb(117,107,177)"])
-// var colors = d3.scaleOrdinal(d3.schemeCategory10);
-
-//---------------- Axis ----------------------
-var xAxis = d3.axisBottom(xScale);
-var yAxis = d3.axisLeft(yScale);
-var yaxis;
-
-//---------------- row converter ----------------------
-var rowConverter = function(d) {
-		return {
-				Index: parseInt(d.Index),
-				Hour: parseInt(d.Hour),
-				Lon: d.Longitude,
-				Lat: d.Latitude,
-				Loc: d.Location,
-				Time: d.Full_Time,
-				Date: d.Date
-			}
-};
-
-//---------------- loading murder data ----------------------
-d3.csv("murder_data_processed.csv", rowConverter, function(error, data){
-
-	if (error) {
-		console.log(error);
-	} else {
-		//console.log(data);
-		murderDataSet = data;
-	}
-});
-
-//---------------- loading nyc data ----------------------
-d3.json("nyc.json", function(error, json)  {
-	if (error) {
-		console.log(error);
-	} else {
-
-		dataset = json;
-
-		generateChoropleth();
-		generateBarChart();
-		generateMurders();
-
-	}
-});
 
 //---------------- visualizing murder data ----------------------
-var tooltipCircles
+var tooltipCircles;
 var generateMurders = function(d) {
 
 	// Adding circles for murders
@@ -169,7 +291,7 @@ var generateMurders = function(d) {
 			.data(murderDataSet)
 			.enter()
 			.append("circle")
-			.attr("class", "un_brushed")
+			.attr("class", "un_brushed hidden")
 			.attr("cx", function(d){
 				return projection([d.Lon, d.Lat])[0];
 			})
@@ -183,61 +305,67 @@ var generateMurders = function(d) {
 			});
 };
 
-//---------------- marquee functionality ----------------------
-var marqueeRect;
-var startX;
-var startY;
-var width;
-var height;
 
-var dragStarted = function(xy){ 
-	//make sure that the marquee starts with invisible
+//---------------- Generate timeline ------------------------
+var generateTimeline = function() {
+	svgTimeLine = d3.select('#geo').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
 
-	startX = xy[0];
-	startY = xy[1];
-	marqueeRect.transition()
-			.duration(0)
-			.attr("x", xy[0])
-			.attr("y", xy[1])
-			.attr("opacity", 0.5);
+	xScaleTimeline.domain([
+		d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
+		d3.max(murderDataSet, function(d) { return new Date(d.Date); })
+	])
+
+	var pathGroup = svgTimeLine.append('g')
+
+	line = d3.line()
+		.x(function(d, i) {
+			return xScaleTimeline(new Date(d.key)); 
+		})
+		.y(function(d) { 
+			return yScaleTimeLine(d.value); 
+		});
+
+	var path = pathGroup.append('path')
+		.datum(dataSeries)
+		.attr("class", "line")
+		.attr("d", line);
+
+	// Draw x-axis included values along the axis.
+	svgTimeLine.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0," + (timelineH - padding) + ")")
+		.call(xAxisTimeline);
+
+	// Draw y-axis included values along the axis.
+	svgTimeLine.append("g")
+		.attr("class", "axis yaxis")
+		.attr("transform", "translate(" + (padding) + ",0)")
+		.call(yAxisTimeline);
+
+	// Adding text to the y-axis
+  	svgTimeLine.append("text")
+     	.attr("transform", "rotate(-90)")
+     	.attr("x", 0 - (timelineH / 2))
+     	.attr("y", 0 )
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("# of Murders Committed")
+     	.attr("class", "yAxisLabel");
+
+	// Adding text to the x-axis
+  	svgTimeLine.append("text")
+     	.attr("x", (timelineW/2))
+     	.attr("y", (timelineH - padding + 10))
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("Year")
+     	.attr("class", "xAxisLabel")
+
+	// Call d3.brush and set it to work on this group
+	svgTimeLine.append("g").call(brushTimeline);
 }
 
-var dragging = function (xy){
 
-	var x = parseInt(d3.select('#marquee').attr("x"));
-	var y = parseInt(d3.select('#marquee').attr("y"));
-	var width = xy[0] - x;
-	var height = xy[1] - y;
-
-	if (xy[0] < startX){
-		x = xy[0];
-		var difference =  parseInt(d3.select('#marquee').attr("x")) - xy[0];
-		width = parseInt(d3.select('#marquee').attr("width")) + difference;
-	}
-
-	if (xy[1] < startY){
-		y = xy[1];
-		var difference = parseInt(d3.select('#marquee').attr("y")) - xy[1];
-		height = parseInt(d3.select('#marquee').attr("height")) + difference;
-	}
-
-	marqueeRect.transition()
-			.duration(0)
-			.attr("x", x)
-			.attr("y", y)
-			.attr("width", width)
-			.attr("height", height);
-}
-
-var dragEnded = function (xy){
-
-	marqueeRect.transition()
-			.duration(0)
-			.attr("width", 0)
-			.attr("height", 0)
-			.attr("x", 0)
-			.attr("y", 0);
-}
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
@@ -306,7 +434,7 @@ var generateChoropleth = function(){
 			.attr("opacity", 0.5);
 
 	// Call d3.brush and set it to work on this group
-	svgChoropleth.append("g").call(brush);
+	svgChoropleth.append("g").call(brushChoropleth);
 };
 
 //---------------- Generate barchart ----------------------
@@ -422,7 +550,6 @@ var updateRects = function(selection) {
 
 
 /*
-
 "rgb(242,240,247)"
 "rgb(218,218,235)"
 "rgb(188,189,220)"
