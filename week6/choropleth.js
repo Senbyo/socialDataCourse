@@ -10,6 +10,8 @@ var circles;
 var rects;
 var dataSeries;
 var line;
+var brushTimeLineGroup;
+var brushChoroplethGroup;
 
 var murderDataSet;
 var hours;
@@ -68,12 +70,10 @@ d3.json("nyc.json", function(error, json)  {
 
 		dataset = json;
 
-
-		generateTimeline();
 		generateChoropleth();
 		generateBarChart();
 		generateMurders();
-
+		generateTimeline();
 	}
 });
 
@@ -85,10 +85,6 @@ var parseDate = d3.timeParse("%Y-%m-%d");
 
 //---------------- scales ----------------------
 var xScaleTimeline = d3.scaleTime()
-						//.domain([
-						//	new Date(2001, 01, 01),
-						//	new Date(2016, 12, 32)
-						//	])
 						.range([padding, timelineW - padding]);
 
 
@@ -118,14 +114,11 @@ var yaxis;
 
 var colors = d3.scaleQuantize()
 				.domain([0,4])
-				//.range(["rgb(237,248,233)", "rgb(186,228,179)","rgb(116,196,118)", "rgb(49,163,84)", "rgb(0,109,44)"]);
-				//.range(["rgb(242,240,247)","rgb(203,201,226)","rgb(158,154,200)","rgb(117,107,177)","rgb(84,39,143)"]);
 				.range(["rgb(242,240,247)",
 						"rgb(218,218,235)",
 						"rgb(188,189,220)",
 						"rgb(158,154,200)",
 						"rgb(117,107,177)"])
-// var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
 //---------------- d3.brush functions ----------------------
 
@@ -133,7 +126,7 @@ function resetCircles() {
 	if (d3.event.selection != null) {
 		circles.attr("class", "un_brushed")
 			.transition()
-			//.ease(d3.easeBackIn)
+			//.ease(d3.easeLinear)
 			.attr("r", 2);
 	
 	}
@@ -143,45 +136,25 @@ function resetCircles() {
 function highlightCircles() {
 	if (d3.event.selection != null) {
 		var visible =  d3.select("#geo").selectAll(".visible");
-		var hidden = d3.select("#geo").selectAll(".hidden");
 
 		visible.attr("class", "un_brushed visible")
-		hidden.attr("class", "un_brushed hidden")
 
-		var brush_selection = d3.brushSelection(this);
-
-		// Set brushed both for hidden and visible circles
-		visible.filter(function() {
-			var cx = d3.select(this).attr("cx");
-			var cy = d3.select(this).attr("cy");
-			console.log("checking");
-			return checkCircle(brush_selection, cx, cy);
- 	
-			}).attr("class", "brushed visible")
-			.transition()
-			.attr("r", 3);
-
-		hidden.filter(function() {
-			var cx = d3.select(this).attr("cx");
-			var cy = d3.select(this).attr("cy");
-			console.log("checking");
-			return checkCircle(brush_selection, cx, cy);
- 	
-			}).attr("class", "brushed hidden")
-			.transition()
-			.attr("r", 3);
-
-
-		// Attempt to call a bar update on end of transition
-		marqueeRect.transition()
-			.duration(1000)
-			.attr("opacity", 0);
-
+		var brush_selection = d3.brushSelection(brushChoroplethGroup.node());
+		if (brush_selection !== null){
+			// Set brushed both for hidden and visible circles
+			visible.filter(function() {
+				var cx = d3.select(this).attr("cx");
+				var cy = d3.select(this).attr("cy");
+				return checkCircle(brush_selection, cx, cy);
+	 	
+				}).attr("class", "brushed visible")
+				.transition()
+				.attr("r", 3);
+		}
 	}
 }
 
 function checkCircle(brush_selection, cx, cy) {
-
 	var x0 = brush_selection[0][0];
 	var y0 = brush_selection[0][1];
 	var x1 = brush_selection[1][0];
@@ -212,39 +185,22 @@ function highlightTimeLine() {
 
 	if (d3.event.selection != null) {
 		//circles.attr("class", "hidden un_brushed")
-
-		var un_brushed =  d3.select("#geo").selectAll(".un_brushed");
-		var brushed = d3.select("#geo").selectAll(".brushed");
-
-		un_brushed.attr("class", "hidden un_brushed");
-		brushed.attr("class", "hidden brushed");
+		//var hidden = d3.select("#geo").selectAll(".hidden");
+		circles.classed("hidden", true);
+		circles.classed("visible", false);
 
 		var brush_selection = d3.brushSelection(this);
 
-		un_brushed.filter(function() {
+		circles.filter(function() {
 
 			var date = new Date(this.__data__.Date);
 			return checkDate(brush_selection, date);
  	
-			}).attr("class", "visible un_brushed")
+			}).classed("visible", true)
 			.transition()
 			.attr("r", 3);
 
-		brushed.filter(function() {
-
-			var date = new Date(this.__data__.Date);
-			return checkDate(brush_selection, date);
- 	
-			}).attr("class", "visible brushed")
-			.transition()
-			.attr("r", 3);
-
-
-		// Attempt to call a bar update on end of transition
-		marqueeRect.transition()
-			.duration(1000)
-			.attr("opacity", 0);
-
+		highlightCircles();
 	}
 }
 
@@ -271,16 +227,23 @@ function brushEndTimeLine() {
 	}
 }
 
+function resetTimeline() {
+	var un_brushed =  d3.select("#geo").selectAll(".un_brushed");
+	var brushed = d3.select("#geo").selectAll(".brushed");
+
+	un_brushed.attr("class", "hidden un_brushed");
+	brushed.attr("class", "hidden brushed");
+}
+
 var brushChoropleth = d3.brush()
 			.on("brush", highlightCircles)
 			.on("end", brushEnd);
 
 
 var brushTimeline = d3.brushX()
+			.extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
 			.on("brush", highlightTimeLine)
 			.on("end", brushEndTimeLine);
-
-
 
 //---------------- visualizing murder data ----------------------
 var tooltipCircles;
@@ -362,9 +325,16 @@ var generateTimeline = function() {
      	.attr("class", "xAxisLabel")
 
 	// Call d3.brush and set it to work on this group
-	svgTimeLine.append("g").call(brushTimeline);
-}
+	brushTimeLineGroup = svgTimeLine.append("g")
+				.call(brushTimeline);
+	brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
 
+
+}
+/*
+var selection = d3.brushSelection(brushTimeLineGroup.node())
+brushTimeline.move(selection, [xScaleTimeline(new Date("01/01/2010")), xScaleTimeline(new Date("01/01/2011"))]);
+*/
 
 
 //---------------- Generate choropleth ----------------------
@@ -372,18 +342,6 @@ var generateChoropleth = function(){
 
 	// Create SVG for choropleth
 	svgChoropleth = d3.select("#geo").append("svg").attr("width", choroplethWidth).attr("height", choroplethHeight).attr("id", "choropleth");
-
-	// Create marquee tool
-	/*
-	svgChoropleth
-			.call(d3.drag()
-			.on("start", function(){
-				dragStarted(d3.mouse(this)) })
-			.on("drag", function(){
-				dragging(d3.mouse(this)) })
-			.on("end",  function(){
-				dragEnded(d3.mouse(this)) }));
-	*/
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoMercator()
@@ -423,18 +381,9 @@ var generateChoropleth = function(){
 		})
 		.attr("class", "boroNames");
 
-	// Marquee tool needs to drawn at the very end to be on top of everything else.
-	marqueeRect = svgChoropleth.append("rect")
-			.attr("id", "marquee")
-			.attr("x", 0)
-			.attr("y", 0)
-			.attr("width", 0)
-			.attr("height", 0)
-			.attr("fill", "orange")
-			.attr("opacity", 0.5);
-
 	// Call d3.brush and set it to work on this group
-	svgChoropleth.append("g").call(brushChoropleth);
+	brushChoroplethGroup = svgChoropleth.append("g")
+							.call(brushChoropleth);
 };
 
 //---------------- Generate barchart ----------------------
@@ -444,13 +393,6 @@ var generateBarChart = function() {
 
 	// Create SVG for bar chart
 	svgBarChart = d3.select("#geo").append("svg").attr("width", w).attr("height", h);
-
-	// Draw x-axis included values along the axis.
-
-
-
-	d3.select('#marquee').attr("height")
-
 
 	// Draw x-axis included values along the axis.
 	svgBarChart.append("g")
@@ -547,6 +489,15 @@ var updateRects = function(selection) {
 		});
 
 };
+
+var animateTimeLine= function(){
+
+	brushTimeLineGroup
+		.transition()
+		.ease(d3.easeLinear)
+		.duration(4000)
+		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))]);
+}
 
 
 /*
