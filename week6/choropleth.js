@@ -220,6 +220,12 @@ function brushEndTimeLine() {
 
 	var brushedSelection = d3.selectAll(".visible.brushed").data()
 
+	if (brushedSelection.length <= 0)
+	{
+		var brushedSelection = d3.selectAll(".visible").data()
+		console.log(brushedSelection)
+	}
+
 	if (brushedSelection.length > 0 ){
 		updateRects(brushedSelection)		
 	} else {
@@ -271,7 +277,7 @@ var generateMurders = function(d) {
 
 //---------------- Generate timeline ------------------------
 var generateTimeline = function() {
-	svgTimeLine = d3.select('#geo').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
+	svgTimeLine = d3.select('#timeline').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
 
 	xScaleTimeline.domain([
 		d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
