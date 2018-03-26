@@ -164,24 +164,6 @@ function checkCircle(brush_selection, cx, cy) {
 	return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
 }
 
-
-// Consider to recal
-function brushEnd() {
-	// Return if nothing is selected
-	if (!d3.event.selection) return;
-
-	// Make selection go away
-	//d3.select(this).call(brush.move, null);
-
-	var brushedSelection = d3.selectAll(".brushed.visible").data()
-
-	if (brushedSelection.length > 0 ){
-		updateRects(brushedSelection)		
-	} else {
-		updateRects(murderDataSet)
-	}
-}
-
 function highlightTimeLine() {
 
 	if (d3.event.selection != null) {
@@ -190,7 +172,7 @@ function highlightTimeLine() {
 		circles.classed("hidden", true);
 		circles.classed("visible", false);
 
-		var brush_selection = d3.brushSelection(this);
+		var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
 
 		circles.filter(function() {
 
@@ -215,7 +197,7 @@ function checkDate(brush_selection, date) {
 
 
 // Consider to recal
-function brushEndTimeLine() {
+function brushEnd() {
 	// Return if nothing is selected
 	if (!d3.event.selection) return;
 
@@ -242,36 +224,65 @@ function resetTimeline() {
 }
 
 function brushended() {
-  if (!d3.event.sourceEvent) return; // Only transition after input.
-  if (!d3.event.selection) return; // Ignore empty selections.
+	if (!d3.event.sourceEvent) return; // Only transition after input.
+	if (!d3.event.selection) return; // Ignore empty selections.
 
-  var selection = d3.event.selection;
-  
-  //var d1 = d0.map(d3.timeDay.round);
-  var rounded_selection = [0, 0]
-  var xStart_dif = xScale.step()
-  var xEnd_dif = xScale.step()
-  for (number in xScale.domain()){
-  	xStartFit = Math.abs(selection[0] - xScale(number))
-  	xEndFit = Math.abs(selection[1] - xScale(number))
+	var selection = d3.event.selection;
 
-  	if (xStartFit < xStart_dif){
-  		xStart_dif = xStartFit
-  		rounded_selection[0] = xScale(parseInt(number))
+	//var d1 = d0.map(d3.timeDay.round);
+	var rounded_selection = [0, 0];
+	var xStart_dif = xScale.step();
+	var xEnd_dif = xScale.step();
+	var starting_hour;
+	var ending_hour;
+	for (number in xScale.domain()){
+		xStartFit = Math.abs(selection[0] - xScale(number));
+		xEndFit = Math.abs(selection[1] - xScale(number));
 
-  	}
-  	if (xEndFit < xEnd_dif){
-  		xEnd_dif = xEndFit
-  		rounded_selection[1] = xScale(parseInt(number))
-  	}
-  }
-  // Check end case
-  	if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
-  		rounded_selection[1] = xScale.range()[1]  		
-  	}
+		if (xStartFit < xStart_dif){
+			xStart_dif = xStartFit
+			rounded_selection[0] = xScale(parseInt(number));
+			starting_hour = number;
 
-  console.log(rounded_selection)
-  d3.select(this).transition().call(d3.event.target.move, rounded_selection);
+		}
+		if (xEndFit < xEnd_dif){
+			xEnd_dif = xEndFit
+			rounded_selection[1] = xScale(parseInt(number));
+			ending_hour = number;
+		}
+	}
+	// Check end case
+		if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
+			rounded_selection[1] = xScale.range()[1]
+			ending_hour = 24;  		
+		}
+
+
+	d3.select(this).transition().call(d3.event.target.move, rounded_selection);
+
+	highlightTimeLine();
+
+	// Filter visible circles
+	var visiblecircles = d3.select("#geo").selectAll(".visible");
+
+	visiblecircles.classed("hidden", true);
+	visiblecircles.classed("visible", false);
+
+
+
+
+	visiblecircles.filter(function(d) {
+
+		return starting_hour <= d.Hour && d.Hour < ending_hour
+	
+		})
+		.classed("visible", true)
+		.transition()
+		.attr("r", 3);
+
+		brushEnd();
+
+
 
 }
 
@@ -283,7 +294,7 @@ var brushChoropleth = d3.brush()
 var brushTimeline = d3.brushX()
 			.extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
 			.on("brush", highlightTimeLine)
-			.on("end", brushEndTimeLine);
+			.on("end", brushEnd);
 
 var brushBarChart = d3.brushX()
 			.extent([[xScale.range()[0], yScale.range()[1]], [xScale.range()[1], yScale.range()[0]]])
@@ -546,8 +557,10 @@ var updateRects = function(selection) {
 
 var animateTimeLine= function(){
 
-	brushTimeLineGroup
+		brushTimeLineGroup
+		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2006")),xScaleTimeline(new Date("01/01/2007"))])
 		.transition()
+		.delay(500)
 		.ease(d3.easeLinear)
 		.duration(5000)
 		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))]);
