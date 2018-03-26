@@ -123,17 +123,6 @@ var colors = d3.scaleQuantize()
 
 //---------------- d3.brush functions ----------------------
 
-function resetCircles() {
-	if (d3.event.selection != null) {
-		circles.attr("class", "un_brushed")
-			.transition()
-			//.ease(d3.easeLinear)
-			.attr("r", 2);
-	
-	}
-
-}
-
 function highlightCircles() {
 	if (d3.event.selection != null) {
 		var visible =  d3.select("#geo").selectAll(".visible");
@@ -167,35 +156,34 @@ function checkCircle(brush_selection, cx, cy) {
 function highlightTimeLine() {
 
 	if (d3.event.selection != null) {
-		//circles.attr("class", "hidden un_brushed")
-		//var hidden = d3.select("#geo").selectAll(".hidden");
 		circles.classed("hidden", true);
 		circles.classed("visible", false);
 
 		var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+		var barBoundry = getBarChartBoundry();
 
-		circles.filter(function() {
+		circles.filter(function(d) {
 
 			var date = new Date(this.__data__.Date);
-			return checkDate(brush_selection, date);
+			return compareHourAndDate(barBoundry, brush_selection, date, d);
  	
 			}).classed("visible", true)
 			.transition()
 			.attr("r", 3);
 
-		brushended();
+		highlightCircles();
 	}
 }
+function compareHourAndDate(barBoundry, timeline_selection, date, d){
+	var x0 = timeline_selection[0];
+	var x1 = timeline_selection[1];
+    var rounded_selection = barBoundry[0];
+    var hours = barBoundry[1];
 
-function checkDate(brush_selection, date) {
+	return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1)
+							&& hours[0] <= d.Hour && d.Hour < hours[1];
 
-	var x0 = brush_selection[0];
-	var x1 = brush_selection[1];
-
-	return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
 }
-
-
 // Consider to recal
 function brushEnd() {
 	// Return if nothing is selected
@@ -215,26 +203,43 @@ function brushEnd() {
 	}
 }
 
-function resetTimeline() {
-	var un_brushed =  d3.select("#geo").selectAll(".un_brushed");
-	var brushed = d3.select("#geo").selectAll(".brushed");
-
-	un_brushed.attr("class", "hidden un_brushed");
-	brushed.attr("class", "hidden brushed");
-}
-
 function brushended() {
 	if (!d3.event.sourceEvent) return; // Only transition after input.
 	if (!d3.event.selection) return; // Ignore empty selections.
 
+	var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+    var boundry = getBarChartBoundry();
+
+	d3.select(this).transition().call(d3.event.target.move, boundry[0]);
+
+	// Filter visible circles
+	circles.classed("hidden", true);
+	circles.classed("visible", false);
+
+	circles.filter(function(d) {
+
+		var date = new Date(this.__data__.Date);
+		return compareHourAndDate(boundry, brush_selection, date, d);
+	
+		})
+		.classed("visible", true)
+		.transition()
+		.attr("r", 3);
+
+		highlightCircles();
+		brushEnd();
+}
+
+
+function getBarChartBoundry() {
+
 	var selection = d3.brushSelection(brushBarChartGroup.node());
 
-	//var d1 = d0.map(d3.timeDay.round);
 	var rounded_selection = [0, 0];
 	var xStart_dif = xScale.step();
 	var xEnd_dif = xScale.step();
-	var starting_hour;
-	var ending_hour;
+	var hours = [0, 0];
+
 	for (number in xScale.domain()){
 		xStartFit = Math.abs(selection[0] - xScale(number));
 		xEndFit = Math.abs(selection[1] - xScale(number));
@@ -242,47 +247,22 @@ function brushended() {
 		if (xStartFit < xStart_dif){
 			xStart_dif = xStartFit
 			rounded_selection[0] = xScale(parseInt(number));
-			starting_hour = number;
+			hours[0] = number;
 
 		}
 		if (xEndFit < xEnd_dif){
 			xEnd_dif = xEndFit
 			rounded_selection[1] = xScale(parseInt(number));
-			ending_hour = number;
+			hours[1] = number;
 		}
 	}
 	// Check end case
-		if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
-			rounded_selection[1] = xScale.range()[1]
-			ending_hour = 24;  		
+	if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
+			rounded_selection[1] = xScale.range()[1];
+			hours[1]  = 24;  		
 		}
 
-
-	d3.select(this).transition().call(d3.event.target.move, rounded_selection);
-
-	highlightTimeLine();
-
-	// Filter visible circles
-	var visiblecircles = d3.select("#geo").selectAll(".visible");
-
-	visiblecircles.classed("hidden", true);
-	visiblecircles.classed("visible", false);
-
-
-
-
-	visiblecircles.filter(function(d) {
-
-		return starting_hour <= d.Hour && d.Hour < ending_hour
-	
-		})
-		.classed("visible", true)
-		.transition()
-		.attr("r", 3);
-
-		brushEnd();
-
-
+	return [rounded_selection, hours];
 
 }
 
