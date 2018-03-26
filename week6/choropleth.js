@@ -12,6 +12,7 @@ var dataSeries;
 var line;
 var brushTimeLineGroup;
 var brushChoroplethGroup;
+var brushBarChartGroup;
 
 var murderDataSet;
 var hours;
@@ -24,7 +25,7 @@ var choroplethWidth = 500;
 var choroplethHeight = 500;
 var w = 550;
 var h = 500;
-var timelineW = 900;
+var timelineW = 1200;
 var timelineH = 300;
 
 //---------------- row converter ----------------------
@@ -103,7 +104,7 @@ var yScale = d3.scaleLinear()
 		.range([h- yPadding, yPadding]);
 
 //---------------- Axis ----------------------
-var xAxisTimeline = d3.axisBottom(xScaleTimeline);
+var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
 
 
@@ -223,7 +224,6 @@ function brushEndTimeLine() {
 	if (brushedSelection.length <= 0)
 	{
 		var brushedSelection = d3.selectAll(".visible").data()
-		console.log(brushedSelection)
 	}
 
 	if (brushedSelection.length > 0 ){
@@ -241,6 +241,40 @@ function resetTimeline() {
 	brushed.attr("class", "hidden brushed");
 }
 
+function brushended() {
+  if (!d3.event.sourceEvent) return; // Only transition after input.
+  if (!d3.event.selection) return; // Ignore empty selections.
+
+  var selection = d3.event.selection;
+  
+  //var d1 = d0.map(d3.timeDay.round);
+  var rounded_selection = [0, 0]
+  var xStart_dif = xScale.step()
+  var xEnd_dif = xScale.step()
+  for (number in xScale.domain()){
+  	xStartFit = Math.abs(selection[0] - xScale(number))
+  	xEndFit = Math.abs(selection[1] - xScale(number))
+
+  	if (xStartFit < xStart_dif){
+  		xStart_dif = xStartFit
+  		rounded_selection[0] = xScale(parseInt(number))
+
+  	}
+  	if (xEndFit < xEnd_dif){
+  		xEnd_dif = xEndFit
+  		rounded_selection[1] = xScale(parseInt(number))
+  	}
+  }
+  // Check end case
+  	if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
+  		rounded_selection[1] = xScale.range()[1]  		
+  	}
+
+  console.log(rounded_selection)
+  d3.select(this).transition().call(d3.event.target.move, rounded_selection);
+
+}
+
 var brushChoropleth = d3.brush()
 			.on("brush", highlightCircles)
 			.on("end", brushEnd);
@@ -250,6 +284,10 @@ var brushTimeline = d3.brushX()
 			.extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
 			.on("brush", highlightTimeLine)
 			.on("end", brushEndTimeLine);
+
+var brushBarChart = d3.brushX()
+			.extent([[xScale.range()[0], yScale.range()[1]], [xScale.range()[1], yScale.range()[0]]])
+			.on("end", brushended);
 
 //---------------- visualizing murder data ----------------------
 var tooltipCircles;
@@ -280,7 +318,8 @@ var generateTimeline = function() {
 	svgTimeLine = d3.select('#timeline').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
 
 	xScaleTimeline.domain([
-		d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
+		//d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
+		new Date("/12/31/2005"),
 		d3.max(murderDataSet, function(d) { return new Date(d.Date); })
 	])
 
@@ -298,6 +337,10 @@ var generateTimeline = function() {
 		.datum(dataSeries)
 		.attr("class", "line")
 		.attr("d", line);
+
+	// Call d3.brush and set it to work on this group
+	brushTimeLineGroup = svgTimeLine.append("g")
+				.call(brushTimeline);
 
 	// Draw x-axis included values along the axis.
 	svgTimeLine.append("g")
@@ -330,9 +373,7 @@ var generateTimeline = function() {
      	.text("Year")
      	.attr("class", "xAxisLabel")
 
-	// Call d3.brush and set it to work on this group
-	brushTimeLineGroup = svgTimeLine.append("g")
-				.call(brushTimeline);
+
 	brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
 
 
@@ -400,43 +441,9 @@ var generateBarChart = function() {
 	// Create SVG for bar chart
 	svgBarChart = d3.select("#geo").append("svg").attr("width", w).attr("height", h);
 
-	// Draw x-axis included values along the axis.
-	svgBarChart.append("g")
-		.attr("class", "axis")
-		.attr("transform", "translate(0," + (h - yPadding) + ")")
-		.call(xAxis);
-
-	// Draw y-axis included values along the axis.
-	yaxis = svgBarChart.append("g")
-		.attr("class", "axis yaxis")
-		.attr("transform", "translate(" + (padding) + ",0)")
-		.call(yAxis);
-
-	// Adding text to the y-axis
-  	svgBarChart.append("text")
-     	.attr("transform", "rotate(-90)")
-     	.attr("x", 0 - (h / 2))
-     	.attr("y", 0 )
-     	.attr("dy", "1em")
-     	.style("text-anchor", "middle")
-     	.text("# of Murders Committed")
-     	.attr("class", "yAxisLabel");
-
-	// Adding text to the x-axis
-  	svgBarChart.append("text")
-     	.attr("x", (w/2))
-     	.attr("y", (h - padding * 2))
-     	.attr("dy", "1em")
-     	.style("text-anchor", "middle")
-     	.text("Hour")
-     	.attr("class", "xAxisLabel")
-
 	rectsGrp = svgBarChart.append("g");
 
 	getHours(murderDataSet);	
-
-	var maxValue = d3.max(hours);
-	rescale(maxValue, 500);
 
 	rects = rectsGrp.selectAll("rects")
 		.data(xDomain)
@@ -458,6 +465,47 @@ var generateBarChart = function() {
 			.text(function(d){
 			return "Murders: " + hours[d];
 		});
+
+	// Call d3.brush and set it to work on this group
+	brushBarChartGroup = svgBarChart.append("g")
+							.call(brushBarChart);
+
+	// Draw y-axis included values along the axis.
+	yaxis = svgBarChart.append("g")
+		.attr("class", "axis yaxis")
+		.attr("transform", "translate(" + (padding) + ",0)")
+		.call(yAxis);
+
+	// Draw x-axis included values along the axis.
+	svgBarChart.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0," + (h - yPadding) + ")")
+		.call(xAxis);
+
+	// Adding text to the y-axis
+  	svgBarChart.append("text")
+     	.attr("transform", "rotate(-90)")
+     	.attr("x", 0 - (h / 2))
+     	.attr("y", 0 )
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("# of Murders Committed")
+     	.attr("class", "yAxisLabel");
+
+	// Adding text to the x-axis
+  	svgBarChart.append("text")
+     	.attr("x", (w/2))
+     	.attr("y", (h - padding * 2))
+     	.attr("dy", "1em")
+     	.style("text-anchor", "middle")
+     	.text("Hour")
+     	.attr("class", "xAxisLabel")
+
+	var maxValue = d3.max(hours);
+	rescale(maxValue, 500);
+
+	brushBarChartGroup.call(brushBarChart.move, [xScale.range()[0], xScale.range()[1]]);
+
 
 };
 
@@ -501,7 +549,7 @@ var animateTimeLine= function(){
 	brushTimeLineGroup
 		.transition()
 		.ease(d3.easeLinear)
-		.duration(4000)
+		.duration(5000)
 		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))]);
 }
 
