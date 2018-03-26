@@ -183,7 +183,7 @@ function highlightTimeLine() {
 			.transition()
 			.attr("r", 3);
 
-		highlightCircles();
+		brushended();
 	}
 }
 
@@ -227,7 +227,7 @@ function brushended() {
 	if (!d3.event.sourceEvent) return; // Only transition after input.
 	if (!d3.event.selection) return; // Ignore empty selections.
 
-	var selection = d3.event.selection;
+	var selection = d3.brushSelection(brushBarChartGroup.node());
 
 	//var d1 = d0.map(d3.timeDay.round);
 	var rounded_selection = [0, 0];
