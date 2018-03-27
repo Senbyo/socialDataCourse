@@ -24,3 +24,41 @@ dl {
 	display: block;
 	margin: 1em 0;
 }
+
+svg {
+	display: inline-block;
+
+}
+.brushed {
+	fill: red;
+	stroke: purple;
+}
+
+
+.un_brushed {
+	fill: gray;
+	stroke: black;
+}
+
+.boroNames {
+	text-anchor: middle;
+	stroke: white;
+	stroke-width: 0.4px;
+	font-family: sans-serif;
+	font-size: 16pt;
+}
+
+.line {
+	fill: none;
+	stroke: rgb(84,39,143);
+	stroke-width: 1.5;
+	opacity: 1;
+}
+
+.hidden {
+	opacity: 0;
+}
+
+.visible {
+	opacity: 1;
+}
