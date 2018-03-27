@@ -14,10 +14,10 @@
 			</br>
 			02806
 		</h1>
-		<h2>
+		<h1 style="font-size: 185%">
 			Assignment 2
-		</h2>
-		<h3>Part 1: Telling Data Stories</h3>
+		</h1>
+		<h2>Part 1: Telling Data Stories</h2>
 		<ol>
 			<li>
 				<h4>What is the Oxford English Dictionary's defintion of a narrative?</h4>
@@ -83,11 +83,25 @@
 				</ul>
 			</li>
 		</ol>
-		<h3>Part 2: Visualizing Murders over Time</h3>
-		<h2> Murders in 5 Boros of NYC </h2>
-		<div id="timeline"></div>
-		<div id="geo">
-			<!--<script type="text/javascript" src="choropleth.js"></script>-->
+		<h2>Part 2: Visualizing Murders over Time</h2>
+		<h3 style="text-align: center">Murders in the 5 boroughs of NYC</h3>
+		<div style="text-align: center">
+			<button class="button animate" onclick="animateTimeLine()">
+				<span>Animate</span>
+			</button>
+		</div>
+		<div id="timeline" style="text-align: center">
+			<caption style="caption-side: top">
+				The figures below visualise all recorded murders in the five boroughs of New York City in the period from 2006 to 2017.
+				<br/>
+				The first figure shows a timeline of all the recorded murders in the period and it is possible to filter in this timeline for a given time period.
+				<br/>
+				The second figure shows how the murders are distributed in the five boroughs of New York City and it is possible to mark a part of the map to filter a selection of murders.
+				<br/>
+				The third and final figure shows how the murders are distributed in the 24 hours of a day. Here it is also possible to select consecutive hours to narrow the selection even further.
+			</caption>
+		</div>
+		<div id="geo" style="text-align: center">
 		</div>
 	</body>
 </html>

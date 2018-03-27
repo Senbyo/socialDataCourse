@@ -368,7 +368,7 @@ var generateTimeline = function() {
 	brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
 
 
-}
+};
 /*
 var selection = d3.brushSelection(brushTimeLineGroup.node())
 brushTimeline.move(selection, [xScaleTimeline(new Date("01/01/2010")), xScaleTimeline(new Date("01/01/2011"))]);
@@ -490,7 +490,7 @@ var generateBarChart = function() {
      	.attr("dy", "1em")
      	.style("text-anchor", "middle")
      	.text("Hour")
-     	.attr("class", "xAxisLabel")
+     	.attr("class", "xAxisLabel");
 
 	var maxValue = d3.max(hours);
 	rescale(maxValue, 500);
@@ -501,7 +501,7 @@ var generateBarChart = function() {
 };
 
 var getHours = function(data) {
-	hours = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	hours = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	for (i = 0; i < data.length; i++){
 		hours[data[i].Hour] += 1;
 	}
@@ -544,14 +544,4 @@ var animateTimeLine= function(){
 		.ease(d3.easeLinear)
 		.duration(5000)
 		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))]);
-}
-
-
-/*
-"rgb(242,240,247)"
-"rgb(218,218,235)"
-"rgb(188,189,220)"
-"rgb(158,154,200)"
-"rgb(117,107,177)"
-"rgb(84,39,143)"
-*/
+};
