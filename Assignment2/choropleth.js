@@ -192,8 +192,18 @@ function brushEnd() {
 	var brushedSelection = d3.selectAll(".visible.brushed").data()
 
 	if (brushedSelection.length <= 0)
-	{
-		var brushedSelection = d3.selectAll(".visible").data()
+		{
+
+		var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+
+		brushedSelection = d3.selectAll(".un_brushed").filter(function(d){
+			var x0 = brush_selection[0];
+			var x1 = brush_selection[1];
+			var date = new Date(this.__data__.Date);
+
+			return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
+		}).data();
+
 	}
 
 	if (brushedSelection.length > 0 ){
@@ -226,8 +236,24 @@ function brushended() {
 		.transition()
 		.attr("r", 3);
 
-		highlightCircles();
+	highlightCircles();
+
+	boundry = getBarChartBoundry();
+	
+	rects.attr("fill", "rgb(158,154,200)");
+
+	rects.filter(function(d, i) {
+
+		return boundry[1][0] <= i && i < boundry[1][1];
+	
+		})
+		.attr("fill", "rgb(84,39,143)");
+
+	if ( d3.selectAll(".visible.brushed").data().length > 0 ){
 		brushEnd();
+	}
+
+
 }
 
 
@@ -301,6 +327,10 @@ var generateMurders = function(d) {
 			.text(function(d){
 				return "Location: " + d.Loc + "\n Date: " + d.Time + " "+  d.Date;
 			});
+
+	// Call d3.brush and set it to work on this group
+	brushChoroplethGroup = svgChoropleth.append("g")
+							.call(brushChoropleth);
 };
 
 
@@ -419,9 +449,7 @@ var generateChoropleth = function(){
 		})
 		.attr("class", "boroNames");
 
-	// Call d3.brush and set it to work on this group
-	brushChoroplethGroup = svgChoropleth.append("g")
-							.call(brushChoropleth);
+
 };
 
 //---------------- Generate barchart ----------------------
@@ -451,11 +479,6 @@ var generateBarChart = function() {
 		})
 		.attr("width", xScale.bandwidth())
 		.attr("fill", "rgb(84,39,143)");
-
-	tooltipsRects = rects.append("title")
-			.text(function(d){
-			return "Murders: " + hours[d];
-		});
 
 	// Call d3.brush and set it to work on this group
 	brushBarChartGroup = svgBarChart.append("g")
@@ -528,11 +551,6 @@ var updateRects = function(selection) {
 		.attr("height", function(d) {
 			return yScale(0) - yScale(hours[d]);
 		});
-
-	tooltipsRects.text(function(d){
-			return "Murders: " + hours[d];
-		});
-
 };
 
 var animateTimeLine= function(){
