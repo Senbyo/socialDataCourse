@@ -139,6 +139,7 @@ function highlightCircles() {
 	 	
 				}).attr("class", "brushed visible")
 				.transition()
+				.duration(500)
 				.attr("r", 3);
 		}
 	}
@@ -156,11 +157,21 @@ function checkCircle(brush_selection, cx, cy) {
 function highlightTimeLine() {
 
 	if (d3.event.selection != null) {
-		circles.classed("hidden", true);
-		circles.classed("visible", false);
 
 		var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
 		var barBoundry = getBarChartBoundry();
+
+		circles.filter(function(d) {
+
+		var date = new Date(this.__data__.Date);
+		return !(compareHourAndDate(barBoundry, brush_selection, date, d));
+	
+		})
+		.classed("hidden", true)
+		.transition(250)
+		.attr("r", 0);		
+
+
 
 		circles.filter(function(d) {
 
@@ -169,6 +180,7 @@ function highlightTimeLine() {
  	
 			}).classed("visible", true)
 			.transition()
+			.duration(250)
 			.attr("r", 3);
 
 		highlightCircles();
@@ -222,9 +234,20 @@ function brushended() {
 
 	d3.select(this).transition().call(d3.event.target.move, boundry[0]);
 
+
+	//d3.selectAll(".hidden").attr("r", 0);
 	// Filter visible circles
-	circles.classed("hidden", true);
-	circles.classed("visible", false);
+
+	circles.filter(function(d) {
+
+		var date = new Date(this.__data__.Date);
+		return !(compareHourAndDate(boundry, brush_selection, date, d));
+	
+		})
+		.classed("hidden", true)
+		.transition()
+		.duration(500)
+		.attr("r", 0);
 
 	circles.filter(function(d) {
 
@@ -234,8 +257,10 @@ function brushended() {
 		})
 		.classed("visible", true)
 		.transition()
+		.duration(500)
 		.attr("r", 3);
 
+	//d3.selectAll(".hidden").transition().attr("r", 0);
 	highlightCircles();
 
 	boundry = getBarChartBoundry();
@@ -555,11 +580,13 @@ var updateRects = function(selection) {
 
 var animateTimeLine= function(){
 
-		brushTimeLineGroup
-		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2006")),xScaleTimeline(new Date("01/01/2007"))])
-		.transition()
-		.delay(500)
-		.ease(d3.easeLinear)
-		.duration(5000)
-		.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))]);
+	brushTimeLineGroup
+	.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2006")),xScaleTimeline(new Date("01/01/2007"))])
+	.transition()
+	.delay(500)
+	.ease(d3.easeLinear)
+	.duration(5000)
+	.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))])			
+
+
 };
