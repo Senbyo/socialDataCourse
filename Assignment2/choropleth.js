@@ -17,8 +17,8 @@ var brushBarChartGroup;
 var murderDataSet;
 var hours;
 var xDomain = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-var padding = 40;
-var yPadding = 100;
+var padding = 45;
+var yPadding = 105;
 var barchartWidth = 404;
 
 var choroplethWidth = 500;
@@ -236,13 +236,12 @@ function brushended() {
 		return !(compareHourAndDate(boundry, brush_selection, date, d));
 	
 		})
+		.classed("visible", false)
+		.classed("hidden", true)
 		.transition()
 		.duration(500)
 		.attr("r", 0);
-
-	hidden.transition()
-	.attr("class", "un_brushed hidden");
-
+		
 	circles.filter(function(d) {
 
 		var date = new Date(this.__data__.Date);
