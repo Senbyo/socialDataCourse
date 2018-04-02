@@ -120,7 +120,6 @@ var colors = d3.scaleQuantize()
 function highlightCircles() {
 	if (d3.event.selection != null) {
 		var visible =  d3.select("#geo").selectAll(".visible");
-		console.log(visible)
 
 		visible.attr("class", "un_brushed visible")
 
@@ -164,7 +163,7 @@ function highlightTimeLine() {
 		})
 		.classed("hidden", true)
 		.classed("visible", false)
-		.transition(250)
+		.transition()
 		.attr("r", 0);		
 
 
@@ -178,7 +177,6 @@ function highlightTimeLine() {
 			.classed("visible", true)
 			.classed("hidden", false)
 			.transition()
-			.duration(250)
 			.attr("r", 3);
 
 		highlightCircles();
@@ -232,21 +230,18 @@ function brushended() {
 
 	d3.select(this).transition().call(d3.event.target.move, boundry[0]);
 
-
-	//d3.selectAll(".hidden").attr("r", 0);
-	// Filter visible circles
-
-	circles.filter(function(d) {
+	var hidden = circles.filter(function(d) {
 
 		var date = new Date(this.__data__.Date);
 		return !(compareHourAndDate(boundry, brush_selection, date, d));
 	
 		})
-		.classed("hidden", true)
-		.classed("visible", false)
 		.transition()
 		.duration(500)
 		.attr("r", 0);
+
+	hidden.transition()
+	.attr("class", "un_brushed hidden");
 
 	circles.filter(function(d) {
 
@@ -260,7 +255,8 @@ function brushended() {
 		.duration(500)
 		.attr("r", 3);
 
-	//d3.selectAll(".hidden").transition().attr("r", 0);
+
+
 	highlightCircles();
 
 	boundry = getBarChartBoundry();
