@@ -78,12 +78,6 @@ d3.json("nyc.json", function(error, json)  {
 	}
 });
 
-//---------------- date object ----------------------
-// Functions to parse timestamps
-var parseUTCDate = d3.utcParse("%m/%d/%Y");
-var formatUTCDate = d3.timeFormat("%Y-%m-%d");
-var parseDate = d3.timeParse("%Y-%m-%d");
-
 //---------------- scales ----------------------
 var xScaleTimeline = d3.scaleTime()
 						.range([padding, timelineW - padding]);
@@ -126,6 +120,7 @@ var colors = d3.scaleQuantize()
 function highlightCircles() {
 	if (d3.event.selection != null) {
 		var visible =  d3.select("#geo").selectAll(".visible");
+		console.log(visible)
 
 		visible.attr("class", "un_brushed visible")
 
@@ -168,6 +163,7 @@ function highlightTimeLine() {
 	
 		})
 		.classed("hidden", true)
+		.classed("visible", false)
 		.transition(250)
 		.attr("r", 0);		
 
@@ -178,7 +174,9 @@ function highlightTimeLine() {
 			var date = new Date(this.__data__.Date);
 			return compareHourAndDate(barBoundry, brush_selection, date, d);
  	
-			}).classed("visible", true)
+			})
+			.classed("visible", true)
+			.classed("hidden", false)
 			.transition()
 			.duration(250)
 			.attr("r", 3);
@@ -245,6 +243,7 @@ function brushended() {
 	
 		})
 		.classed("hidden", true)
+		.classed("visible", false)
 		.transition()
 		.duration(500)
 		.attr("r", 0);
@@ -256,6 +255,7 @@ function brushended() {
 	
 		})
 		.classed("visible", true)
+		.classed("hidden", false)
 		.transition()
 		.duration(500)
 		.attr("r", 3);
