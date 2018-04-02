@@ -25,8 +25,8 @@ var choroplethWidth = 500;
 var choroplethHeight = 500;
 var w = 550;
 var h = 500;
-var timelineW = 1200;
-var timelineH = 300;
+var timelineW = 1000;
+var timelineH = 200;
 
 //---------------- row converter ----------------------
 var rowConverter = function(d) {
@@ -130,7 +130,7 @@ function highlightCircles() {
 				var cx = d3.select(this).attr("cx");
 				var cy = d3.select(this).attr("cy");
 				return checkCircle(brush_selection, cx, cy);
-	 	
+
 				}).attr("class", "brushed visible")
 				.transition()
 				.duration(500)
@@ -159,12 +159,12 @@ function highlightTimeLine() {
 
 		var date = new Date(this.__data__.Date);
 		return !(compareHourAndDate(barBoundry, brush_selection, date, d));
-	
+
 		})
 		.classed("hidden", true)
 		.classed("visible", false)
 		.transition()
-		.attr("r", 0);		
+		.attr("r", 0);
 
 
 
@@ -172,7 +172,7 @@ function highlightTimeLine() {
 
 			var date = new Date(this.__data__.Date);
 			return compareHourAndDate(barBoundry, brush_selection, date, d);
- 	
+
 			})
 			.classed("visible", true)
 			.classed("hidden", false)
@@ -215,7 +215,7 @@ function brushEnd() {
 	}
 
 	if (brushedSelection.length > 0 ){
-		updateRects(brushedSelection)		
+		updateRects(brushedSelection)
 	} else {
 		updateRects(murderDataSet)
 	}
@@ -234,7 +234,7 @@ function brushended() {
 
 		var date = new Date(this.__data__.Date);
 		return !(compareHourAndDate(boundry, brush_selection, date, d));
-	
+
 		})
 		.transition()
 		.duration(500)
@@ -247,7 +247,7 @@ function brushended() {
 
 		var date = new Date(this.__data__.Date);
 		return compareHourAndDate(boundry, brush_selection, date, d);
-	
+
 		})
 		.classed("visible", true)
 		.classed("hidden", false)
@@ -260,13 +260,13 @@ function brushended() {
 	highlightCircles();
 
 	boundry = getBarChartBoundry();
-	
+
 	rects.attr("fill", "rgb(158,154,200)");
 
 	rects.filter(function(d, i) {
 
 		return boundry[1][0] <= i && i < boundry[1][1];
-	
+
 		})
 		.attr("fill", "rgb(84,39,143)");
 
@@ -306,7 +306,7 @@ function getBarChartBoundry() {
 	// Check end case
 	if (Math.abs(selection[1] - xScale.range()[1]) < xEnd_dif){
 			rounded_selection[1] = xScale.range()[1];
-			hours[1]  = 24;  		
+			hours[1]  = 24;
 		}
 
 	return [rounded_selection, hours];
@@ -369,10 +369,10 @@ var generateTimeline = function() {
 
 	line = d3.line()
 		.x(function(d, i) {
-			return xScaleTimeline(new Date(d.key)); 
+			return xScaleTimeline(new Date(d.key));
 		})
-		.y(function(d) { 
-			return yScaleTimeLine(d.value); 
+		.y(function(d) {
+			return yScaleTimeLine(d.value);
 		});
 
 	var path = pathGroup.append('path')
@@ -454,7 +454,7 @@ var generateChoropleth = function(){
 
 	var names = svgChoropleth.append("g")
 		.attr("id", "names");
-	
+
 	names.selectAll("text")
 		.data(dataset.features)
 		.enter()
@@ -483,7 +483,7 @@ var generateBarChart = function() {
 
 	rectsGrp = svgBarChart.append("g");
 
-	getHours(murderDataSet);	
+	getHours(murderDataSet);
 
 	rects = rectsGrp.selectAll("rects")
 		.data(xDomain)
@@ -582,7 +582,7 @@ var animateTimeLine= function(){
 	.delay(500)
 	.ease(d3.easeLinear)
 	.duration(5000)
-	.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))])			
+	.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2016")),xScaleTimeline(new Date("01/01/2017"))])
 
 
 };
