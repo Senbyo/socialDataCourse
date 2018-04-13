@@ -1,0 +1,27 @@
+* An explanation of the central idea behind your final project (which city, what is the idea? which datasets do you need to explore the idea?, why is it interesting?)
+    * The central idea is to visualise trends in terror attacks across the globe.
+    * Datasets that needs to be explored: https://www.kaggle.com/START-UMD/gtd
+    * It is interesting to see how terrorism is performed in different parts of the world, and how it has evolved through time.
+* A mock up of the visualization that you wish to build. (Anything is fine here. Pen and paper, MS Paint, Inkscape, D3, anything.).
+    * Mock up of
+        * Choropleth of World or Europe
+        * Areachart of type of attack and number of victims
+        * Alluvial chart of location and type of attack
+        * https://archive.nytimes.com/www.nytimes.com/interactive/2012/10/15/us/politics/swing-history.html
+* Make sure you answer the questions
+    * What genre is it? (for Genres, see section 4.3 of the Segel and Heer paper)
+        * Partitioned poster
+        * Annotated Chart
+    * Why is that genre right for telling the story you want to communicate with the data
+        * With the partitioned poster we allow the viewer to starts its exploration in any of the parts of the visualisation. The annotated chart will help the viewer to see how the different parts of the visualisation can be used to narrow down to more easily find interesting parts in the data.
+* An outline on the elements you’ll need to get to your goal.
+    *
+* The implementation plan.
+    * Get basic functionality up and running in all plots.
+    * Build a website that has a good synergy.
+    * Styling a website and plots to give a uniform experience.
+    * Set up the user experience through short paragraphs and tacit tutorials.
+    * Final tweaking for the plots to make the user experience even nicer (transitions, etc.)
+* A walk-through of your exploratory data-analysis, addressing
+    * What is the total size of your data? (MB, number of rows, number of variables, etc)
+    * What are other properties? (What is the date range? Is is it geo-data?, then a quick plot of locations, etc.)
