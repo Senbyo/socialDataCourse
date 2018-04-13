@@ -1,0 +1,31 @@
+For our final project we are going to look at data for terror attacks across the
+ world. More specifically we are going to focus on and visualise any trends in
+ the data. We believe it is interesting to investigate how terrorism is performed
+ in different parts of the worlds and how it has evolved through time.
+Slide: - Datasets that needs to be explored: https://www.kaggle.com/START-UMD/gtd
+
+The visualisations that we wish to create for the project is:
+- a choropleth of the worlds, showing the location of the terror attacks
+- an areachart of the type of attack and the number of casualties
+- an alluvial chart of location and type of attacks \footnote{https://archive.nytimes.com/www.nytimes.com/interactive/2012/10/15/us/politics/swing-history.html}
+
+The visualisations are going to be presented such that the viewer have the
+opportunity to start where it seems to be the most interesting to the viewer.
+Each visualisation will have annotations associated to it, to lead the viewer
+through one way of exploring the visualisation and thereby showing how it can be
+narrowed down to more easily find interesting information from the data. These
+characteristics correspond with the genres partitioned poster and annotated
+chart.
+
+Our implementation plan is as follows. First we are going to get the basic
+functionality in all plots up and running. Then we will build a website with a
+good synergy for the plots. This is followed by some styling of the website and
+the plots to give them a uniform experience. Then we'll focus on improving the
+user experience by making short paragraphs and tacit tutorials. The final part
+will be to tweak the plots to make the user experience even nicer.
+Slides:
+- Get plots running with basic functionality
+- Build website with good synergy
+- Style website and plots to give uniform experience
+- Increase user experience with paragraphs and tacit tutorials
+- Final tweaking of the plots
