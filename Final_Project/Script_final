@@ -1,11 +1,11 @@
-For our final project we are going to look at data for terror attacks across the
- world. More specifically we are going to focus on and visualise any trends in
- the data. We believe it is interesting to investigate how terrorism is performed
- in different parts of the worlds and how it has evolved through time.
+For our final project we are going to look at data for terror attacks across Europe.
+More specifically we are going to focus on and visualise any trends in
+the data. We believe it is interesting to investigate how terrorism is performed
+in different parts of Europe and how it has evolved through time.
 Slide: - Datasets that needs to be explored: https://www.kaggle.com/START-UMD/gtd
 
 The visualisations that we wish to create for the project is:
-- a choropleth of the worlds, showing the location of the terror attacks
+- a choropleth of Europe, showing the location of the terror attacks
 - an areachart of the type of attack and the number of casualties
 - an alluvial chart of location and type of attacks \footnote{https://archive.nytimes.com/www.nytimes.com/interactive/2012/10/15/us/politics/swing-history.html}
 
