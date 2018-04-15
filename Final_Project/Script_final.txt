@@ -1,58 +1,70 @@
+Slide 1
 For our final project we are going to look at data for terror attacks across Europe.
 More specifically we are going to focus on and visualise any trends in
 the data. We believe it is interesting to investigate how terrorism is performed
-in different parts of Europe and how it has evolved through time.
-Slide: - Datasets that needs to be explored: https://www.kaggle.com/START-UMD/gtd
+between the different groups in different parts of Europe and how it has evolved
+through time.
 
-The visualisations that we wish to create for the project is:
-- a choropleth of Europe, showing the location of the terror attacks
-- an areachart of the type of attack and the number of casualties
-- an alluvial chart of location and type of attacks \footnote{https://archive.nytimes.com/www.nytimes.com/interactive/2012/10/15/us/politics/swing-history.html}
+Slide 2
+The dataset we are going to consider tracks terror attacks across the globe. It
+originally contains more 100 variables for each of the 170.000 observations.
 
-The visualisations are going to be presented such that the viewer have the
-opportunity to start where it seems to be the most interesting to the viewer.
-Each visualisation will have annotations associated to it, to lead the viewer
-through one way of exploring the visualisation and thereby showing how it can be
-narrowed down to more easily find interesting information from the data. These
-characteristics correspond with the genres partitioned poster and annotated
-chart.
+Slide 3
+We have a chosen a subset of the data for our exploratory analysis and are only
+going to consider the continent of Europe. This reduces the observations to
+around 22000, furthermore we have decided to explore 15 variables, some of which
+is the location, attack type and number of victims.
 
+Slide 4 (Activity over the years)
+Looking at the number of attacks for each year, we see that there are a few
+spikes. It could be interesting to dive deeper into these, to see if there was
+a spike a group performing the attacks or the method used for the attacks as well.
+
+Slide 5 (Deadliest organizations)
+We have looked at how active the different known organizations have been in
+Europe, and it shows that IRA and ETA accounts for a big portion of the attacks.
+
+Slide 6 (Most affected countries)
+Knowing that IRA and ETA are the most active groups, it is no big surprise that
+the UK and Spain are the most affected countries.
+
+Slide 7 (Most popular attack types)
+Looking at the method for the attacks, it is clear to see that four types are
+the favoured.
+
+Slide 8 (Attacks vs killed)
+If you compare the number of attacks with the number of casualties, it shows
+that there is a general trend of a attacks to killed ratio less than 1 for all
+countries, except for Russia and Ukraine.
+
+Slide 9 (Attack type breakdown)
+If we break down the attack types for each country, we can see that Russia and
+Ukraine have a larger portion of attacks done by armed assault, relative to the
+remaining countries. This could indicate that this type of attack is more
+effective than the others.
+
+Slide 10 (A plot of location)
+We wish to create a few different visualisations for this project. The first is
+a slide show, where each slide in an annotated chart in the form a geographical
+map, that plots organizations, attack type, casualties and so on. This gives a
+drill-down story, that allows the user to get an overview before exploring
+particular details and attacks.
+
+Slide 11 (An explanation of chosen method)
+The second plot is a stacked area chart of the type of attack and the number of
+casualties. Through the use of a Martini Glass Structure combined with a drill
+down story one can dissect the different attack methods to see when they are
+used and how much of the total attacks they account for.
+
+Slide 12 (A plot of the attack types evolving)
+Lastly we will make an annotated alluvial diagram, that shows how
+groups' attack type evolves throughout the years.
+\footnote{https://archive.nytimes.com/www.nytimes.com/interactive/2012/10/15/us/politics/swing-history.html}
+
+Slide 13 (implementation plan)
 Our implementation plan is as follows. First we are going to get the basic
 functionality in all plots up and running. Then we will build a website with a
 good synergy for the plots. This is followed by some styling of the website and
 the plots to give them a uniform experience. Then we'll focus on improving the
 user experience by making short paragraphs and tacit tutorials. The final part
 will be to tweak the plots to make the user experience even nicer.
-Slides:
-- Get plots running with basic functionality
-- Build website with good synergy
-- Style website and plots to give uniform experience
-- Increase user experience with paragraphs and tacit tutorials
-- Final tweaking of the plots
-
-For our exploratory data analysis, we have been looking at a dataset that tracks
-terror attacks in the period of 1970-2016. In this period has about 22000
-attacks been recorded. The data set has 18 variables, some of
-which is location, attack type and victims.
-Slide:
-- Size
-     - 6MB
-     - 21155 records
-     - Date range: 1970 - 2016
-- Variables
-     - Date
-     - Country
-     - Region
-     - City
-     - Latitude
-     - Longitude
-     - AttackType
-     - Victims	Killed
-     - Target Summary
-     - Group
-     - Target_type
-     - Weapon_type
-     - Motive
-     - Year
-     - Month
-     - Day
