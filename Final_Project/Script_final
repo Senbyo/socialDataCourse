@@ -29,3 +29,30 @@ Slides:
 - Style website and plots to give uniform experience
 - Increase user experience with paragraphs and tacit tutorials
 - Final tweaking of the plots
+
+For our exploratory data analysis, we have been looking at a dataset that tracks
+terror attacks in the period of 1970-2016. In this period has about 22000
+attacks been recorded. The data set has 18 variables, some of
+which is location, attack type and victims.
+Slide:
+- Size
+     - 6MB
+     - 21155 records
+     - Date range: 1970 - 2016
+- Variables
+     - Date
+     - Country
+     - Region
+     - City
+     - Latitude
+     - Longitude
+     - AttackType
+     - Victims	Killed
+     - Target Summary
+     - Group
+     - Target_type
+     - Weapon_type
+     - Motive
+     - Year
+     - Month
+     - Day
