@@ -7,7 +7,9 @@
         <meta name="description" content="Description">
         <meta name="author" content="Marc Storm Larsen, Mark Bo Jensen & Georg Satyros">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="/d3/d3.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <script type="text/javascript" src="choropleth.js" defer></script>
         <link rel="stylesheet" href="style.css">
     </head>
     <body data-spy="scroll" data-target=".navbar" data-offset="200">
@@ -25,11 +27,12 @@
         <div class="container section">
             <h1 class="display-3">Data Story</h1>
         </div>
-        <div id="part1" class="container subsection">
+        <div id="choro" class="plot subsection"></div>
+        <!--<div id="part1" class="container subsection">
             <h2>Part 1: <small>Telling Data Stories</small></h2>
         </div>
         <div id="part2" class="container subsection">
             <h2>Part 2: <small>Visualizing Murders over Time</small></h2>
-        </div>
+        </div>-->
     </body>
 </html>
