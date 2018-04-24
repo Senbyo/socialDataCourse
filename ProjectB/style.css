@@ -11,3 +11,7 @@
 .plot {
 	text-align: center;
 }
+
+figcaption {
+	display: block;
+}
