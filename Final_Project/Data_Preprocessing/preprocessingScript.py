@@ -44,6 +44,10 @@ terrorEU = terror[terror['Region'].str.contains("Europe")]
 terrorEU["CurrentCountry"] = "none"
 for i in range(len(terrorEU['Country'])):
     terrorEU.iloc[i,-1] = getCountry([terrorEU.iloc[i,4],terrorEU.iloc[i,5]])
-    
+
+for i in range(len(terrorEU['Country'])):
+    if(terrorEU.iloc[i,-1] == None):
+        terrorEU.iloc[i,-1] = terrorEU.iloc[i,1]
 #make a subset for europe
 terrorEU.to_csv("terror_EU_processed_data_updated.csv",index=False)
+
