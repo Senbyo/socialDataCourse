@@ -4,20 +4,12 @@ import matplotlib.patches as mpatches
 import seaborn as sns
 import numpy as np
 plt.style.use('fivethirtyeight')
-import plotly.offline as py
-py.init_notebook_mode(connected=True)
-import plotly.graph_objs as go
-import plotly.tools as tls
-from matplotlib import animation,rc
-import io
-import base64
-from IPython.display import HTML, display
 import warnings
 warnings.filterwarnings('ignore')
 from scipy.misc import imread
-import codecs
 from subprocess import check_output
 import datetime
+from countryByCoord import getCoord
 
 terror=pd.read_csv('globalterrorismdb_0617dist.csv',encoding='ISO-8859-1')
 terror.rename(columns={'iyear':'Year','imonth':'Month','iday':'Day','country_txt':'Country','region_txt':'Region','attacktype1_txt':'AttackType','target1':'Target','nkill':'Killed','nwound':'Wounded','summary':'Summary','gname':'Group','targtype1_txt':'Target_type','weaptype1_txt':'Weapon_type','motive':'Motive','city':'City','latitude':'Latitude', 'longitude':'Longitude'},inplace=True)
@@ -43,6 +35,10 @@ terror["AttackType"] = terror["AttackType"].replace("Facility/Infrastructure Att
 
 terror = terror.sort_values(['Date'])
 terror.to_csv("terror_all_processed_data.csv",index=False)
+
+
+#change old countries
+
 
 
 #make a subset for europe
