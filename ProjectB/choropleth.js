@@ -192,14 +192,14 @@ var generateChoropleth = function(){
         .attr("class", "legend")
         .attr("transform", "translate(" + legendRightOffset + ",20)");
 
-    var logLegend = d3.legendColor()
+    var legend = d3.legendColor()
         .labelFormat(d3.format(".0f"))
 		.title("Number of attacks")
 		.titleWidth(200)
         .scale(colors);
 
     svgChoropleth.select(".legend")
-        .call(logLegend);
+        .call(legend);
 
 	/*
 	var names = svgChoropleth.append("g")
