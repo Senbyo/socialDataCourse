@@ -2,7 +2,6 @@
 var dataset;
 
 var terrorDataSet;
-//var dataSeries;
 var dataSeriesCountry;
 
 // Dots on map
