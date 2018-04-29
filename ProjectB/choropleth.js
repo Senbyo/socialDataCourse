@@ -15,7 +15,6 @@ var w = 800; // Why do we have two width and two height?
 var h = 800;
 var projection;
 var colors = d3.scaleQuantize()
-				/*.domain([0,69])*/
 				.range(["rgb(188,189,220)",
 						"rgb(158,154,200)",
 						"rgb(128,125,186)",
@@ -60,7 +59,7 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
         console.log(data);
         terrorDataSet = data;
 
-        // Nest the data by country, affectively counting the numbers of attacks in each country.
+        // Nest the data by country, effectively counting the numbers of attacks in each country.
         dataSeriesCountry = d3.nest()
 			.key(function (d) { return d.Country; })
 			.rollup(function(v) { return v.length; })
@@ -70,7 +69,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 
 		// Set domain for colors
 		colors.domain([
-			//d3.min(dataSeriesCountry, function (d) { return d.value }),
 			0,
 			d3.max(dataSeriesCountry, function (d) { return d.value })
 		]);
@@ -129,7 +127,7 @@ d3.json("continent_Europe_subunits.json", function(error, json)  {
 });
 
 //---------------- Generate choropleth ----------------------
-var generateChoropleth = function(tabSelection){
+var generateChoropleth = function(){
 
 	// Create SVG for choropleth
 	svgChoropleth = d3.select("#choro").append("svg").attr("width", choroplethWidth).attr("height", choroplethHeight).attr("id", "choropleth");
