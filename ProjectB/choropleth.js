@@ -2,32 +2,36 @@
 var dataset;
 
 var terrorDataSet;
-var dataSeries;
+//var dataSeries;
+var dataSeriesCountry;
 
 // Dots on map
 var circles;
 
 var svgChoropleth;
-var choroplethWidth = 800;
+var choroplethWidth = 1200;
 var choroplethHeight = 800;
-var w = 800;
+var w = 1200; // Why do we have two width and two height?
 var h = 800;
 var projection;
 var colors = d3.scaleQuantize()
-				.domain([0,69])
+				/*.domain([0,69])*/
 				.range(["rgb(188,189,220)",
 						"rgb(158,154,200)",
 						"rgb(128,125,186)",
 						"rgb(106,81,163)",
 						"rgb(84,39,143)",
 						"rgb(63,0,125)"]);
+// Legend variables
+var legendRightOffset = 1000; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
     dateSplit = d.Date.split("/");
     return {
         Date: d.Date,
-		Country: d.Country,
+        Country: d.CurrentCountry,
+		OldCountry: d.Country,
 		Region: d.Region,
         City: d.City,
 		Latitude: d.Latitude,
@@ -56,14 +60,19 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
         console.log(data);
         terrorDataSet = data;
 
-        // Nest the data by date and how many attacks were performed each day.
-        dataSeries = d3.nest()
-            .key(function(d) { return d.Date; })
-            .rollup(function(v) { return v.length; })
-            .entries(data);
+        // Nest the data by country, affectively counting the numbers of attacks in each country.
+        dataSeriesCountry = d3.nest()
+			.key(function (d) { return d.Country; })
+			.rollup(function(v) { return v.length; })
+			.entries(data);
 
-        console.log(dataSeries)
+        console.log(dataSeriesCountry);
 
+		// Set domain for colors
+		colors.domain([
+			d3.min(dataSeriesCountry, function (d) { return d.value }),
+			d3.max(dataSeriesCountry, function (d) { return d.value })
+		]);
 
     }
 });
@@ -75,14 +84,58 @@ d3.json("continent_Europe_subunits.json", function(error, json)  {
 		console.log(error);
 	} else {
 
+		//var matchFound = false;
+
+		// Merge the number of attacks into the GeoJSON data.
+		for (var i = 0; i < dataSeriesCountry.length; i++) {
+
+			//var matchFound = false;
+
+			// Grab the country name
+			var dataCountry = dataSeriesCountry[i].key;
+
+			// Grab the value and convert from string to float
+			var dataValue = parseFloat(dataSeriesCountry[i].value);
+
+			// Find the corresponding country inside the GeoJSON
+			for (var j = 0; j < json.features.length; j++) {
+
+				var jsonCountry = json.features[j].properties.sovereignt;
+
+				// Check if the country name of the data set is included in the name of the JSON.
+				// For example could the name be "Slovakia" in the data but "Republic of Slovakia" in the JSON.
+				if (jsonCountry.includes(dataCountry)) {
+
+					//matchFound = true;
+
+					/*console.log("JSON: " + jsonCountry);
+                    console.log("DATA: " + dataCountry);
+					console.log("");*/
+					// Copy the data value into the JSON
+					json.features[j].properties.value = dataValue;
+
+				}
+
+				/*if (j == json.features.length && !matchFound) {
+					console.log("NO MATCH FOUND FOR")
+                    console.log("JSON: " + jsonCountry);
+                    console.log("DATA: " + dataCountry);
+                    console.log()
+				}*/
+
+			}
+
+		}
+
 		dataset = json;
 		console.log(dataset);
 		generateChoropleth();
-        generateMurders();
+        //generateMurders();
 	}
 });
 
 //---------------- visualizing murder data ----------------------
+/*
 var tooltipCircles;
 var generateMurders = function(d) {
 
@@ -104,7 +157,7 @@ var generateMurders = function(d) {
             return "Date: "+  d.Date;
         });
 };
-
+*/
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
@@ -128,11 +181,30 @@ var generateChoropleth = function(){
 		.enter()
 		.append("path")
 		.attr("d", path)
-		.style("fill", function(d, i){
-			//console.log(i)
-			//console.log(d.properties.gdp_md_est);
-			return colors(50);
+		.style("fill", function(d){
+
+			var value = d.properties.value;
+
+			if (value) {
+				return colors(value);
+			} else {
+				return "rgb(255,0,0)";
+			}
 		});
+
+	// Create legend
+    svgChoropleth.append("g")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + legendRightOffset + ",20)");
+
+    var logLegend = d3.legendColor()
+        .labelFormat(d3.format(".0f"))
+		.title("Number of attacks")
+		.titleWidth(200)
+        .scale(colors);
+
+    svgChoropleth.select(".legend")
+        .call(logLegend);
 
 	/*
 	var names = svgChoropleth.append("g")
