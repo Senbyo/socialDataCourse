@@ -189,13 +189,16 @@ var generateMurders = function() {
         .enter()
         .append("circle")
         .attr("class", "un_brushed hidden")
-        .attr("cx", function(d){
+        .attr("cx", function(d) {
             return projection([d.Longitude, d.Latitude])[0];
         })
-        .attr("cy", function(d){
+        .attr("cy", function(d) {
             return projection([d.Longitude, d.Latitude])[1];
         })
-        .attr("r", 2);
+        .attr("r", function (d) {
+			return Math.sqrt(d.Killed);
+        });
+
     tooltipCircles = circles.append("title")
         .text(function(d){
             return "Date: "+  d.Date;
