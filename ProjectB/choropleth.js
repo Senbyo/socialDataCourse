@@ -70,7 +70,8 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 
 		// Set domain for colors
 		colors.domain([
-			d3.min(dataSeriesCountry, function (d) { return d.value }),
+			//d3.min(dataSeriesCountry, function (d) { return d.value }),
+			0,
 			d3.max(dataSeriesCountry, function (d) { return d.value })
 		]);
 
@@ -80,16 +81,22 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 // GEO json found @ http://grokbase.com/t/gg/d3-js/1372gq18j9/geojson-maps
 //---------------- loading Europa data ----------------------
 d3.json("continent_Europe_subunits.json", function(error, json)  {
+
 	if (error) {
+
 		console.log(error);
+
 	} else {
 
-		//var matchFound = false;
+		// Set default value to 0.
+        for (var k = 0; k < json.features.length; k++) {
+
+            json.features[k].properties.value = 0;
+
+        }
 
 		// Merge the number of attacks into the GeoJSON data.
 		for (var i = 0; i < dataSeriesCountry.length; i++) {
-
-			//var matchFound = false;
 
 			// Grab the country name
 			var dataCountry = dataSeriesCountry[i].key;
@@ -106,22 +113,10 @@ d3.json("continent_Europe_subunits.json", function(error, json)  {
 				// For example could the name be "Slovakia" in the data but "Republic of Slovakia" in the JSON.
 				if (jsonCountry.includes(dataCountry)) {
 
-					//matchFound = true;
-
-					/*console.log("JSON: " + jsonCountry);
-                    console.log("DATA: " + dataCountry);
-					console.log("");*/
 					// Copy the data value into the JSON
 					json.features[j].properties.value = dataValue;
 
 				}
-
-				/*if (j == json.features.length && !matchFound) {
-					console.log("NO MATCH FOUND FOR")
-                    console.log("JSON: " + jsonCountry);
-                    console.log("DATA: " + dataCountry);
-                    console.log()
-				}*/
 
 			}
 
@@ -185,7 +180,7 @@ var generateChoropleth = function(){
 
 			var value = d.properties.value;
 
-			if (value) {
+			if (value >= 0) {
 				return colors(value);
 			} else {
 				return "rgb(255,0,0)";
