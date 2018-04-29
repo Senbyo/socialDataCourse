@@ -9,9 +9,9 @@ var dataSeriesCountry;
 var circles;
 
 var svgChoropleth;
-var choroplethWidth = 1200;
+var choroplethWidth = 800;
 var choroplethHeight = 800;
-var w = 1200; // Why do we have two width and two height?
+var w = 800; // Why do we have two width and two height?
 var h = 800;
 var projection;
 var colors = d3.scaleQuantize()
@@ -125,37 +125,11 @@ d3.json("continent_Europe_subunits.json", function(error, json)  {
 		dataset = json;
 		console.log(dataset);
 		generateChoropleth();
-        //generateMurders();
 	}
 });
 
-//---------------- visualizing murder data ----------------------
-/*
-var tooltipCircles;
-var generateMurders = function(d) {
-
-    // Adding circles for murders
-    circles = svgChoropleth.selectAll("circle")
-        .data(terrorDataSet)
-        .enter()
-        .append("circle")
-        .attr("class", "un_brushed hidden")
-        .attr("cx", function(d){
-            return projection([d.Longitude, d.Latitude])[0];
-        })
-        .attr("cy", function(d){
-            return projection([d.Longitude, d.Latitude])[1];
-        })
-        .attr("r", 2);
-    tooltipCircles = circles.append("title")
-        .text(function(d){
-            return "Date: "+  d.Date;
-        });
-};
-*/
-
 //---------------- Generate choropleth ----------------------
-var generateChoropleth = function(){
+var generateChoropleth = function(tabSelection){
 
 	// Create SVG for choropleth
 	svgChoropleth = d3.select("#choro").append("svg").attr("width", choroplethWidth).attr("height", choroplethHeight).attr("id", "choropleth");
@@ -190,7 +164,7 @@ var generateChoropleth = function(){
 	// Create legend
     svgChoropleth.append("g")
         .attr("class", "legend")
-        .attr("transform", "translate(" + legendRightOffset + ",20)");
+        .attr("transform", "translate(" + legendRightOffset + ", 20)");
 
     var legend = d3.legendColor()
         .labelFormat(d3.format(".0f"))
@@ -201,23 +175,29 @@ var generateChoropleth = function(){
     svgChoropleth.select(".legend")
         .call(legend);
 
-	/*
-	var names = svgChoropleth.append("g")
-		.attr("id", "names");
+};
 
-	names.selectAll("text")
-		.data(dataset.features)
-		.enter()
-		.append("text")
-		.attr("x", function(d) {
-			return path.centroid(d)[0];
-		})
-		.attr("y", function(d) {
-			return path.centroid(d)[1];
-		})
-		.text(function(d) {
-			return d.properties.admin;
-		})
-		.attr("class", "name");
-	*/
+
+
+//---------------- Visualizing terror attacks ----------------------
+var tooltipCircles;
+var generateMurders = function() {
+
+    // Adding circles for murders
+    circles = svgChoropleth.selectAll("circle")
+        .data(terrorDataSet)
+        .enter()
+        .append("circle")
+        .attr("class", "un_brushed hidden")
+        .attr("cx", function(d){
+            return projection([d.Longitude, d.Latitude])[0];
+        })
+        .attr("cy", function(d){
+            return projection([d.Longitude, d.Latitude])[1];
+        })
+        .attr("r", 2);
+    tooltipCircles = circles.append("title")
+        .text(function(d){
+            return "Date: "+  d.Date;
+        });
 };

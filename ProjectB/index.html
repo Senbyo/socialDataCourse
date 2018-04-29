@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
     <head>
         <title>Project B - Data Story</title>
         <meta charset="utf-8">
@@ -13,7 +14,10 @@
         <script type="text/javascript" src="choropleth.js" defer></script>
         <link rel="stylesheet" href="style.css">
     </head>
+
     <body data-spy="scroll" data-target=".navbar" data-offset="200">
+
+        <!-- Navigation header on the website. -->
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <a class="navbar-brand text-normal" href="index.html">Project Assignment B</a>
             <ul class="navbar-nav">
@@ -25,15 +29,42 @@
                 </li>
             </ul>
         </nav>
+
+        <!-- Headline for the page. -->
         <div class="container section">
             <h1 class="display-3">Data Story</h1>
         </div>
-        <div id="choro" class="plot subsection"></div>
-        <!--<div id="part1" class="container subsection">
-            <h2>Part 1: <small>Telling Data Stories</small></h2>
+
+        <!-- Radio buttons for selecting the view of the choropleth. -->
+        <div class="container section" style="width: 1200px">
+            <ul class="nav nav-tabs">
+                <div id="choroplethRadioButtons" class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-dark active btn-lg">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked>Density
+                    </label>
+                    <label class="btn btn-dark btn-lg">
+                        <input type="radio" name="options" id="option2" autocomplete="off" onclick="generateMurders()">Circles
+                    </label>
+                    <label class="btn btn-dark btn-lg">
+                        <input type="radio" name="options" id="option3" autocomplete="off">Something else
+                    </label>
+                </div>
+            </ul>
         </div>
-        <div id="part2" class="container subsection">
-            <h2>Part 2: <small>Visualizing Murders over Time</small></h2>
-        </div>-->
+
+        <div id="choro" class="plot subsection"></div>
+
+        <script>
+            // Add active class to the current button (highlight it)
+            var header = document.getElementById("choroplethRadioButtons");
+            var buttons = header.getElementsByClassName("btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener("click", function() {
+                    var current = document.getElementsByClassName("active");
+                    current[0].className = current[0].className.replace(" active", "");
+                    this.className += " active";
+                });
+            }
+        </script>
     </body>
 </html>
