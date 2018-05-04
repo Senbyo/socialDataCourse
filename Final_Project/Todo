@@ -13,6 +13,7 @@ Tab 2
     - Potentially be able to filter by organisations. Click/unclick groups in legend.
 - Tooptips on hover. For attacks performed by others, it should contain group name.
 - Timeline with brush (Copy from assignment 2)
+- Explain it is the CONTINENT of Europe.
 Tab 3
 - Plots where the attacks happened
 - Circles are bigger based on number of casualties
