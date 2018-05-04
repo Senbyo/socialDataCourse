@@ -76,7 +76,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 // GEO json found @ http://grokbase.com/t/gg/d3-js/1372gq18j9/geojson-maps
 //---------------- loading Europa data ----------------------
 d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json)  {
-
 	if (error) {
 
 		console.log(error);
