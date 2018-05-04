@@ -8,6 +8,8 @@ var dataSeriesCountry;
 var circles;
 
 var svgChoropleth;
+var choroW = 1200;
+var choroH = 800;
 var w = 1200;
 var h = 800;
 var projection;
@@ -19,7 +21,7 @@ var colors = d3.scaleQuantize()
 						"rgb(84,39,143)",
 						"rgb(63,0,125)"]);
 // Legend variables
-var legendRightOffset = 1000; // Makes sure it doesn't overlap with the choropleth
+var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
@@ -127,7 +129,7 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 var generateChoropleth = function(){
 
 	// Create SVG for choropleth
-	svgChoropleth = d3.select("#choro").append("svg").attr("width", w).attr("height", h).attr("id", "choropleth");
+	svgChoropleth = d3.select("#choro").append("svg").attr("width", choroW).attr("height", choroH).attr("id", "choropleth");
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
@@ -191,12 +193,13 @@ var generateMurders = function() {
             return projection([d.Longitude, d.Latitude])[1];
         })
         .attr("r", function (d) {
-			return Math.sqrt(d.Killed);
+			return 3;
+        	//return Math.sqrt(d.Killed);
         });
 
     tooltipCircles = circles.append("title")
         .text(function(d){
-            return "Casualties: "+  d.Killed;
+            return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
         });
 };
 
