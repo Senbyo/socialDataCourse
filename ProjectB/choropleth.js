@@ -222,16 +222,7 @@ var hideCircles = function() {
 
 };
 
-function hideDensityColours() {
-
-    svgChoropleth.selectAll("path")
-        .style("fill", function(){
-            return "rgb(188,189,220)";
-        });
-
-}
-
-function showDensityColours() {
+var showDensityColours = function () {
 
     svgChoropleth.selectAll("path")
         .data(dataset.features)
@@ -246,14 +237,31 @@ function showDensityColours() {
             }
         });
 
-}
+};
 
 
+var hideDensityColours = function() {
+
+    svgChoropleth.selectAll("path")
+        .style("fill", function(){
+            return "rgb(188,189,220)";
+        });
+
+};
+
+var showLegend = function() {
+
+};
+
+var hideLegend = function() {
+
+};
 
 var drawChoroplethTab1 = function() {
 
 	hideCircles();
 	showDensityColours();
+	showLegend();
 
 };
 
@@ -261,11 +269,19 @@ var drawChoroplethTab1 = function() {
 
 var drawChoroplethTab2 = function() {
 
-	showCircles();
-	hideDensityColours();
+
+
 
 };
 
 var drawChoroplethTab3 = function() {
 
+
+
+};
+
+var drawChoroplethTab4 = function() {
+    showCircles();
+    hideDensityColours();
+    hideLegend();
 };

@@ -1,0 +1,34 @@
+Social ToDo
+
+Choropleth in tabs
+
+Tab 1
+- Choro density plot
+- Legend with number of attacks
+Tab 2
+- Plots where the attacks happened
+- Colour each circle depending on the group that performed the attack
+- Groups that only performed less than X number of attacks, it should be grouped as others.
+- Legend, colours and group names, including others.
+    - Potentially be able to filter by organisations. Click/unclick groups in legend.
+- Tooptips on hover. For attacks performed by others, it should contain group name.
+- Timeline with brush (Copy from assignment 2)
+Tab 3
+- Plots where the attacks happened
+- Circles are bigger based on number of casualties
+- All same colours
+- Colour borderlines in contrast colour
+- Explanation to the right of the choro
+- Make plot zoomable and panable
+- Tooltip with casualties.
+- Colours of circles is depending on the type attack
+- Legend explaining colour and attack type
+- Click on circle will showcase information corresponding to the selected attack to the right
+- Circles should have some opacity gradient, so big circles doesn’t “eat” small circles.
+
+Area chart
+- x-axis: year
+- y-axis: number of attacks
+- Outer layer should be type of attack
+- When clicking on a type of attack, an inner layer should be displayed
+- Inner layer should display the number of attacks for the type of attack that was clicked on, for each group.
