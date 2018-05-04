@@ -8,9 +8,7 @@ var dataSeriesCountry;
 var circles;
 
 var svgChoropleth;
-var choroplethWidth = 800;
-var choroplethHeight = 800;
-var w = 800; // Why do we have two width and two height?
+var w = 1200;
 var h = 800;
 var projection;
 var colors = d3.scaleQuantize()
@@ -130,7 +128,7 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 var generateChoropleth = function(){
 
 	// Create SVG for choropleth
-	svgChoropleth = d3.select("#choro").append("svg").attr("width", choroplethWidth).attr("height", choroplethHeight).attr("id", "choropleth");
+	svgChoropleth = d3.select("#choro").append("svg").attr("width", w).attr("height", h).attr("id", "choropleth");
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
