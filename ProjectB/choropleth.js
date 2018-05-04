@@ -192,13 +192,12 @@ var generateMurders = function() {
             return projection([d.Longitude, d.Latitude])[1];
         })
         .attr("r", function (d) {
-        	return 2;
-			//return Math.sqrt(d.Killed);
+			return Math.sqrt(d.Killed);
         });
 
     tooltipCircles = circles.append("title")
         .text(function(d){
-            return "Date: "+  d.Date;
+            return "Casualties: "+  d.Killed;
         });
 };
 
@@ -256,11 +255,18 @@ var showLegend = function() {
 
 var hideLegend = function() {
 
+    circles = d3.select("#choro").selectAll("circle")
+        .classed("visible", true)
+        .classed("hidden", false);
+
 };
 
 var drawChoroplethTab1 = function() {
 
+	// What to hide.
 	hideCircles();
+
+	// What to show.
 	showDensityColours();
 	showLegend();
 
@@ -270,19 +276,19 @@ var drawChoroplethTab1 = function() {
 
 var drawChoroplethTab2 = function() {
 
+    // What to hide.
 
-
+    // What to show.
 
 };
 
 var drawChoroplethTab3 = function() {
 
-
-
-};
-
-var drawChoroplethTab4 = function() {
-    showCircles();
+    // What to hide.
     hideDensityColours();
     hideLegend();
+
+    // What to show.
+	showCircles();
+
 };
