@@ -32,3 +32,4 @@ Area chart
 - Outer layer should be type of attack
 - When clicking on a type of attack, an inner layer should be displayed
 - Inner layer should display the number of attacks for the type of attack that was clicked on, for each group.
+- Is shown in tab 3.

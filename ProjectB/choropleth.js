@@ -192,7 +192,8 @@ var generateMurders = function() {
             return projection([d.Longitude, d.Latitude])[1];
         })
         .attr("r", function (d) {
-			return Math.sqrt(d.Killed);
+        	return 2;
+			//return Math.sqrt(d.Killed);
         });
 
     tooltipCircles = circles.append("title")
