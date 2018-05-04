@@ -17,7 +17,7 @@ var colors = d3.scaleQuantize()
 
 // GEO json found @ http://grokbase.com/t/gg/d3-js/1372gq18j9/geojson-maps
 //---------------- loading Europa data ----------------------
-d3.json("continent_Europe_subunits.json", function(error, json)  {
+d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json)  {
 	if (error) {
 		console.log(error);
 	} else {
@@ -52,7 +52,7 @@ var generateChoropleth = function(){
 		.append("path")
 		.attr("d", path)
 		.style("fill", function(d, i){
-			console.log(i)
+			//console.log(i)
 			//console.log(d.properties.gdp_md_est);
 			return colors(50);
 		});
