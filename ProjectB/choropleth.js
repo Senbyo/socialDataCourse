@@ -122,6 +122,7 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 		dataset = json;
 		console.log(dataset);
 		generateChoropleth();
+		generateMurders();
 	}
 });
 
@@ -200,4 +201,37 @@ var generateMurders = function() {
         .text(function(d){
             return "Date: "+  d.Date;
         });
+};
+
+
+var showCircles = function() {
+
+    console.log("Showing circles");
+
+    circles = d3.select("#choro").selectAll("circle")
+        .classed("visible", true)
+        .classed("hidden", false);
+
+};
+
+var hideCircles = function() {
+
+	console.log("Hidding circles");
+
+    circles = d3.select("#choro").selectAll("circle")
+        .classed("visible", false)
+        .classed("hidden", true);
+
+};
+
+var drawChoroplethTab1 = function() {
+
+};
+
+var drawChoroplethTab2 = function() {
+
+};
+
+var drawChoroplethTab3 = function() {
+
 };
