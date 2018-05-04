@@ -15,3 +15,15 @@
 figcaption {
 	display: block;
 }
+
+.hidden {
+	opacity: 0;
+}
+
+.visible {
+	opacity: 1;
+}
+
+.btn-btm-pg {
+	margin-bottom: 40px;
+}
