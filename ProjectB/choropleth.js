@@ -224,11 +224,47 @@ var hideCircles = function() {
 
 };
 
+function hideDensityColours() {
+
+    svgChoropleth.selectAll("path")
+        .style("fill", function(){
+            return "rgb(188,189,220)";
+        });
+
+}
+
+function showDensityColours() {
+
+    svgChoropleth.selectAll("path")
+        .data(dataset.features)
+        .style("fill", function(d){
+
+            var value = d.properties.value;
+
+            if (value >= 0) {
+                return colors(value);
+            } else {
+                return "rgb(255,0,0)";
+            }
+        });
+
+}
+
+
+
 var drawChoroplethTab1 = function() {
+
+	hideCircles();
+	showDensityColours();
 
 };
 
+
+
 var drawChoroplethTab2 = function() {
+
+	showCircles();
+	hideDensityColours();
 
 };
 
