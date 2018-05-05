@@ -1,11 +1,11 @@
 //---------------- Global variables ----------------------
-var dataset;
+var datasetArea;
 var dataSeries;
 var svgStackedArea;
 var choroplethWidth = 800;
 var choroplethHeight = 800;
-var w = 800;
-var h = 800;
+var wArea = 1200;
+var hArea = 800;
 var colors = d3.scaleQuantize()
 				.domain([0,69])
 				.range(["rgb(188,189,220)",
@@ -20,7 +20,8 @@ var colors = d3.scaleQuantize()
 var rowConverter = function(d) {
 		return {
 				Date: new Date(d.Date),
-				Country: d.Country,
+				Country: d.CurrentCountry,
+				OldCountry: d.Country,
 				Region: d.Region,
 				City: d.City,
 				Latitude: d.Latitude,
@@ -47,21 +48,21 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 		console.log(error);
 	} else {
 		//console.log(data);
-		dataset = data;
+		datasetArea = data;
 
-		console.log(Object.keys(dataset[0]));
+		console.log(Object.keys(datasetArea[0]));
 
 		// Grab keys from the data set used for stacking
 		dataSeries = d3.nest()
-		  .key(function(d) { return d.Year ; }).entries(dataset)
+		  .key(function(d) { return d.Year ; }).entries(datasetArea);
 
 		  //.rollup(function(v) { return v.length; })
 		  //.entries(data);
 		//var keys = ["Bombing/Explosion", "Hijacking", "Infrastructure Attack", "Armed Assult", "Kidnapping", "Unarmed Assult", "Assassination", "Unknown", "Hostage Taking"];
-		var keys = Object.keys(dataset[0])
-		console.log(dataSeries)
+		var keys = Object.keys(datasetArea[0]);
+		console.log(dataSeries);
 
-		var stack = d3.stack()
+		var stack = d3.stack();
 
 		stack.keys(["Group", "AttackType"]);
 
@@ -69,7 +70,7 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 		//	return d.Year;
 		//});
 		
-		console.log(stack(dataSeries))
+		console.log(stack(dataSeries));
 
 		generateAreaChart();
 
@@ -80,4 +81,4 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
 
-}
+};

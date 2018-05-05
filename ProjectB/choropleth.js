@@ -1,5 +1,5 @@
 //---------------- Global variables ----------------------
-var dataset;
+var datasetChoro;
 
 var terrorDataSet;
 var dataSeriesCountry;
@@ -8,10 +8,10 @@ var dataSeriesCountry;
 var circles;
 
 var svgChoropleth;
-var choroW = 1200;
-var choroH = 800;
-var w = 1200;
-var h = 800;
+var wSvgChoro = 1200;
+var hSvgChoro = 800;
+var wChoro = 1200;
+var hChoro = 800;
 var projection;
 var colors = d3.scaleQuantize()
 				.range(["rgb(188,189,220)",
@@ -20,6 +20,7 @@ var colors = d3.scaleQuantize()
 						"rgb(106,81,163)",
 						"rgb(84,39,143)",
 						"rgb(63,0,125)"]);
+
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
 
@@ -118,8 +119,8 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 
 		}
 
-		dataset = json;
-		console.log(dataset);
+        datasetChoro = json;
+		console.log(datasetChoro);
 		generateChoropleth();
 		generateMurders();
 	}
@@ -129,13 +130,13 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 var generateChoropleth = function(){
 
 	// Create SVG for choropleth
-	svgChoropleth = d3.select("#choro").append("svg").attr("width", choroW).attr("height", choroH).attr("id", "choropleth");
+	svgChoropleth = d3.select("#choro").append("svg").attr("width", wSvgChoro).attr("height", hSvgChoro).attr("id", "choropleth");
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
 						.center([20, 55])
 						.scale(900)
-						.translate([w/2, h/2]);
+						.translate([wChoro/3, hChoro/2]);
 
 	// Create path
 	var path = d3.geoPath()
@@ -143,7 +144,7 @@ var generateChoropleth = function(){
 
 	// Draw path
 	svgChoropleth.selectAll("path")
-		.data(dataset.features)
+		.data(datasetChoro.features)
 		.enter()
 		.append("path")
 		.attr("d", path)
@@ -193,6 +194,7 @@ var generateMurders = function() {
             return projection([d.Longitude, d.Latitude])[1];
         })
         .attr("r", function (d) {
+        	//return 1
         	return Math.sqrt(d.Killed);
         });
 
@@ -226,7 +228,7 @@ var hideCircles = function() {
 var showDensityColours = function () {
 
     svgChoropleth.selectAll("path")
-        .data(dataset.features)
+        .data(datasetChoro.features)
         .style("fill", function(d){
 
             var value = d.properties.value;
@@ -255,10 +257,22 @@ var showLegend = function() {
 };
 
 var hideLegend = function() {
-
+	/*
     circles = d3.select("#choro").selectAll("circle")
         .classed("visible", true)
         .classed("hidden", false);
+	*/
+};
+
+var hideAreaChart = function() {
+
+    document.getElementById('area').hidden = true;
+
+};
+
+var showAreaChart = function() {
+
+    document.getElementById('area').hidden = false;
 
 };
 
@@ -266,14 +280,13 @@ var drawChoroplethTab1 = function() {
 
 	// What to hide.
 	hideCircles();
+    hideAreaChart();
 
 	// What to show.
 	showDensityColours();
 	showLegend();
 
 };
-
-
 
 var drawChoroplethTab2 = function() {
 
@@ -291,5 +304,6 @@ var drawChoroplethTab3 = function() {
 
     // What to show.
 	showCircles();
+	showAreaChart();
 
 };
