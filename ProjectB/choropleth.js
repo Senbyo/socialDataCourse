@@ -147,9 +147,8 @@ var generateChoropleth = function(){
 		.data(datasetChoro.features)
 		.enter()
 		.append("path")
+		.attr("class", "choroPath")
 		.attr("d", path)
-        .style("stroke-opacity","1")
-		.style("stroke","#3f007d")
 		.style("fill", function(d){
 
 			var value = d.properties.value;

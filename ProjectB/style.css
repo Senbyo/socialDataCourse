@@ -27,3 +27,9 @@ figcaption {
 .btn-btm-pg {
 	margin-bottom: 40px;
 }
+
+.choroPath {
+	stroke-opacity: 1;
+	stroke-width: 0.5px;
+	stroke: #3f007d;
+}
