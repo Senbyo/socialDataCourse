@@ -9,8 +9,8 @@ Tab 1
 ------ READY FOR REVIEW ------
 
 Tab 2
-- Plots where the attacks happened
-- Colour each circle depending on the group that performed the attack
+- Plots where the attacks happened - DONE
+- Colour each circle depending on the group that performed the attack - DONE
 - Groups that only performed less than X number of attacks, it should be grouped as others.
 - Legend, colours and group names, including others.
     - Potentially be able to filter by organisations. Click/unclick groups in legend.
@@ -21,7 +21,7 @@ Tab 3
 - Plots where the attacks happened
 - Circles are bigger based on number of casualties
 - All same colours
-- Colour borderlines in contrast colour
+- Colour borderlines in contrast colour - DONE
 - Explanation to the right of the choro
 - Make plot zoomable and panable
 - Tooltip with casualties.

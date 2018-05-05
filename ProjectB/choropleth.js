@@ -1,11 +1,17 @@
 //---------------- Global variables ----------------------
-var datasetChoro;
+var jsonChoro;
 
 var terrorDataSet;
 var dataSeriesCountry;
 
+
+var dataSeriesGroup;
+
 // Dots on map
 var circles;
+
+var topGroups = [];
+var keysGroup = ["Others"];
 
 var svgChoropleth;
 var wSvgChoro = 1200;
@@ -13,13 +19,37 @@ var hSvgChoro = 800;
 var wChoro = 1200;
 var hChoro = 800;
 var projection;
-var colors = d3.scaleQuantize()
+var colorsCountry = d3.scaleQuantize()
 				.range(["#bcbddc",
 						"#9e9ac8",
 						"#807dba",
 						"#6a51a3",
 						"#54278f",
 						"#3f007d"]);
+
+var colorsGroup11 = d3.scaleOrdinal()
+							.range(['#67001f',
+									'#b2182b',
+									'#d6604d',
+									'#f4a582',
+									'#fddbc7',
+									'#f7f7f7',
+									'#d1e5f0',
+									'#92c5de',
+									'#4393c3',
+									'#2166ac',
+									'#053061']);
+
+var colorsGroup9 = d3.scaleOrdinal()
+							.range(['#b2182b',
+									'#d6604d',
+									'#f4a582',
+									'#fddbc7',
+									'#f7f7f7',
+									'#d1e5f0',
+									'#92c5de',
+									'#4393c3',
+									'#2166ac']);
 
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
@@ -56,8 +86,9 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
     if (error) {
         console.log(error);
     } else {
-        console.log(data);
-        terrorDataSet = data;
+        //console.log(data);
+
+		terrorDataSet = data;
 
         // Nest the data by country, effectively counting the numbers of attacks in each country.
         dataSeriesCountry = d3.nest()
@@ -65,15 +96,46 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 			.rollup(function(v) { return v.length; })
 			.entries(data);
 
-        console.log(dataSeriesCountry);
+        //console.log(dataSeriesCountry);
 
-		// Set domain for colors
-		colors.domain([
+		// Set domain for colors for countries
+		colorsCountry.domain([
 			0,
 			d3.max(dataSeriesCountry, function (d) { return d.value })
 		]);
 
+
+        dataSeriesGroup = d3.nest()
+			.key(function (d) {
+				return d.Group
+            })
+            .rollup(function(v) { return v.length; })
+			.entries(data)
+			.sort(function(a, b) {
+				return d3.descending(a.value, b.value)
+			});
+
+
+        // Extract the groups top x groups that have performed most attacks.
+		var i = 0;
+        while (topGroups.length < 10) {
+
+            if (dataSeriesGroup[i].key !== "Unknown") {
+                topGroups.push(dataSeriesGroup[i]);
+			}
+
+            i++;
+		}
+
+		// Extract the keys
+        for (var j = 0; j < topGroups.length; j++) {
+            keysGroup.push(topGroups[j].key);
+        }
+
+        colorsGroup11.domain(keysGroup);
+
     }
+
 });
 
 // GEO json found @ http://grokbase.com/t/gg/d3-js/1372gq18j9/geojson-maps
@@ -119,8 +181,8 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 
 		}
 
-        datasetChoro = json;
-		console.log(datasetChoro);
+        jsonChoro = json;
+
 		generateChoropleth();
 		generateMurders();
 	}
@@ -144,7 +206,7 @@ var generateChoropleth = function(){
 
 	// Draw path
 	svgChoropleth.selectAll("path")
-		.data(datasetChoro.features)
+		.data(jsonChoro.features)
 		.enter()
 		.append("path")
 		.attr("class", "choroPath")
@@ -154,7 +216,7 @@ var generateChoropleth = function(){
 			var value = d.properties.value;
 
 			if (value >= 0) {
-				return colors(value);
+				return colorsCountry(value);
 			} else {
 				return "#ff0000";
 			}
@@ -170,7 +232,7 @@ var generateChoropleth = function(){
         .labelFormat(d3.format(".0f"))
 		.title("Number of attacks")
 		.titleWidth(200)
-        .scale(colors);
+        .scale(colorsCountry);
 
     svgChoropleth.select(".legend")
         .call(legend);
@@ -208,11 +270,34 @@ var generateMurders = function() {
 };
 
 
-var showCircles = function(r) {
+var colorCirclesGroup = function() {
+	circles.style("fill", function(d){
+
+        var groupName = d.Group;
+
+        if (keysGroup.includes(groupName)) {
+            return colorsGroup11(groupName);
+        } else {
+            return "#808080";
+        }
+    });
+};
+
+var colorCirclesAttackType = function() {
+    circles.style("fill", "black");
+};
+
+var showCircles = function(r, b) {
 
     circles.classed("visible", true)
 		.classed("hidden", false)
 		.attr("r", r);
+
+    if (b) {
+        colorCirclesGroup();
+	} else {
+        colorCirclesAttackType();
+	}
 
 };
 
@@ -224,14 +309,13 @@ var hideCircles = function() {
 
 var showDensityColours = function () {
 
-    svgChoropleth.selectAll("path")
-        .data(datasetChoro.features)
+    svgChoropleth.selectAll(".choroPath")
         .style("fill", function(d){
 
             var value = d.properties.value;
 
             if (value >= 0) {
-                return colors(value);
+                return colorsCountry(value);
             } else {
                 return "#ff0000";
             }
@@ -242,7 +326,7 @@ var showDensityColours = function () {
 
 var hideDensityColours = function() {
 
-    svgChoropleth.selectAll("path")
+    svgChoropleth.selectAll(".choroPath")
         .style("fill", function(){
             return "#bcbddc";
         });
@@ -295,7 +379,7 @@ var drawChoroplethTab2 = function() {
 	//hideLegend();
 
     // What to show.
-    showCircles(2);
+    showCircles(2, true);
 
 };
 
@@ -308,7 +392,7 @@ var drawChoroplethTab3 = function() {
     // What to show.
 	showCircles(function (d) {
         return Math.sqrt(d.Killed);
-    });
+    }, false);
 	showAreaChart();
 
 };
