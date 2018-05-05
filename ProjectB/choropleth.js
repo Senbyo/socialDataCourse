@@ -161,6 +161,7 @@ var generateChoropleth = function(){
 
 	// Create legend
     svgChoropleth.append("g")
+		.attr("id", "legendTop")
         .attr("class", "legend")
         .attr("transform", "translate(" + legendRightOffset + ", 20)");
 
@@ -194,34 +195,29 @@ var generateMurders = function() {
             return projection([d.Longitude, d.Latitude])[1];
         })
         .attr("r", function (d) {
-        	//return 1
         	return Math.sqrt(d.Killed);
         });
 
+    /*
     tooltipCircles = circles.append("title")
         .text(function(d){
             return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
         });
+	*/
 };
 
 
-var showCircles = function() {
+var showCircles = function(r) {
 
-    console.log("Showing circles");
-
-    circles = d3.select("#choro").selectAll("circle")
-        .classed("visible", true)
-        .classed("hidden", false);
+    circles.classed("visible", true)
+		.classed("hidden", false)
+		.attr("r", r);
 
 };
 
 var hideCircles = function() {
 
-	console.log("Hidding circles");
-
-    circles = d3.select("#choro").selectAll("circle")
-        .classed("visible", false)
-        .classed("hidden", true);
+    circles.classed("visible", false).classed("hidden", true);
 
 };
 
@@ -254,14 +250,16 @@ var hideDensityColours = function() {
 
 var showLegend = function() {
 
+    d3.select("#legendTop").attr("visibility", "visible");
+
+
 };
 
 var hideLegend = function() {
-	/*
-    circles = d3.select("#choro").selectAll("circle")
-        .classed("visible", true)
-        .classed("hidden", false);
-	*/
+
+    d3.select("#legendTop").attr("visibility", "hidden");
+
+
 };
 
 var hideAreaChart = function() {
@@ -284,15 +282,19 @@ var drawChoroplethTab1 = function() {
 
 	// What to show.
 	showDensityColours();
-	showLegend();
+	//showLegend();
 
 };
 
 var drawChoroplethTab2 = function() {
 
     // What to hide.
+	hideDensityColours();
+	hideAreaChart();
+	//hideLegend();
 
     // What to show.
+    showCircles(2);
 
 };
 
@@ -300,10 +302,12 @@ var drawChoroplethTab3 = function() {
 
     // What to hide.
     hideDensityColours();
-    hideLegend();
+    //hideLegend();
 
     // What to show.
-	showCircles();
+	showCircles(function (d) {
+        return Math.sqrt(d.Killed);
+    });
 	showAreaChart();
 
 };

@@ -5,6 +5,9 @@ Choropleth in tabs
 Tab 1
 - Choro density plot
 - Legend with number of attacks
+
+------ READY FOR REVIEW ------
+
 Tab 2
 - Plots where the attacks happened
 - Colour each circle depending on the group that performed the attack
