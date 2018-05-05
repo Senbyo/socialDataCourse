@@ -14,12 +14,12 @@ var wChoro = 1200;
 var hChoro = 800;
 var projection;
 var colors = d3.scaleQuantize()
-				.range(["rgb(188,189,220)",
-						"rgb(158,154,200)",
-						"rgb(128,125,186)",
-						"rgb(106,81,163)",
-						"rgb(84,39,143)",
-						"rgb(63,0,125)"]);
+				.range(["#bcbddc",
+						"#9e9ac8",
+						"#807dba",
+						"#6a51a3",
+						"#54278f",
+						"#3f007d"]);
 
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
@@ -148,6 +148,8 @@ var generateChoropleth = function(){
 		.enter()
 		.append("path")
 		.attr("d", path)
+        .style("stroke-opacity","1")
+		.style("stroke","#3f007d")
 		.style("fill", function(d){
 
 			var value = d.properties.value;
@@ -155,7 +157,7 @@ var generateChoropleth = function(){
 			if (value >= 0) {
 				return colors(value);
 			} else {
-				return "rgb(255,0,0)";
+				return "#ff0000";
 			}
 		});
 
@@ -232,7 +234,7 @@ var showDensityColours = function () {
             if (value >= 0) {
                 return colors(value);
             } else {
-                return "rgb(255,0,0)";
+                return "#ff0000";
             }
         });
 
@@ -243,7 +245,7 @@ var hideDensityColours = function() {
 
     svgChoropleth.selectAll("path")
         .style("fill", function(){
-            return "rgb(188,189,220)";
+            return "#bcbddc";
         });
 
 };
