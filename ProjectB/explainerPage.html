@@ -35,27 +35,85 @@
             <h2>Motivation</h2>
             <!--What is your dataset?
 
-            Why did you choose this/these particular dataset(s)?
+            Why did you choose this/these particular dataset(s)
+          -->
 
-            What was your goal for the end user’s experience?-->
-
-            <p>The dataset that was used for this assignment tracks terror across Europe. This dataset was derived from
-                the dataset found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>, that tracks
-                terror attacks across the globe. This dataset was chosen, as it has around 22,000 records for attacks in
-                Europe in the period 1970-2016.
-
-
-
-                The dataset that was considered for this assignment tracks terror attacks across the globe. The dataset
-                used in this project is a subset of the dataset that is found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>
-                . The subset is the data that is regarding terror attacks in Europe and this dataset was chosen as it
-                covers terror attacks from the period 1970-2016.</p>
+            <p>The dataset that was used for this assignment tracks the spread of terrorism across Europe. It was derived from
+                a dataset on global terrorism found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>, that tracks
+                terror attacks across the globe. <\br>
+                Our Terrorism in Europe dataset has approximately 22000 records (terrorism attacks), spanning 46 years. It contains every
+                attack carried out and formally recorded, regardless of success, from the 1970s to 2016. To provide more context to the reader,
+                1970s were the decade that started with Assad (the current ruling regime in Syria) taking power through a coup(1970), the US withdrawal from
+                the unpopular Vietnam war(1974) and Saddam Hussein beginning to rise in power. It ended with the Iranian Revolution(1979) that turned Iran from a
+                pro-Western progressive counrty to a theocracy. Even more noteworthy was the so called "Skyjack Sunday"(1970), where Palestinian terrorists hijacked
+                four airliners and took
+                over 300 people on board as hostage. The hostages were later released, but the planes were blown up. This event marked
+                beginning of modern rebellious fighting and terrorism as we know it.</br>
+                As such, the 70s can be considered the trigger-point for many of the current woes that plague the west and a natural starting point to a
+                narrative about the rise of modern terrorism.
+            </p>
+              <!--What was your goal for the end user’s experience?-->
+              <!--mention martini?-->
+            <p>
+              Our goal for the end users' experience would be to provide a "Martini glass" structure, where we start on a rigid, author-driven path which gives
+              readers the time they need to familiarize themselves with our notation, colours and tools (choropleths/graphs). Then, we gradually pass more and more
+              control to the user, ending up allowing them to take full control over the process and individually explore our dataset.
+            </p>
         </div>
         <div class="container subsection">
-            <h2>Basic stats</h2>
+            <h2> Dataset and pre-processing </h2>
+              <p>
+              <ul>
+                <li>Samples: 21.111</li>
+                <li>Features: 19</li>
+                <li>Notable features: </li>
+                      <ol>
+                        <li>'Date': Date of attack</li>
+                        <li>'Country': Country the attack took place in</li>
+                        <li>'Latitude'</li>
+                        <li>'Longitude'</li>
+                        <li>'AttackType': Bombing/Explosion, Assassination, Hijacking etc.</li>
+                        <li>'Victims': Human casualties, injured and killed</li>
+                        <li>'Group': Terrorist group responsible</li>
+                        <li>'Target_type': Government, Airport, Citizens etc. </li>
+                        <li>'Weapon_type': Explosives, Firearms etc.</li>
+                      </ol>
+                <li>Interesting metrics: </li>
+                      <ul>
+                        <li>75% of the attacks in Europe happened in the Western part</li>
+                        <li>In fact, longitude negatively correlates with attack frequency.</li>
+                        <li>With a median of 0 and an average of 1, most attacks have no victims.</li>
+                        <li>"Police", "Office" and "Catholic" are the three most frequent words in the "Targets" feature, in order</li>
+                        <li>"Army", "Irish" and "Republican" are the most used words when reporting terrorist organization names</li>
+                        <li>Businesses(51%) and Citizens(18%) are the two most frequent targets, followed by Police(14%).</li>
+                        <li>Only 20% of the time is the motive behind the attack known.</li>
+                        <li>January seems to be the most frequent month for terrorist attacks.</li>
+                      </ul>
+             </ul>
+            </p>
+
             <!--Write about your choices in data cleaning and preprocessing
 
             Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.-->
+            <p>
+              <figure align="middle">
+                  <img src="/images/terror_per_year.png" alt="Terrorism in Europe over the years" width="60%" >
+                  <figcaption>Figure 1: <i>An illustration of the evolution of terrorism in Europe since the 1970s. </i></figcaption>
+              </figure>
+
+              Figure 1 illustrates the number of terror attacks over the years in Europe. The first spike in activity, in 1979, is mostly caused mostly by the activity of the IRA (Irish Republican Army) and ETA (Basque Fatherland and Freedom), that operated mostly within Spain(the Basque regions).
+              The second spike in activity, in 1992, was caused by those same groups along with Neo-Nazi extremists and a high number of unkown assailants. The final spike in activity, in 2014, was caused mostly by unknown assailants and two Ukrainian groups, the Donetsk and Luhansk People's Republic (DPR and LPR). For reference,
+              ISIS and ISIS-inspired militants have carried out a grand total of 47 attacks since it formed (1999). DPR alone carried out 330 attacks in 2014 alone.
+              Clearly, all organizations take human lives and have an immense negative impact on society. But the impact of the most deadly of them, though, is ridiculously disproportionate to the media coverage they receive.
+              On the other hand, organizations that receive the most coverage (ISIS) actually have a presence that pales in comparison to the five most active organizations, even when taking into account only data from 2014 and later (44 ISIS and ISIS-inspired attacks as opposed to 613 attacks from DPR-only).
+              And when taking into account the impact of organizations since the 1970s, DPR is not even in the top-3 as can be seen in Figure 2.
+
+              <figure align="middle">
+                  <img src="/images/terrorOrganizationsTotalAttacksPlot.png" alt="Most active groups" width="60%" >
+                  <figcaption>Figure 2: <i>An illustration of the terrorist groups most active in Europe since the 1970s. </i></figcaption>
+              </figure>
+            </p>
+
 
             <figure>
                 <img src="/images/countryKilledWounded.png" alt="Killed vs. Wounded" width="60%" >
