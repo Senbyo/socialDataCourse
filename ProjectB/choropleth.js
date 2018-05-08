@@ -56,7 +56,7 @@ var colorsGroup9 = d3.scaleOrdinal()
 
 // Timeline variables
 var wSvgTimeLine = 1200;
-var hSvgTimeLine = 200;
+var hSvgTimeLine = 300;
 var padding = 45;
 
 var xScaleTimeline = d3.scaleTime()
@@ -73,13 +73,13 @@ var line;
 var brushTimeLineGroup;
 
 // Legend variables
-var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
+var legendRightOffset = 820; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
     //dateSplit = d.Date.split("/");
     return {
-        Date: d.Date,
+        Date: d.DateStupidJS,
         Country: d.CurrentCountry,
 		OldCountry: d.Country,
 		Region: d.Region,
@@ -102,7 +102,7 @@ var rowConverter = function(d) {
 };
 
 //---------------- Load terror data ----------------------
-d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
+d3.csv("data/terror_EU_processed_data_stupidDate.csv", rowConverter, function(error, data){
 
     if (error) {
         console.log(error);
@@ -152,62 +152,65 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 
         colorsGroup11.domain(keysGroup);
 
+        loadJson();
+
     }
 
 });
 
 // GEO json found @ http://grokbase.com/t/gg/d3-js/1372gq18j9/geojson-maps
 //---------------- loading Europa data ----------------------
-d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json)  {
-	if (error) {
 
-		console.log(error);
+function loadJson() {
+    d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json)  {
+        if (error) {
 
-	} else {
+            console.log(error);
 
-		// Set default value to 0.
-        for (var k = 0; k < json.features.length; k++) {
+        } else {
 
-            json.features[k].properties.value = 0;
+            // Set default value to 0.
+            for (var k = 0; k < json.features.length; k++) {
 
+                json.features[k].properties.value = 0;
+
+            }
+
+            // Merge the number of attacks into the GeoJSON data.
+            for (var i = 0; i < dataSeriesCountry.length; i++) {
+
+                // Grab the country name
+                var dataCountry = dataSeriesCountry[i].key;
+
+                // Grab the value and convert from string to float
+                var dataValue = parseFloat(dataSeriesCountry[i].value);
+
+                // Find the corresponding country inside the GeoJSON
+                for (var j = 0; j < json.features.length; j++) {
+
+                    var jsonCountry = json.features[j].properties.sovereignt;
+
+                    // Check if the country name of the data set is included in the name of the JSON.
+                    // For example could the name be "Slovakia" in the data but "Republic of Slovakia" in the JSON.
+                    if (jsonCountry.includes(dataCountry)) {
+
+                        // Copy the data value into the JSON
+                        json.features[j].properties.value = dataValue;
+
+                    }
+
+                }
+
+            }
+
+            jsonChoro = json;
+
+            generateChoropleth();
+            generateMurders();
+            generateTimeline()
         }
-
-		// Merge the number of attacks into the GeoJSON data.
-		for (var i = 0; i < dataSeriesCountry.length; i++) {
-
-			// Grab the country name
-			var dataCountry = dataSeriesCountry[i].key;
-
-			// Grab the value and convert from string to float
-			var dataValue = parseFloat(dataSeriesCountry[i].value);
-
-			// Find the corresponding country inside the GeoJSON
-			for (var j = 0; j < json.features.length; j++) {
-
-				var jsonCountry = json.features[j].properties.sovereignt;
-
-				// Check if the country name of the data set is included in the name of the JSON.
-				// For example could the name be "Slovakia" in the data but "Republic of Slovakia" in the JSON.
-				if (jsonCountry.includes(dataCountry)) {
-
-					// Copy the data value into the JSON
-					json.features[j].properties.value = dataValue;
-
-				}
-
-			}
-
-		}
-
-        jsonChoro = json;
-
-		generateChoropleth();
-		generateMurders();
-		generateTimeline()
-	}
-});
-
-
+    });
+}
 
 //---------------- Legends Functionality ----------------------
 
@@ -276,7 +279,6 @@ var generateChoropleth = function(){
 
 function highlightTimeLine() {
 
-	/*
     if (d3.event.selection != null) {
 
         var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
@@ -284,30 +286,36 @@ function highlightTimeLine() {
         circles.filter(function(d) {
 
             var date = new Date(this.__data__.Date);
-            return !(compareHourAndDate(barBoundry, brush_selection, date, d));
+            return !(compareHourAndDate(brush_selection, date, d));
 
         })
             .classed("hidden", true)
-            .classed("visible", false)
-            .transition()
-            .attr("r", 0);
-
-
+            .classed("visible", false);
+            //.transition()
+            //.attr("r", 0);
 
         circles.filter(function(d) {
 
             var date = new Date(this.__data__.Date);
-            return compareHourAndDate(barBoundry, brush_selection, date, d);
+            return compareHourAndDate(brush_selection, date, d);
 
         })
             .classed("visible", true)
-            .classed("hidden", false)
-            .transition()
-            .attr("r", 3);
+            .classed("hidden", false);
+            //.transition()
+            //.attr("r", 3);
 
         //highlightCircles();
     }
-    */
+
+}
+
+function compareHourAndDate(timeline_selection, date, d){
+    var x0 = timeline_selection[0];
+    var x1 = timeline_selection[1];
+
+    return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
+
 }
 
 // Consider to recal
@@ -339,6 +347,7 @@ function brushEnd() {
         updateRects(murderDataSet)
     }
     */
+
 }
 
 var brushTimeline = d3.brushX()
@@ -356,8 +365,8 @@ var generateTimeline = function() {
         .entries(terrorDataSet);
 
     xScaleTimeline.domain([
-        new Date("01/01/1970"),
-        new Date("12/31/2016")
+        d3.min(dataSeries, function(d) { return new Date(d.key) }),
+        d3.max(dataSeries, function(d) { return new Date(d.key) })
     ]);
 
     yScaleTimeLine.domain([
@@ -368,12 +377,7 @@ var generateTimeline = function() {
     var pathGroup = svgTimeLine.append('g');
 
     var line = d3.line()
-        .x(function(d) {
-            dateSplit = d.key.split("/");
-
-            newDate = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
-
-        	return xScaleTimeline(new Date(newDate)) })
+		.x(function (d) { return xScaleTimeline(new Date(d.key)); })
         .y(function(d) { return yScaleTimeLine(d.value); });
 
     pathGroup.append('path')
@@ -417,7 +421,7 @@ var generateTimeline = function() {
         .attr("class", "xAxisLabel")
 
 
-    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
+    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2014")), xScaleTimeline(new Date("01/01/2016"))]);
 
 
 };

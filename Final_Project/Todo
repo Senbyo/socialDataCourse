@@ -14,14 +14,13 @@ Tab 2
 - Groups that only performed less than X number of attacks, it should be grouped as others. - DONE
 - Legend, colours and group names, including others. - DONE
     - Potentially be able to filter by organisations. Click/unclick groups in legend.
-- Tooptips on hover. For attacks performed by others, it should contain group name.
+- Tooltips on hover. For attacks performed by others, it should contain group name.
 - Timeline - DONE
     - Make it work with brush (Copy from assignment 2)
 - Explain it is the CONTINENT of Europe.
 Tab 3
 - Plots where the attacks happened
-- Circles are bigger based on number of casualties
-- All same colours
+- Circles are bigger based on number of casualties - DONE
 - Colour borderlines in contrast colour - DONE
 - Explanation to the right of the choro
 - Make plot zoomable and panable
@@ -29,12 +28,12 @@ Tab 3
 - Colours of circles is depending on the type attack
 - Legend explaining colour and attack type
 - Click on circle will showcase information corresponding to the selected attack to the right
-- Circles should have some opacity gradient, so big circles doesn’t “eat” small circles.
+- Circles should have some opacity gradient, so big circles doesn’t “eat” small circles. - DONE
 
 Area chart
-- x-axis: year
-- y-axis: number of attacks
-- Outer layer should be type of attack
+- x-axis: year - DONE
+- y-axis: number of attacks - DONE
+- Outer layer should be type of attack - DONE
 - When clicking on a type of attack, an inner layer should be displayed
 - Inner layer should display the number of attacks for the type of attack that was clicked on, for each group.
-- Is shown in tab 3.
+- Is shown in tab 3. - DONE
