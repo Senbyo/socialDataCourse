@@ -14,6 +14,8 @@ var topGroups = [];
 var keysGroup = ["Others"];
 
 var svgChoropleth;
+var svgTimeLine;
+
 var wSvgChoro = 1200;
 var hSvgChoro = 800;
 var wChoro = 1200;
@@ -28,7 +30,8 @@ var colorsCountry = d3.scaleQuantize()
 						"#3f007d"]);
 
 var colorsGroup11 = d3.scaleOrdinal()
-							.range(['#67001f',
+							.range(['#808080',
+									'#67001f',
 									'#b2182b',
 									'#d6604d',
 									'#f4a582',
@@ -51,12 +54,30 @@ var colorsGroup9 = d3.scaleOrdinal()
 									'#4393c3',
 									'#2166ac']);
 
+// Timeline variables
+var wSvgTimeLine = 1200;
+var hSvgTimeLine = 200;
+var padding = 45;
+
+var xScaleTimeline = d3.scaleTime()
+    .range([padding, wSvgTimeLine - padding]);
+
+var yScaleTimeLine = d3.scaleLinear()
+    .range([hSvgTimeLine - padding, padding]);
+
+var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
+var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
+var line;
+
+// Brush variables
+var brushTimeLineGroup;
+
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
-    dateSplit = d.Date.split("/");
+    //dateSplit = d.Date.split("/");
     return {
         Date: d.Date,
         Country: d.CurrentCountry,
@@ -86,7 +107,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
     if (error) {
         console.log(error);
     } else {
-        //console.log(data);
 
 		terrorDataSet = data;
 
@@ -95,8 +115,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 			.key(function (d) { return d.Country; })
 			.rollup(function(v) { return v.length; })
 			.entries(data);
-
-        //console.log(dataSeriesCountry);
 
 		// Set domain for colors for countries
 		colorsCountry.domain([
@@ -118,7 +136,7 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 
         // Extract the groups top x groups that have performed most attacks.
 		var i = 0;
-        while (topGroups.length < 10) {
+        while (topGroups.length < 11) {
 
             if (dataSeriesGroup[i].key !== "Unknown") {
                 topGroups.push(dataSeriesGroup[i]);
@@ -185,8 +203,37 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 
 		generateChoropleth();
 		generateMurders();
+		generateTimeline()
 	}
 });
+
+
+
+//---------------- Legends Functionality ----------------------
+
+var legendDensityTop = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Number of attacks")
+    .titleWidth(200)
+    .scale(colorsCountry);
+
+
+var legendOrganisationTop = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Organisation")
+    .titleWidth(200)
+    .scale(colorsGroup11);
+
+function drawLegendTop(legendToDraw) {
+	// Create legend
+    svgChoropleth.append("g")
+        .attr("id", "legendTop")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + legendRightOffset + ", 20)");
+
+    svgChoropleth.select(".legend")
+        .call(legendToDraw);
+}
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
@@ -222,23 +269,158 @@ var generateChoropleth = function(){
 			}
 		});
 
-	// Create legend
-    svgChoropleth.append("g")
-		.attr("id", "legendTop")
-        .attr("class", "legend")
-        .attr("transform", "translate(" + legendRightOffset + ", 20)");
-
-    var legend = d3.legendColor()
-        .labelFormat(d3.format(".0f"))
-		.title("Number of attacks")
-		.titleWidth(200)
-        .scale(colorsCountry);
-
-    svgChoropleth.select(".legend")
-        .call(legend);
+    drawLegendTop(legendDensityTop);
 
 };
 
+
+function highlightTimeLine() {
+
+	/*
+    if (d3.event.selection != null) {
+
+        var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+
+        circles.filter(function(d) {
+
+            var date = new Date(this.__data__.Date);
+            return !(compareHourAndDate(barBoundry, brush_selection, date, d));
+
+        })
+            .classed("hidden", true)
+            .classed("visible", false)
+            .transition()
+            .attr("r", 0);
+
+
+
+        circles.filter(function(d) {
+
+            var date = new Date(this.__data__.Date);
+            return compareHourAndDate(barBoundry, brush_selection, date, d);
+
+        })
+            .classed("visible", true)
+            .classed("hidden", false)
+            .transition()
+            .attr("r", 3);
+
+        //highlightCircles();
+    }
+    */
+}
+
+// Consider to recal
+function brushEnd() {
+    // Return if nothing is selected
+    if (!d3.event.selection) return;
+
+    var brushedSelection = d3.selectAll(".visible.brushed").data()
+
+    if (brushedSelection.length <= 0)
+    {
+
+        var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+
+        brushedSelection = d3.selectAll(".un_brushed").filter(function(d){
+            var x0 = brush_selection[0];
+            var x1 = brush_selection[1];
+            var date = new Date(this.__data__.Date);
+
+            return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
+        }).data();
+
+    }
+
+    /*
+    if (brushedSelection.length > 0 ){
+        updateRects(brushedSelection)
+    } else {
+        updateRects(murderDataSet)
+    }
+    */
+}
+
+var brushTimeline = d3.brushX()
+    .extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
+    .on("brush", highlightTimeLine)
+    .on("end", brushEnd);
+
+//---------------- Generate timeline ------------------------
+var generateTimeline = function() {
+    svgTimeLine = d3.select('#timeline').append('svg').attr('width', wSvgTimeLine).attr('height', hSvgTimeLine).attr('id', 'timeline');
+
+    var dataSeries = d3.nest()
+        .key(function(d) { return d.Date; })
+        .rollup(function(v) { return v.length; })
+        .entries(terrorDataSet);
+
+    xScaleTimeline.domain([
+        new Date("01/01/1970"),
+        new Date("12/31/2016")
+    ]);
+
+    yScaleTimeLine.domain([
+    	0,
+        d3.max(dataSeries, function(d) { return d.value })
+	]);
+
+    var pathGroup = svgTimeLine.append('g');
+
+    var line = d3.line()
+        .x(function(d) {
+            dateSplit = d.key.split("/");
+
+            newDate = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
+
+        	return xScaleTimeline(new Date(newDate)) })
+        .y(function(d) { return yScaleTimeLine(d.value); });
+
+    pathGroup.append('path')
+        .datum(dataSeries)
+        .attr("class", "line")
+        .attr("d", line);
+
+    // Call d3.brush and set it to work on this group
+    brushTimeLineGroup = svgTimeLine.append("g")
+        .call(brushTimeline);
+
+    // Draw x-axis included values along the axis.
+    svgTimeLine.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + (hSvgTimeLine - padding) + ")")
+        .call(xAxisTimeline);
+
+    // Draw y-axis included values along the axis.
+    svgTimeLine.append("g")
+        .attr("class", "axis yaxis")
+        .attr("transform", "translate(" + (padding) + ",0)")
+        .call(yAxisTimeline);
+
+    // Adding text to the y-axis
+    svgTimeLine.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 0 - (hSvgTimeLine / 2))
+        .attr("y", 0 )
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("# of attacks")
+        .attr("class", "yAxisLabel");
+
+    // Adding text to the x-axis
+    svgTimeLine.append("text")
+        .attr("x", (wSvgTimeLine/2))
+        .attr("y", (hSvgTimeLine - padding + 10))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Day")
+        .attr("class", "xAxisLabel")
+
+
+    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
+
+
+};
 
 
 //---------------- Visualizing terror attacks ----------------------
@@ -278,7 +460,7 @@ var colorCirclesGroup = function() {
         if (keysGroup.includes(groupName)) {
             return colorsGroup11(groupName);
         } else {
-            return "#808080";
+            return colorsGroup11("Others");
         }
     });
 };
@@ -333,20 +515,6 @@ var hideDensityColours = function() {
 
 };
 
-var showLegend = function() {
-
-    d3.select("#legendTop").attr("visibility", "visible");
-
-
-};
-
-var hideLegend = function() {
-
-    d3.select("#legendTop").attr("visibility", "hidden");
-
-
-};
-
 var hideAreaChart = function() {
 
     document.getElementById('area').hidden = true;
@@ -359,6 +527,9 @@ var showAreaChart = function() {
 
 };
 
+
+//---------------- Functions for drawing each of the three tabs ----------------------
+
 var drawChoroplethTab1 = function() {
 
 	// What to hide.
@@ -367,7 +538,7 @@ var drawChoroplethTab1 = function() {
 
 	// What to show.
 	showDensityColours();
-	//showLegend();
+    drawLegendTop(legendDensityTop);
 
 };
 
@@ -376,10 +547,11 @@ var drawChoroplethTab2 = function() {
     // What to hide.
 	hideDensityColours();
 	hideAreaChart();
-	//hideLegend();
 
     // What to show.
     showCircles(2, true);
+    drawLegendTop(legendOrganisationTop);
+
 
 };
 
@@ -387,7 +559,6 @@ var drawChoroplethTab3 = function() {
 
     // What to hide.
     hideDensityColours();
-    //hideLegend();
 
     // What to show.
 	showCircles(function (d) {
