@@ -14,6 +14,8 @@ var topGroups = [];
 var keysGroup = ["Others"];
 
 var svgChoropleth;
+var svgTimeLine;
+
 var wSvgChoro = 1200;
 var hSvgChoro = 800;
 var wChoro = 1200;
@@ -28,7 +30,8 @@ var colorsCountry = d3.scaleQuantize()
 						"#3f007d"]);
 
 var colorsGroup11 = d3.scaleOrdinal()
-							.range(['#67001f',
+							.range(['#808080',
+									'#67001f',
 									'#b2182b',
 									'#d6604d',
 									'#f4a582',
@@ -86,7 +89,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
     if (error) {
         console.log(error);
     } else {
-        //console.log(data);
 
 		terrorDataSet = data;
 
@@ -95,8 +97,6 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 			.key(function (d) { return d.Country; })
 			.rollup(function(v) { return v.length; })
 			.entries(data);
-
-        //console.log(dataSeriesCountry);
 
 		// Set domain for colors for countries
 		colorsCountry.domain([
@@ -118,7 +118,7 @@ d3.csv("data/terror_EU_processed_data.csv", rowConverter, function(error, data){
 
         // Extract the groups top x groups that have performed most attacks.
 		var i = 0;
-        while (topGroups.length < 10) {
+        while (topGroups.length < 11) {
 
             if (dataSeriesGroup[i].key !== "Unknown") {
                 topGroups.push(dataSeriesGroup[i]);
@@ -185,8 +185,37 @@ d3.json("continent_Europe_subunits_georgia_cypress.json", function(error, json) 
 
 		generateChoropleth();
 		generateMurders();
+		generateTimeline()
 	}
 });
+
+
+
+//---------------- Legends Functionality ----------------------
+
+var legendDensityTop = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Number of attacks")
+    .titleWidth(200)
+    .scale(colorsCountry);
+
+
+var legendOrganisationTop = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Organisation")
+    .titleWidth(200)
+    .scale(colorsGroup11);
+
+function drawLegendTop(legendToDraw) {
+	// Create legend
+    svgChoropleth.append("g")
+        .attr("id", "legendTop")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + legendRightOffset + ", 20)");
+
+    svgChoropleth.select(".legend")
+        .call(legendToDraw);
+}
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
@@ -222,23 +251,76 @@ var generateChoropleth = function(){
 			}
 		});
 
-	// Create legend
-    svgChoropleth.append("g")
-		.attr("id", "legendTop")
-        .attr("class", "legend")
-        .attr("transform", "translate(" + legendRightOffset + ", 20)");
-
-    var legend = d3.legendColor()
-        .labelFormat(d3.format(".0f"))
-		.title("Number of attacks")
-		.titleWidth(200)
-        .scale(colorsCountry);
-
-    svgChoropleth.select(".legend")
-        .call(legend);
+    drawLegendTop(legendDensityTop);
 
 };
 
+
+//---------------- Generate timeline ------------------------
+var generateTimeline = function() {
+    svgTimeLine = d3.select('#timeline').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
+
+    xScaleTimeline.domain([
+        //d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
+        new Date("/12/31/2005"),
+        d3.max(murderDataSet, function(d) { return new Date(d.Date); })
+    ])
+
+    var pathGroup = svgTimeLine.append('g')
+
+    line = d3.line()
+        .x(function(d, i) {
+            return xScaleTimeline(new Date(d.key));
+        })
+        .y(function(d) {
+            return yScaleTimeLine(d.value);
+        });
+
+    var path = pathGroup.append('path')
+        .datum(dataSeries)
+        .attr("class", "line")
+        .attr("d", line);
+
+    // Call d3.brush and set it to work on this group
+    brushTimeLineGroup = svgTimeLine.append("g")
+        .call(brushTimeline);
+
+    // Draw x-axis included values along the axis.
+    svgTimeLine.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + (timelineH - padding) + ")")
+        .call(xAxisTimeline);
+
+    // Draw y-axis included values along the axis.
+    svgTimeLine.append("g")
+        .attr("class", "axis yaxis")
+        .attr("transform", "translate(" + (padding) + ",0)")
+        .call(yAxisTimeline);
+
+    // Adding text to the y-axis
+    svgTimeLine.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", 0 - (timelineH / 2))
+        .attr("y", 0 )
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("# of Murders Committed")
+        .attr("class", "yAxisLabel");
+
+    // Adding text to the x-axis
+    svgTimeLine.append("text")
+        .attr("x", (timelineW/2))
+        .attr("y", (timelineH - padding + 10))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Year")
+        .attr("class", "xAxisLabel")
+
+
+    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
+
+
+};
 
 
 //---------------- Visualizing terror attacks ----------------------
@@ -278,7 +360,7 @@ var colorCirclesGroup = function() {
         if (keysGroup.includes(groupName)) {
             return colorsGroup11(groupName);
         } else {
-            return "#808080";
+            return colorsGroup11("Others");
         }
     });
 };
@@ -333,20 +415,6 @@ var hideDensityColours = function() {
 
 };
 
-var showLegend = function() {
-
-    d3.select("#legendTop").attr("visibility", "visible");
-
-
-};
-
-var hideLegend = function() {
-
-    d3.select("#legendTop").attr("visibility", "hidden");
-
-
-};
-
 var hideAreaChart = function() {
 
     document.getElementById('area').hidden = true;
@@ -359,6 +427,9 @@ var showAreaChart = function() {
 
 };
 
+
+//---------------- Functions for drawing each of the three tabs ----------------------
+
 var drawChoroplethTab1 = function() {
 
 	// What to hide.
@@ -367,7 +438,7 @@ var drawChoroplethTab1 = function() {
 
 	// What to show.
 	showDensityColours();
-	//showLegend();
+    drawLegendTop(legendDensityTop);
 
 };
 
@@ -376,10 +447,11 @@ var drawChoroplethTab2 = function() {
     // What to hide.
 	hideDensityColours();
 	hideAreaChart();
-	//hideLegend();
 
     // What to show.
     showCircles(2, true);
+    drawLegendTop(legendOrganisationTop);
+
 
 };
 
@@ -387,7 +459,6 @@ var drawChoroplethTab3 = function() {
 
     // What to hide.
     hideDensityColours();
-    //hideLegend();
 
     // What to show.
 	showCircles(function (d) {
