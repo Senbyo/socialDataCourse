@@ -3,9 +3,8 @@ var jsonChoro;
 
 var terrorDataSet;
 var dataSeriesCountry;
-
-
 var dataSeriesGroup;
+var dataSeriesAttacksPerDay;
 
 // Dots on map
 var circles;
@@ -68,6 +67,7 @@ var yScaleTimeLine = d3.scaleLinear()
 var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
 var line;
+var pathGroup;
 
 // Brush variables
 var brushTimeLineGroup;
@@ -207,7 +207,7 @@ function loadJson() {
 
             generateChoropleth();
             generateMurders();
-            generateTimeline()
+            generateTimeline();
         }
     });
 }
@@ -290,9 +290,9 @@ function highlightTimeLine() {
 
         })
             .classed("hidden", true)
-            .classed("visible", false);
-            //.transition()
-            //.attr("r", 0);
+            .classed("visible", false)
+            .transition()
+			.attr("r", 0);
 
         circles.filter(function(d) {
 
@@ -301,9 +301,9 @@ function highlightTimeLine() {
 
         })
             .classed("visible", true)
-            .classed("hidden", false);
-            //.transition()
-            //.attr("r", 3);
+            .classed("hidden", false)
+            .transition()
+            .attr("r", 3);
 
         //highlightCircles();
     }
@@ -340,14 +340,6 @@ function brushEnd() {
 
     }
 
-    /*
-    if (brushedSelection.length > 0 ){
-        updateRects(brushedSelection)
-    } else {
-        updateRects(murderDataSet)
-    }
-    */
-
 }
 
 var brushTimeline = d3.brushX()
@@ -359,29 +351,33 @@ var brushTimeline = d3.brushX()
 var generateTimeline = function() {
     svgTimeLine = d3.select('#timeline').append('svg').attr('width', wSvgTimeLine).attr('height', hSvgTimeLine).attr('id', 'timeline');
 
-    var dataSeries = d3.nest()
+    dataSeriesAttacksPerDay = d3.nest()
         .key(function(d) { return d.Date; })
         .rollup(function(v) { return v.length; })
         .entries(terrorDataSet);
 
     xScaleTimeline.domain([
-        d3.min(dataSeries, function(d) { return new Date(d.key) }),
-        d3.max(dataSeries, function(d) { return new Date(d.key) })
+        d3.min(dataSeriesAttacksPerDay, function(d) { return new Date(d.key) }),
+        d3.max(dataSeriesAttacksPerDay, function(d) { return new Date(d.key) })
     ]);
 
     yScaleTimeLine.domain([
     	0,
-        d3.max(dataSeries, function(d) { return d.value })
+        d3.max(dataSeriesAttacksPerDay, function(d) { return d.value })
 	]);
 
-    var pathGroup = svgTimeLine.append('g');
+    pathGroup = svgTimeLine.append('g');
+
+};
+
+updateTimeLine = function() {
 
     var line = d3.line()
-		.x(function (d) { return xScaleTimeline(new Date(d.key)); })
+        .x(function (d) { return xScaleTimeline(new Date(d.key)); })
         .y(function(d) { return yScaleTimeLine(d.value); });
 
     pathGroup.append('path')
-        .datum(dataSeries)
+        .datum(dataSeriesAttacksPerDay)
         .attr("class", "line")
         .attr("d", line);
 
@@ -418,11 +414,9 @@ var generateTimeline = function() {
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text("Day")
-        .attr("class", "xAxisLabel")
-
+        .attr("class", "xAxisLabel");
 
     brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline(new Date("01/01/2014")), xScaleTimeline(new Date("01/01/2016"))]);
-
 
 };
 
@@ -531,6 +525,17 @@ var showAreaChart = function() {
 
 };
 
+var hideTimeLine = function() {
+
+    document.getElementById('timeline').hidden = true;
+
+};
+
+var showTimeLine = function() {
+
+    document.getElementById('timeline').hidden = false;
+
+};
 
 //---------------- Functions for drawing each of the three tabs ----------------------
 
@@ -539,6 +544,7 @@ var drawChoroplethTab1 = function() {
 	// What to hide.
 	hideCircles();
     hideAreaChart();
+    hideTimeLine();
 
 	// What to show.
 	showDensityColours();
@@ -555,7 +561,8 @@ var drawChoroplethTab2 = function() {
     // What to show.
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
-
+    updateTimeLine();
+	showTimeLine();
 
 };
 
@@ -563,6 +570,7 @@ var drawChoroplethTab3 = function() {
 
     // What to hide.
     hideDensityColours();
+    hideTimeLine();
 
     // What to show.
 	showCircles(function (d) {
