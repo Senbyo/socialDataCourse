@@ -283,21 +283,12 @@ var generateTimeline = function() {
 
     var pathGroup = svgTimeLine.append('g');
 
-    var counter = 0
-
     var line = d3.line()
         .x(function(d) {
             dateSplit = d.key.split("/");
 
             newDate = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
 
-            if (counter < 100) {
-            	console.log(newDate);
-            	console.log(new Date(newDate))
-				console.log()
-			}
-
-			counter = counter + 1;
         	return xScaleTimeline(new Date(newDate)) })
         .y(function(d) { return yScaleTimeLine(d.value); });
 
