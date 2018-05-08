@@ -68,6 +68,11 @@ var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
 var line;
 var pathGroup;
+var tlLine;
+var tlXaxis;
+var tlYaxis;
+var tlXaxisText;
+var tlYaxisText;
 
 // Brush variables
 var brushTimeLineGroup;
@@ -223,7 +228,7 @@ var legendDensityTop = d3.legendColor()
 
 var legendOrganisationTop = d3.legendColor()
     .labelFormat(d3.format(".0f"))
-    .title("Organisation")
+    .title("Organisations")
     .titleWidth(200)
     .scale(colorsGroup11);
 
@@ -237,6 +242,33 @@ function drawLegendTop(legendToDraw) {
     svgChoropleth.select(".legend")
         .call(legendToDraw);
 }
+
+/*function drawLegendBottom() {
+
+	/*
+<svg height="90" width="200">
+        <text x="10" y="20" style="fill:red;">Several lines:
+        <tspan x="10" y="45">First line.</tspan>
+    <tspan x="10" y="70">Second line.</tspan>
+    </text>
+    </svg>
+*/
+    // Create legend
+    svgChoropleth.append("svg")
+        .attr("id", "legendBottom")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + legendRightOffset + ", 420)")
+		.attr("height", 400)
+		.attr("width", 380)
+		.append("text")
+        .attr("dy", "1em")
+        .text("# of Murders Committed higugvyu gity vityv ityvi uy vbitgv  yub uijn ii viutyo ")
+		.append("tspan")
+		.text("this is some random text that is supposed to line break automatically.");
+
+    //svgChoropleth.select(".legend")
+    //    .call(legendToDraw);
+}*/
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
@@ -290,9 +322,7 @@ function highlightTimeLine() {
 
         })
             .classed("hidden", true)
-            .classed("visible", false)
-            .transition()
-			.attr("r", 0);
+            .classed("visible", false);
 
         circles.filter(function(d) {
 
@@ -301,11 +331,7 @@ function highlightTimeLine() {
 
         })
             .classed("visible", true)
-            .classed("hidden", false)
-            .transition()
-            .attr("r", 3);
-
-        //highlightCircles();
+            .classed("hidden", false);
     }
 
 }
@@ -349,7 +375,7 @@ var brushTimeline = d3.brushX()
 
 //---------------- Generate timeline ------------------------
 var generateTimeline = function() {
-    svgTimeLine = d3.select('#timeline').append('svg').attr('width', wSvgTimeLine).attr('height', hSvgTimeLine).attr('id', 'timeline');
+    svgTimeLine = d3.select("#timeline").append("svg").attr("width", wSvgTimeLine).attr("height", hSvgTimeLine).attr("id", "timeline");
 
     dataSeriesAttacksPerDay = d3.nest()
         .key(function(d) { return d.Date; })
@@ -366,7 +392,14 @@ var generateTimeline = function() {
         d3.max(dataSeriesAttacksPerDay, function(d) { return d.value })
 	]);
 
-    pathGroup = svgTimeLine.append('g');
+    pathGroup = svgTimeLine.append("g");
+    brushTimeLineGroup = svgTimeLine.append("g");
+
+    tlLine = pathGroup.append("path");
+    tlXaxis = svgTimeLine.append("g");
+    tlYaxis = svgTimeLine.append("g");
+    tlXaxisText = svgTimeLine.append("text");
+    tlYaxisText = svgTimeLine.append("text");
 
 };
 
@@ -376,30 +409,25 @@ updateTimeLine = function() {
         .x(function (d) { return xScaleTimeline(new Date(d.key)); })
         .y(function(d) { return yScaleTimeLine(d.value); });
 
-    pathGroup.append('path')
-        .datum(dataSeriesAttacksPerDay)
+    tlLine.datum(dataSeriesAttacksPerDay)
         .attr("class", "line")
         .attr("d", line);
 
     // Call d3.brush and set it to work on this group
-    brushTimeLineGroup = svgTimeLine.append("g")
-        .call(brushTimeline);
+    brushTimeLineGroup.call(brushTimeline);
 
     // Draw x-axis included values along the axis.
-    svgTimeLine.append("g")
-        .attr("class", "axis")
+	tlXaxis.attr("class", "axis xaxis")
         .attr("transform", "translate(0," + (hSvgTimeLine - padding) + ")")
         .call(xAxisTimeline);
 
     // Draw y-axis included values along the axis.
-    svgTimeLine.append("g")
-        .attr("class", "axis yaxis")
+    tlYaxis.attr("class", "axis yaxis")
         .attr("transform", "translate(" + (padding) + ",0)")
         .call(yAxisTimeline);
 
     // Adding text to the y-axis
-    svgTimeLine.append("text")
-        .attr("transform", "rotate(-90)")
+    tlYaxisText.attr("transform", "rotate(-90)")
         .attr("x", 0 - (hSvgTimeLine / 2))
         .attr("y", 0 )
         .attr("dy", "1em")
@@ -408,8 +436,7 @@ updateTimeLine = function() {
         .attr("class", "yAxisLabel");
 
     // Adding text to the x-axis
-    svgTimeLine.append("text")
-        .attr("x", (wSvgTimeLine/2))
+    tlXaxisText.attr("x", (wSvgTimeLine/2))
         .attr("y", (hSvgTimeLine - padding + 10))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
@@ -561,6 +588,7 @@ var drawChoroplethTab2 = function() {
     // What to show.
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
+    //drawLegendBottom();
     updateTimeLine();
 	showTimeLine();
 
