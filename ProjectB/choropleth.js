@@ -54,12 +54,28 @@ var colorsGroup9 = d3.scaleOrdinal()
 									'#4393c3',
 									'#2166ac']);
 
+// Timeline variables
+var wSvgTimeLine = 1200;
+var hSvgTimeLine = 200;
+var padding = 45;
+
+var xScaleTimeline = d3.scaleTime()
+    .range([padding, wSvgTimeLine - padding]);
+
+var yScaleTimeLine = d3.scaleLinear()
+    .domain([0, 60])
+    .range([hSvgTimeLine - padding, padding]);
+
+var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
+var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
+var line;
+
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
-    dateSplit = d.Date.split("/");
+    //dateSplit = d.Date.split("/");
     return {
         Date: d.Date,
         Country: d.CurrentCountry,
@@ -258,37 +274,51 @@ var generateChoropleth = function(){
 
 //---------------- Generate timeline ------------------------
 var generateTimeline = function() {
-    svgTimeLine = d3.select('#timeline').append('svg').attr('width', timelineW).attr('height', timelineH).attr('id', 'timeline');
+    svgTimeLine = d3.select('#timeline').append('svg').attr('width', wSvgTimeLine).attr('height', hSvgTimeLine).attr('id', 'timeline');
 
     xScaleTimeline.domain([
-        //d3.min(murderDataSet, function(d) { return new Date(d.Date); }),
-        new Date("/12/31/2005"),
-        d3.max(murderDataSet, function(d) { return new Date(d.Date); })
-    ])
+        new Date("01/01/1970"),
+        new Date("12/31/2016")
+    ]);
 
-    var pathGroup = svgTimeLine.append('g')
+    var pathGroup = svgTimeLine.append('g');
 
-    line = d3.line()
-        .x(function(d, i) {
-            return xScaleTimeline(new Date(d.key));
-        })
-        .y(function(d) {
-            return yScaleTimeLine(d.value);
-        });
+    var counter = 0
 
-    var path = pathGroup.append('path')
+    var line = d3.line()
+        .x(function(d) {
+            dateSplit = d.key.split("/");
+
+            newDate = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
+
+            if (counter < 100) {
+            	console.log(newDate);
+            	console.log(new Date(newDate))
+				console.log()
+			}
+
+			counter = counter + 1;
+        	return xScaleTimeline(new Date(newDate)) })
+        .y(function(d) { return yScaleTimeLine(d.value); });
+
+    var dataSeries = d3.nest()
+        .key(function(d) { return d.Date; })
+        .rollup(function(v) { return v.length; })
+        .entries(terrorDataSet);
+
+    pathGroup.append('path')
         .datum(dataSeries)
         .attr("class", "line")
         .attr("d", line);
 
     // Call d3.brush and set it to work on this group
-    brushTimeLineGroup = svgTimeLine.append("g")
-        .call(brushTimeline);
+    /*brushTimeLineGroup = svgTimeLine.append("g")
+        .call(brushTimeline);*/
 
     // Draw x-axis included values along the axis.
     svgTimeLine.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(0," + (timelineH - padding) + ")")
+        .attr("transform", "translate(0," + (hSvgTimeLine - padding) + ")")
         .call(xAxisTimeline);
 
     // Draw y-axis included values along the axis.
@@ -300,24 +330,24 @@ var generateTimeline = function() {
     // Adding text to the y-axis
     svgTimeLine.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("x", 0 - (timelineH / 2))
+        .attr("x", 0 - (hSvgTimeLine / 2))
         .attr("y", 0 )
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text("# of Murders Committed")
+        .text("# of attacks")
         .attr("class", "yAxisLabel");
 
     // Adding text to the x-axis
     svgTimeLine.append("text")
-        .attr("x", (timelineW/2))
-        .attr("y", (timelineH - padding + 10))
+        .attr("x", (wSvgTimeLine/2))
+        .attr("y", (hSvgTimeLine - padding + 10))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text("Year")
+        .text("Day")
         .attr("class", "xAxisLabel")
 
 
-    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
+    //brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
 
 
 };

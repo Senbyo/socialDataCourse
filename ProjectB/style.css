@@ -39,3 +39,10 @@ figcaption {
     margin-left: auto;
     margin-right: auto;
 }
+
+.line {
+	fill: none;
+	stroke: rgb(84,39,143);
+	stroke-width: 1.5;
+	opacity: 1;
+}
