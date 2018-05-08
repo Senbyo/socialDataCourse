@@ -9,5 +9,5 @@ df.loc[:] = "/"
 terrorEU["Victims"] = terrorEU["Victims"].fillna(0)
 terrorEU["Killed"] = terrorEU["Killed"].fillna(0)
 
-terrorEU["DateStupidJS"] = terrorEU["Month"].astype(str)+df+terrorEU["Day"].astype(str)+df+terrorEU["Month"].astype(str)
+terrorEU["DateStupidJS"] = terrorEU["Month"].astype(str)+df+terrorEU["Day"].astype(str)+df+terrorEU["Year"].astype(str)
 terrorEU.to_csv("terror_EU_processed_data_stupidDate.csv")
