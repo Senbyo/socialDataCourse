@@ -63,12 +63,14 @@ var xScaleTimeline = d3.scaleTime()
     .range([padding, wSvgTimeLine - padding]);
 
 var yScaleTimeLine = d3.scaleLinear()
-    .domain([0, 60])
     .range([hSvgTimeLine - padding, padding]);
 
 var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
 var line;
+
+// Brush variables
+var brushTimeLineGroup;
 
 // Legend variables
 var legendRightOffset = 850; // Makes sure it doesn't overlap with the choropleth
@@ -272,14 +274,96 @@ var generateChoropleth = function(){
 };
 
 
+function highlightTimeLine() {
+
+	/*
+    if (d3.event.selection != null) {
+
+        var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+
+        circles.filter(function(d) {
+
+            var date = new Date(this.__data__.Date);
+            return !(compareHourAndDate(barBoundry, brush_selection, date, d));
+
+        })
+            .classed("hidden", true)
+            .classed("visible", false)
+            .transition()
+            .attr("r", 0);
+
+
+
+        circles.filter(function(d) {
+
+            var date = new Date(this.__data__.Date);
+            return compareHourAndDate(barBoundry, brush_selection, date, d);
+
+        })
+            .classed("visible", true)
+            .classed("hidden", false)
+            .transition()
+            .attr("r", 3);
+
+        //highlightCircles();
+    }
+    */
+}
+
+// Consider to recal
+function brushEnd() {
+    // Return if nothing is selected
+    if (!d3.event.selection) return;
+
+    var brushedSelection = d3.selectAll(".visible.brushed").data()
+
+    if (brushedSelection.length <= 0)
+    {
+
+        var brush_selection = d3.brushSelection(brushTimeLineGroup.node());
+
+        brushedSelection = d3.selectAll(".un_brushed").filter(function(d){
+            var x0 = brush_selection[0];
+            var x1 = brush_selection[1];
+            var date = new Date(this.__data__.Date);
+
+            return xScaleTimeline.invert(x0) <= date && date <= xScaleTimeline.invert(x1);
+        }).data();
+
+    }
+
+    /*
+    if (brushedSelection.length > 0 ){
+        updateRects(brushedSelection)
+    } else {
+        updateRects(murderDataSet)
+    }
+    */
+}
+
+var brushTimeline = d3.brushX()
+    .extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
+    .on("brush", highlightTimeLine)
+    .on("end", brushEnd);
+
 //---------------- Generate timeline ------------------------
 var generateTimeline = function() {
     svgTimeLine = d3.select('#timeline').append('svg').attr('width', wSvgTimeLine).attr('height', hSvgTimeLine).attr('id', 'timeline');
+
+    var dataSeries = d3.nest()
+        .key(function(d) { return d.Date; })
+        .rollup(function(v) { return v.length; })
+        .entries(terrorDataSet);
 
     xScaleTimeline.domain([
         new Date("01/01/1970"),
         new Date("12/31/2016")
     ]);
+
+    yScaleTimeLine.domain([
+    	0,
+        d3.max(dataSeries, function(d) { return d.value })
+	]);
 
     var pathGroup = svgTimeLine.append('g');
 
@@ -292,19 +376,14 @@ var generateTimeline = function() {
         	return xScaleTimeline(new Date(newDate)) })
         .y(function(d) { return yScaleTimeLine(d.value); });
 
-    var dataSeries = d3.nest()
-        .key(function(d) { return d.Date; })
-        .rollup(function(v) { return v.length; })
-        .entries(terrorDataSet);
-
     pathGroup.append('path')
         .datum(dataSeries)
         .attr("class", "line")
         .attr("d", line);
 
     // Call d3.brush and set it to work on this group
-    /*brushTimeLineGroup = svgTimeLine.append("g")
-        .call(brushTimeline);*/
+    brushTimeLineGroup = svgTimeLine.append("g")
+        .call(brushTimeline);
 
     // Draw x-axis included values along the axis.
     svgTimeLine.append("g")
@@ -338,7 +417,7 @@ var generateTimeline = function() {
         .attr("class", "xAxisLabel")
 
 
-    //brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
+    brushTimeLineGroup.call(brushTimeline.move, [xScaleTimeline.range()[0], xScaleTimeline(new Date("01/01/2007"))]);
 
 
 };
