@@ -253,6 +253,7 @@ function drawLegendTop(legendToDraw) {
     </text>
     </svg>
 */
+/*
     // Create legend
     svgChoropleth.append("svg")
         .attr("id", "legendBottom")
