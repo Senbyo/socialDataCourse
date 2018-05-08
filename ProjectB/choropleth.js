@@ -211,7 +211,7 @@ function loadJson() {
             jsonChoro = json;
 
             generateChoropleth();
-            generateMurders();
+            generateAttacks();
             generateTimeline();
         }
     });
@@ -451,9 +451,9 @@ updateTimeLine = function() {
 
 //---------------- Visualizing terror attacks ----------------------
 var tooltipCircles;
-var generateMurders = function() {
+var generateAttacks = function() {
 
-    // Adding circles for murders
+    // Adding circles for attacks
     circles = svgChoropleth.selectAll("circle")
         .data(terrorDataSet)
         .enter()
