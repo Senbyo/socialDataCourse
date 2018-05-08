@@ -11,7 +11,7 @@ Tab 1
 Tab 2
 - Plots where the attacks happened - DONE
 - Colour each circle depending on the group that performed the attack - DONE
-- Groups that only performed less than X number of attacks, it should be grouped as others.
+- Groups that only performed less than X number of attacks, it should be grouped as others. - DONE
 - Legend, colours and group names, including others.
     - Potentially be able to filter by organisations. Click/unclick groups in legend.
 - Tooptips on hover. For attacks performed by others, it should contain group name.
