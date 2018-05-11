@@ -4,6 +4,7 @@ var jsonChoro;
 var terrorDataSet;
 var dataSeriesCountry;
 var dataSeriesGroup;
+var dataSeriesAttackType;
 var dataSeriesAttacksPerDay;
 
 // Dots on map
@@ -11,6 +12,7 @@ var circles;
 
 var topGroups = [];
 var keysGroup = ["Others"];
+var keysAttackType = [];
 
 var svgChoropleth;
 var svgTimeLine;
@@ -28,7 +30,7 @@ var colorsCountry = d3.scaleQuantize()
 						"#54278f",
 						"#3f007d"]);
 
-var colorsGroup11 = d3.scaleOrdinal()
+var colorsGroup = d3.scaleOrdinal()
 							.range(['#808080',
 									'#67001f',
 									'#b2182b',
@@ -42,16 +44,16 @@ var colorsGroup11 = d3.scaleOrdinal()
 									'#2166ac',
 									'#053061']);
 
-var colorsGroup9 = d3.scaleOrdinal()
-							.range(['#b2182b',
-									'#d6604d',
-									'#f4a582',
-									'#fddbc7',
-									'#f7f7f7',
-									'#d1e5f0',
-									'#92c5de',
-									'#4393c3',
-									'#2166ac']);
+var colorsAttackType = d3.scaleOrdinal()
+							.range(['#8c510a',
+									'#bf812d',
+									'#dfc27d',
+									'#f6e8c3',
+                                	'#f5f5f5',
+									'#c7eae5',
+									'#80cdc1',
+									'#35978f',
+									'#01665e']);
 
 // Timeline variables
 var wSvgTimeLine = 1200;
@@ -155,7 +157,18 @@ d3.csv("data/terror_EU_processed_data_stupidDate.csv", rowConverter, function(er
             keysGroup.push(topGroups[j].key);
         }
 
-        colorsGroup11.domain(keysGroup);
+        colorsGroup.domain(keysGroup);
+
+
+        dataSeriesAttackType = d3.nest()
+            .key(function (d) { return d.AttackType })
+            .entries(data);
+
+        // Extract the keys
+        for (var k = 0; k < dataSeriesAttackType.length; k++) {
+            keysAttackType.push(dataSeriesAttackType[k].key);
+        }
+
 
         loadJson();
 
@@ -230,7 +243,13 @@ var legendOrganisationTop = d3.legendColor()
     .labelFormat(d3.format(".0f"))
     .title("Organisations")
     .titleWidth(200)
-    .scale(colorsGroup11);
+    .scale(colorsGroup);
+
+var legendAttackTypeTop = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Attack Types")
+    .titleWidth(200)
+    .scale(colorsAttackType);
 
 function drawLegendTop(legendToDraw) {
 	// Create legend
@@ -484,15 +503,22 @@ var colorCirclesGroup = function() {
         var groupName = d.Group;
 
         if (keysGroup.includes(groupName)) {
-            return colorsGroup11(groupName);
+            return colorsGroup(groupName);
         } else {
-            return colorsGroup11("Others");
+            return colorsGroup("Others");
         }
     });
 };
 
 var colorCirclesAttackType = function() {
-    circles.style("fill", "black");
+    circles.style("fill", function(d){
+
+        var attackType = d.AttackType;
+
+        if (keysAttackType.includes(attackType)) {
+            return colorsAttackType(attackType);
+        }
+    });
 };
 
 var showCircles = function(r, b) {
@@ -605,6 +631,7 @@ var drawChoroplethTab3 = function() {
 	showCircles(function (d) {
         return Math.sqrt(d.Killed);
     }, false);
+    drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
 
 };
