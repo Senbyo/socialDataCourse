@@ -1,4 +1,4 @@
-Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack,Kidnapping,Unknown,Unarmed Assault,Hostage Taking,Hijacking,Group
+Year,Attacks,BombingExplosion,Assassination,Armed_Assault,Infrastructure_Attack,Kidnapping,Unknown,Unarmed_Assault,Hostage_Taking,Hijacking,Group
 1970,60,23,0,17,12,2,0,1,0,5,All
 1970,21,10,0,2,7,0,0,1,0,1,Unknown
 1970,7,2,0,5,0,0,0,0,0,0,Irish Republican Army (IRA)
@@ -114,11 +114,11 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1992,183,106,27,18,31,0,0,0,0,1,Irish Republican Army (IRA)
 1992,123,5,5,23,62,0,26,2,0,0,Neo-Nazi extremists
 1992,48,26,14,5,3,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
-1993,0,0,0,0,0,0,0,0,0,0,No_attacks
-1993,0,0,0,0,0,0,0,0,0,0,No_attacks
-1993,0,0,0,0,0,0,0,0,0,0,No_attacks
-1993,0,0,0,0,0,0,0,0,0,0,No_attacks
-1993,0,0,0,0,0,0,0,0,0,0,No_attacks
+1993,0,0,0,0,0,0,0,0,0,0,All
+1993,0,0,0,0,0,0,0,0,0,0,Unknown
+1993,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
+1993,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
+1993,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1994,665,282,127,111,95,2,26,9,7,6,All
 1994,239,104,48,35,23,2,16,2,3,6,Unknown
 1994,147,57,18,21,47,0,1,0,3,0,Irish Republican Army (IRA)

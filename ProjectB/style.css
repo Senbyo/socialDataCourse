@@ -46,3 +46,16 @@ figcaption {
 	stroke-width: 1.5;
 	opacity: 1;
 }
+
+.area {
+	stroke: none;
+    stroke-width: 0;
+}
+
+.area:hover {
+	fill: yellow;
+}
+
+.area.unclickable {
+	pointer-events: none;
+}
