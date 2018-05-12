@@ -99,6 +99,8 @@
             <!--Write about your choices in data cleaning and preprocessing
 
             Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.-->
+
+            <!--  write sth about preprocessing and older countries, structuring etc -->
             <p>
               <figure align="middle" style="padding: 7em 0 0 7em;">
                   <img src="/images/terror_per_year.png" alt="Terrorism in Europe over the years" width="80%" >
@@ -135,16 +137,40 @@
         <div class="container subsection">
             <h2>Genre</h2>
             <!--Which tools did you use from each of the 3 categories of Visual Narrative (Figure 7 in Segal and Heer). Why?
-
             Which tools did you use from each of the 3 categories of Narrative Structure (Figure 7 in Segal and Heer). Why?-->
-
-
+            <h3>Visual Narrative</h3>
+            Our story begins with an Establishing Shot, a basic Choropleth of Europe with minimal information on it. This is in-line with the Martini glass-type of structure we're aiming for,
+            as it sets the stage, work nicely with a more author-driven initial experience
+            and is a natural starting point for a Consistent Visual Platform, the other structuring tool we used.
+            Familiar Objects (which makes sence given the Consistent Visual Platform) and a constant Viewing Angle help to solidify the position of the user
+            and bring attention to the ever changing details on the graphs. As such, Motion was used for highlighting mostly in the form of transitions in D3.
+            Continuity Editing via Animated Transitions is, thus, the cornerstone of our approach and the building blocks of our story.
+            <h3>Narative Structure</h3>
+            To create a martini glass structure, we employeed a User Directed Path that encourages rather than enforces an initial linear path through the ordering of the tabs.
+            Interactivity is vital part of this process and at the heart of the course. We used Hover Highlighting to display information on labels and attacks along with
+            brushes to filter the timeline (Filtering). Furthermore, tabs can be considered Navigation(pagination) Buttons.
+            Finally, classic messaging tools such as captions, annotations and text were used to mark and explain interesting parts of our story.
+            <!--
+            Visual Narrative:(structuring) Establishing Shot,Consistent Visual Platform, (Highlighting)Motion,
+            (Transition Guidance) Familiar objects, Viewing Angle, Continuity Editing, Animated Transitions
+            Narrative Structure: (ordering) Linear, User Directed Path, (interactivity) Hover Highlighting, Filtering, Navigation Buttons, Tacit Tutorial,
+                                                                                        stimulating defaul views(maybe),
+            (messaging) captions, annotations, introductory text, summary
+            -->
         </div>
         <div class="container subsection">
             <h2>Visualizations</h2>
             <!--Explain the visualizations you’ve chosen.
+            choropleth, first alone for intro, then accompanied by timeline and stacked chart for breakdown of types of attacks used in time along with group responsible for percentage of these attacks.
 
             Why are they right for the story you want to tell?-->
+            Due to the geographical nature of our dataset, a choropleth would be the natural choice to base a data-driven story on.
+            A timeline tied into the choropleth, with a brush to filter, adds a lot of intuitive control over the process and allows for flexible, personal exploration.
+            But in our case, this was only part of the story as the type of attack was not touched at all. A stacked flowchart is a great tool for allowing a user
+            insight into the evolution of each type of attack over the years and a breakdown of each of those types to the groups mostly utilizing it over each period of time.
+            These visualizations build a decent, subjective, data-driven picture of how terrorism in all its forms, as carried out by different groups, evolved and spread throughout Europe.
+            It is, also, naturally able to fit within the Martini glass structure and the Continuity Editing tool, as the base of our story, the choropleth, is unchanged and everything else
+            simply adds to the story/interactability.
 
 
         </div>
@@ -153,6 +179,13 @@
             <!--What went well?
 
             What is still missing? What could be improved?, Why?-->
+            
+        </div>
+
+
+        <div class="container subsection">
+            <h2>Contributions</h2>
+            <!--who did what-->
 
         </div>
 
