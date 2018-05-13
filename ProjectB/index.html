@@ -9,7 +9,8 @@
         <meta name="author" content="Marc Storm Larsen, Mark Bo Jensen & Georg Satyros">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="/d3/d3.js"></script>
-        <script type="text/javascript" src="d3-legend.min.js"></script>
+        <script type="text/javascript" src="d3-legend.min.js"></script> <!-- Source: https://github.com/susielu/d3-legend/blob/master/d3-legend.js -->
+        <script type="text/javascript" src="d3.button.js"></script> <!-- Source: https://gist.github.com/pbogden/7487564#file-d3-button-js -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         <script type="text/javascript" src="choropleth.js" defer></script>
         <script type="text/javascript" src="stackedArea.js" defer></script>
@@ -67,6 +68,80 @@
                     this.className += " active";
                 });
             }
+        </script>
+
+
+        <style>
+
+            body {
+                font-family: Univers, Arial, sans-serif;
+            }
+
+            .button rect {
+                stroke: #999faa; /* navy 40% */
+                stroke-width: 2px;
+            }
+
+            .button rect.pressed {
+                fill: #000f2b; /* navy 100% */
+            }
+
+            .button #gradient-start {
+                stop-color: #999faa; /* navy 40% */
+                stop-opacity: 1;
+            }
+
+            .button #gradient-stop {
+                stop-color: #4d576b; /* navy 70% */
+                stop-opacity: 1;
+            }
+
+            .button #gradient-start.active, .button #gradient-start.pressed {
+                stop-color: #4d576b; /* navy 70% */
+            }
+
+            .button #gradient-stop.active, .button #gradient-stop.pressed {
+                stop-color: #000f2b; /* navy 100% */
+            }
+
+            .button text {
+                font-size: 30px;
+                fill: #eee;
+                pointer-events: none;
+                text-anchor: middle;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+            }
+
+        </style>
+
+
+        <div id="test" class="plot subsection"></div>
+
+
+        <script>
+/*
+            var width = 960, height = 500;
+
+            var data = [{label: "Click me too", x: width / 2, y: height / 2 }];
+
+            var svg = d3.select("#test").append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            var button = d3.button()
+                .on('press', function(d, i) { console.log("Pressed", d, i, this.parentNode)})
+                .on('release', function(d, i) { console.log("Released", d, i, this.parentNode)});
+
+            // Add buttons
+            var buttons = svg.selectAll('.button')
+                .data(data)
+                .enter()
+                .append('g')
+                .attr('class', 'button')
+                .call(button);
+*/
         </script>
 
         <div id="choro" class="plot subsection"></div>

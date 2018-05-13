@@ -424,11 +424,6 @@ var generateAreaChart = function(){
 
 				d3.selectAll("#StackTypes path")
 					.data(stackedTypeData)
-					/*
-					.transition() // TODO fix transition where the stacks seem to pop in from out of no where
-					.delay(1000)
-					.duration(1000)
-					*/
 
 				d3.selectAll("#StackTypes path")
 					.transition()
