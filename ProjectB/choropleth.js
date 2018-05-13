@@ -287,22 +287,6 @@ var generateChoropleth = function(){
 
     svgLegend = d3.select("#choro").append("svg").attr("width", 355).attr("height", 800).attr("id", "svgLegend");
 
-
-    //d3.select("choroDescrip")
-
-
-
-
-
-
-
-	//var rightDiv = d3.select("#choro").append("div").attr("id", "flo1");
-
-
-    //rightDiv.append("div").attr("id", "second");
-
-
-
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
 						.center([20, 55])
