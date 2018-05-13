@@ -11,7 +11,7 @@ var groupDataset = []
 var svgStackedArea;
 var wArea = 1200;
 var hArea = 400;
-var padding = 50;
+var paddingArea = 50;
 var colorsStackedArea = d3.scaleQuantize()
 				.domain([0,69])
 				.range(["rgb(188,189,220)",
@@ -28,15 +28,15 @@ var colors = ["rgb(188,189,220)",
 				"rgb(63,0,125)"]
 
 var xScaleArea = d3.scaleTime()
-						.range([padding, wArea - padding]);
+						.range([paddingArea, wArea - paddingArea]);
 
 
 var yScaleArea = d3.scaleLinear()
-						.domain([0, 1200])
-						.range([hArea - padding, padding]);
+						.domain([0, 1100])
+						.range([hArea - paddingArea, paddingArea]);
 
-var xAxisTimeline = d3.axisBottom(xScaleArea);
-var yAxisTimeline = d3.axisLeft(yScaleArea);
+var xAxisArea = d3.axisBottom(xScaleArea);
+var yAxisArea = d3.axisLeft(yScaleArea);
 
 
 //---------------- row converter ----------------------
@@ -59,7 +59,7 @@ var rowConverter = function(d) {
 };
 
 //---------------- loading murder data ----------------------
-d3.csv("data/data_breakdown.csv", rowConverter, function(error, data){
+d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error, data){
 
 	if (error) {
 		console.log(error);
@@ -193,7 +193,9 @@ var generateAreaChart = function(){
 	var area = d3.area()
 	    .x(function(d) {
 	     return xScaleArea(d.data.Year); })
-	    .y0(function(d) { return yScaleArea(d[0]); })
+	    .y0(function(d) { 
+	    	console.log(yScaleArea(d[0]))
+	    	return yScaleArea(d[0]); })
 	    .y1(function(d) { return yScaleArea(d[1]); });
 
     //Create areas for groups
@@ -329,12 +331,13 @@ var generateAreaChart = function(){
 						return sum;
 					})
 				]);
-			/*
-			paths.transition("named")
-				.delay(200)
+			
+			areaTransitions.transition()
+				.delay(1500)
 				.duration(1000)
 				.attr("d", area);
-			*/
+			
+			
 			
 		})
 		.attr("opacity", 1)
@@ -346,13 +349,13 @@ var generateAreaChart = function(){
 	// Draw x-axis included values along the axis.
 	svgStackedArea.append("g")
 		.attr("class", "axis")
-		.attr("transform", "translate(0," + (hArea - padding) + ")")
-		.call(xAxisTimeline);
+		.attr("transform", "translate(0," + (hArea - paddingArea) + ")")
+		.call(xAxisArea);
 
 	// Draw y-axis included values along the axis.
 	svgStackedArea.append("g")
 		.attr("class", "axis yaxis")
-		.attr("transform", "translate(" + (padding) + ",0)")
-		.call(yAxisTimeline);
+		.attr("transform", "translate(" + (paddingArea) + ",0)")
+		.call(yAxisArea);
 
 };
