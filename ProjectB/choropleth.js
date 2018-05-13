@@ -81,7 +81,7 @@ var tlYaxisText;
 var brushTimeLineGroup;
 
 // Legend variables
-var legendRightOffset = 820; // Makes sure it doesn't overlap with the choropleth
+var legendRightOffset = 841; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
