@@ -59,11 +59,9 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#01665e']);
 
 // Descriptions for tabs
-var descriptionTab1 = "Inline styling serves a purpose however, it is not recommended in most situations.\n" +
-    "\n" +
-    "The more \"proper\" solution, would be to make a separate CSS sheet, include it in your HTML document, and then use either an ID or a class to reference your div.\n" +
-    "\n" +
-    "if you have the file structure:";
+var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each country are display in the period from 1970 to 2016." +
+    "Hovering over a country on the plot will reveal the name of the country." +
+    "Click on tab \"Organisations\" to continue the exploration.";
 var descriptionTab2 = "And this is the description for tab 2";
 var descriptionTab3 = "Finally this is the description for tab 3";
 
@@ -178,6 +176,7 @@ d3.csv("data/terror_EU_processed_data_stupidDate.csv", rowConverter, function(er
             keysAttackType.push(dataSeriesAttackType[k].key);
         }
 
+        colorsAttackType.domain(keysAttackType);
 
         loadJson();
 
@@ -243,7 +242,7 @@ function loadJson() {
 
 var legendDensityTop = d3.legendColor()
     .labelFormat(d3.format(".0f"))
-    .title("Number of attacks")
+    .title("Number of attacks from 1970 - 2016")
     .titleWidth(200)
     .scale(colorsCountry);
 
