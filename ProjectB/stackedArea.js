@@ -48,7 +48,7 @@ var xScaleArea = d3.scaleTime()
 
 
 var yScaleArea = d3.scaleLinear()
-						.domain([0, 1100])
+						.domain([0, 620])
 						.range([hArea - paddingArea, paddingArea]);
 
 var xAxisArea = d3.axisBottom(xScaleArea);
@@ -75,7 +75,7 @@ var rowConverterArea = function(d) {
 };
 
 //---------------- loading murder data ----------------------
-d3.csv("data/data_breakdown_betterTransitions.csv", rowConverterArea, function(error, data){
+d3.csv("data/data_breakdown.csv", rowConverterArea, function(error, data){
 
 	if (error) {
 		console.log(error);
@@ -417,9 +417,19 @@ var generateAreaChart = function(){
 			if (currentState == 1) {
 				
 				d3.selectAll("#StackGroups path")
-					.attr("opacity", 0)
+					.attr("opacity", 0);
 
-				rescale(1100, 1000, 0);
+				var max = d3.max(stackedTypeData, function(d) {
+					var sum = 0
+					console.log(d)
+					sum += parseInt(d.key)
+				
+				return sum;
+				});
+
+				console.log(max)
+
+				rescale(620, 1000, 0);
 
 				d3.selectAll("#StackTypes path")
 					.data(stackedTypeData)
