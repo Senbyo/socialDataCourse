@@ -60,3 +60,11 @@ figcaption {
 .area.unclickable {
 	pointer-events: none;
 }
+
+.testSVG {
+	border:1px red solid
+}
+
+.testClass {
+	border: 2px green solid;
+}

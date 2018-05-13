@@ -95,8 +95,8 @@ var rowConverter = function(d) {
 		Latitude: d.Latitude,
         Longitude: d.Longitude,
 		AttackType: d.AttackType,
-		Victims: d.Victims,
-		Killed: d.Killed,
+		Victims: parseInt(d.Victims),
+		Killed: parseInt(d.Killed),
 		Target: d.Target,
 		Summary: d.Summary,
 		Group: d.Group,
@@ -202,7 +202,7 @@ function loadJson() {
                 var dataCountry = dataSeriesCountry[i].key;
 
                 // Grab the value and convert from string to float
-                var dataValue = parseFloat(dataSeriesCountry[i].value);
+                var dataValue = parseInt(dataSeriesCountry[i].value);
 
                 // Find the corresponding country inside the GeoJSON
                 for (var j = 0; j < json.features.length; j++) {
@@ -295,7 +295,9 @@ function drawLegendTop(legendToDraw) {
 var generateChoropleth = function(){
 
 	// Create SVG for choropleth
-	svgChoropleth = d3.select("#choro").append("svg").attr("width", wSvgChoro).attr("height", hSvgChoro).attr("id", "choropleth");
+	svgChoropleth = d3.select("#choro").append("svg").attr("width", wSvgChoro).attr("height", hSvgChoro).attr("id", "choropleth")
+        //.attr("xmlns", "http://www.w3.org/2000/svg");
+        //.attr("xmlns:xlink", "http://www.w3.org/1999/xlink");
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
@@ -493,13 +495,9 @@ var generateAttacks = function() {
 };
 
 //---------------- Tooltip Functionality ----------------------
-function addTooltip(textFunction) {
+var addTooltip = function(textFunction) {
     tooltipCircles.text(textFunction);
-        /*.text(function(d){
-            return textFunction;
-            //return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
-        });*/
-}
+};
 
 var colorCirclesGroup = function() {
 	circles.style("fill", function(d){
@@ -595,6 +593,97 @@ var showTimeLine = function() {
 
 };
 
+//
+var addTextBottom = function() {
+
+    var testSVG = d3.select("#testid")
+        .append("svg")
+        .attr("class", "testSVG")
+        /*.attr({
+            'width': 500,
+            'height': 300
+        })*/
+        .attr("width", 500)
+        .attr("height", 300)
+        .append('g');
+
+    //svgChoropleth.append("text").attr("width", 100).attr("x", legendRightOffset).attr("y",400).text("Styled SVG TEXT and some other text to see if it breaks lines automagically");
+    /*var svgForForeignObject = svgChoropleth.append("svg")
+            .attr("class", "testSVG")
+            .attr("width", 200)
+            .attr("height", 200);
+*/
+
+    var fo = svg.append('foreignObject')
+        .attr({
+            'x': 40,
+            'y': 20,
+            'width': 100,
+            'height': 50,
+            'class': 'node'
+        });
+
+    var svgForeignObject = testSVG
+        .append("foreignobject")
+        .attr("class", "node")
+        .attr("x", 40)
+        .attr("y", 20)
+        .attr("width", 100)
+        .attr("height", 50);
+
+    svgForeignObject.append("div")
+        .attr("class", "testClass")
+        .html("I'm a div inside a SVG.");
+
+
+    /*
+    <svg width="500" height="300" style="border:1px red solid">
+                <foreignobject class="node" x="46" y="22" width="100" height="100">
+
+                    <div style="border:1px green solid">I'm a div inside a SVG.</div>
+                </foreignobject>
+            </svg>
+     */
+
+        //.attr("requiredExtensions", "http://www.w3.org/1999/xhtml");
+
+    /*svgForeignObject.append("p")
+        .attr("xmlns", "http://www.w3.org/1999/xhtml")
+        .text("this is some hopefully very long text that can be used to displayusd nfgoa spdfkpp asmdf")
+    */
+
+    //svgForeignObject.append("text").text("Styled SVG TEXT and some other text to see if it breaks lines automagically");
+};
+
+/*
+<svg width="500" height="300" style="border:1px red solid">
+            <foreignobject class="node" x="46" y="22" width="100" height="100">
+
+                    <div style="border:1px green solid">I'm a div inside a SVG.</div>
+            </foreignobject>
+        </svg>
+ */
+
+
+/*
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="21cm" height="29.7cm" style="border:1px solid black;">
+  <foreignObject x="6.4cm" y="3.6cm" width="10cm" height="10cm">
+    <p xmlns="http://www.w3.org/1999/xhtml"
+       style="font-size:48px;">The paragraph here</p>
+  </foreignObject>
+</svg>
+ */
+
+
+/*<text x="20"  y="40"
+style="font-family: Arial;
+font-size  : 34;
+stroke     : #000000;
+fill       : #00ff00;
+"
+>Styled SVG text</text>*/
+
 //---------------- Functions for drawing each of the three tabs ----------------------
 
 var drawChoroplethTab1 = function() {
@@ -630,6 +719,7 @@ var drawChoroplethTab2 = function() {
     });
     updateTimeLine();
 	showTimeLine();
+    addTextBottom();
 
 };
 
@@ -645,6 +735,8 @@ var drawChoroplethTab3 = function() {
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
-	addTooltip(function(d) {return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;})
+	addTooltip(function(d) {
+	    return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
+	});
 
 };
