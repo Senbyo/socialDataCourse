@@ -39,7 +39,7 @@ for year in years:
         data_year_group10 = dataForYear[dataForYear["Group"]==group10_name]
         group11_name = "First of October Antifascist Resistance Group (GRAPO)"
         data_year_group11 = dataForYear[dataForYear["Group"]==group11_name]
-        groupOther_name = "Other"
+        groupOther_name = "Others"
         data_year_groupOther = dataForYear
         #do metrics for this year, concat into dataframe
         
@@ -66,6 +66,7 @@ for year in years:
         temp2 = groupall_row[1:-1].astype(int)
         temp = [a - b for a, b in zip(temp1,temp2)]
         groupOther[1:-1] = temp 
+        groupall_row[1:-1] = temp1
         dataframe_forYear = pd.DataFrame([groupall_row,group1_row,group2_row,group3_row,group4_row,group5_row,group6_row,group7_row,group8_row,group9_row,group10_row,group11_row,groupOther],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
     else:
         groupnan_row = np.array([year,0,0,0,0,0,0,0,0,0,0,"No_attacks"])
@@ -74,6 +75,6 @@ for year in years:
     #merge and repeat
     finalDf = finalDf.append(dataframe_forYear)
 
-#finalDf.to_csv("C:\\Users\\Georg\\Desktop\\senbyo.github.io\\ProjectB\\data\\data_breakdown.csv",index = False)
+finalDf.to_csv("C:\\Users\\Georg\\Desktop\\senbyo.github.io\\ProjectB\\data\\data_breakdown_withOther.csv",index = False)
 
 #add feature for all current

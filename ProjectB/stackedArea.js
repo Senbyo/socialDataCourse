@@ -49,7 +49,7 @@ var xScaleArea = d3.scaleTime()
 
 
 var yScaleArea = d3.scaleLinear()
-						.domain([0, 620])
+						.domain([0, 1150])
 						.range([hArea - paddingArea, paddingArea]);
 
 var xAxisArea = d3.axisBottom(xScaleArea);
@@ -420,17 +420,7 @@ var generateAreaChart = function(){
 				d3.selectAll("#StackGroups path")
 					.attr("opacity", 0);
 
-				var max = d3.max(stackedTypeData, function(d) {
-					var sum = 0
-					console.log(d)
-					sum += parseInt(d.key)
-				
-				return sum;
-				});
-
-				console.log(max)
-
-				rescale(620, 1000, 0);
+				rescale(1150, 1000, 0);
 
 				d3.selectAll("#StackTypes path")
 					.data(stackedTypeData)
