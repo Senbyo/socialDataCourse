@@ -7,6 +7,8 @@ var AllDataset;
 var keys;
 var stack;
 var area;
+var currentState = 0;
+var yAxisGroup;
 var groupDataset = []
 var svgStackedArea;
 var wArea = 1200;
@@ -67,17 +69,7 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 		//console.log(data);
 		datasetArea = data;
 
-		console.log(datasetArea);
-		// Grab keys from the data set used for stacking
-		//dataSeries = d3.nest()
-		//  .key(function(d) { return d.Bombing ; }).entries(datasetArea);
-
-		  //.rollup(function(v) { return v.length; })
-		  //.entries(data);
 		keys = ["Bombing", "Hijacking", "Infrastructure_Attack", "Armed_Assault", "Kidnapping", "Unarmed_Assault", "Assassination", "Unknown", "Hostage_Taking"];
-		//var groupkeys = ["Unknown", "Irish Republican Army (IRA)", "Extraparliamentary Opposition (APO)", "Popular Front for the Liberation of Palestine (PFLP)"]
-		//var keys = ["Bombing", "Hijacking", "Infrastructure_Attack"];
-		//var keys = Object.keys(datasetArea[0]);
 
 
 		stack = d3.stack().order(d3.stackOrderDescending);
@@ -91,8 +83,6 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 			.key(function(d) { return d.Year; })
 			.key(function(d) { return d.Group; })
 			.object(datasetArea);
-
-
 
 
 		stack.keys(keys);
@@ -135,7 +125,6 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 
 		}
 
-		console.log(AllDataset);
 
 
 
@@ -177,6 +166,16 @@ var unNest =  function(dataset){
 	return unNestedData;
 }
 
+var rescale = function(scaleMax, duration, delay) {
+	    yScaleArea.domain([0, scaleMax]);
+	    yAxisGroup.transition()
+	    	.delay(delay)
+	    	.duration(duration)
+			.ease(d3.easeQuadIn)
+		    .call(yAxisArea);
+	        }
+
+
 
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
@@ -193,9 +192,7 @@ var generateAreaChart = function(){
 	var area = d3.area()
 	    .x(function(d) {
 	     return xScaleArea(d.data.Year); })
-	    .y0(function(d) { 
-	    	console.log(yScaleArea(d[0]))
-	    	return yScaleArea(d[0]); })
+	    .y0(function(d) { return yScaleArea(d[0]); })
 	    .y1(function(d) { return yScaleArea(d[1]); });
 
     //Create areas for groups
@@ -294,48 +291,47 @@ var generateAreaChart = function(){
 			var typeStackedData = stack_number_two(unnestedThisTypeDataset);
 			var restackedTypeData = stack(allDataSet);
 
-			console.log(typeStackedData);
-			console.log(restackedTypeData);
 
 			var pathsTypes = d3.selectAll("#StackTypes path")
 								.data(restackedTypeData)
 								.classed("unclickable", "true");
 
-			var paths = d3.selectAll("#StackGroups path")
+			var pathsGroups = d3.selectAll("#StackGroups path")
 								.data(typeStackedData);
 
-			var pathsTypesTransition = pathsTypes.transition()
+			pathsTypesTransition = pathsTypes.transition()
 				.duration(1000)
 				.attr("d", area);
+
+			var areaTransitions = pathsGroups.transition()
+				.attr("d", area);				
+
 			
-			var areaTransitions = paths.transition()
-				.delay(800)
+			pathsTypesTransition.transition()
 				.on("start", function() {
 					//Make vehicles visible instantly, so 
 					//they are revealed when this fades out
 					//d3.selectAll("#StackTypes path")
-					pathsTypes.transition(1000)
-						.delay(500)
+					pathsTypes.transition()
+						.delay(200)
 						.duration(1000)
 						.attr("opacity", 0);
 				})
 				.attr("d", area);
-
-			//Update scale
-			yScaleArea.domain([
-					0,
-					d3.max(typeStackedData, function(d) {
-						var sum = 0
-						sum += parseInt(d[thisType]);
-
-						return sum;
-					})
-				]);
 			
-			areaTransitions.transition()
-				.delay(1500)
+			var max = d3.max(datasetArea, function(d) {
+				var sum = 0
+				sum += parseInt(d[thisType])
+				
+				return sum;
+			});
+			
+			rescale(max, 1000, 2000)
+			
+			var areaTransitions = pathsGroups.transition()
+				.delay(2000)
 				.duration(1000)
-				.attr("d", area);
+				.attr("d", area);	
 			
 			
 			
@@ -346,6 +342,38 @@ var generateAreaChart = function(){
 			return d.key;
 		});
 
+	// create back button
+	var backButton = svgStackedArea.append("g")
+		.attr("id", "stackedAreaButton");
+
+	backButton.append("rect")
+		.attr("x", 0)
+		.attr("y", 0)
+		.attr("width", 70)
+		.attr("heigth", 30)
+
+	backButton.append("text")
+		.attr("x", 7)
+		.attr("y", 20)
+		.text("Back")
+
+	backButton.on("click", function(){
+
+		var pathsTypes = d3.selectAll("#StackTypes path")
+							.data(stackedTypeData);
+
+		var pathsGroups = d3.selectAll("#StackGroups path")
+							.data(stackedGroupData);
+
+		pathsTypes.transition()
+			.duration(1000)
+			.attr("opacity", 1)
+			.attr("d", area)
+
+		pathsGroups.transition()
+			.attr("d", area)
+	})
+
 	// Draw x-axis included values along the axis.
 	svgStackedArea.append("g")
 		.attr("class", "axis")
@@ -353,7 +381,7 @@ var generateAreaChart = function(){
 		.call(xAxisArea);
 
 	// Draw y-axis included values along the axis.
-	svgStackedArea.append("g")
+	yAxisGroup = svgStackedArea.append("g")
 		.attr("class", "axis yaxis")
 		.attr("transform", "translate(" + (paddingArea) + ",0)")
 		.call(yAxisArea);

@@ -60,3 +60,11 @@ figcaption {
 .area.unclickable {
 	pointer-events: none;
 }
+
+#stackedAreaButton rect {
+				fill: #ccc;
+}
+
+#stackedAreaButton:hover rect {
+				fill: red;
+}
