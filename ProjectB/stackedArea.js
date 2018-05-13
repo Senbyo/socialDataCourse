@@ -76,7 +76,7 @@ var rowConverterArea = function(d) {
 };
 
 //---------------- loading murder data ----------------------
-d3.csv("data/data_breakdown.csv", rowConverterArea, function(error, data){
+d3.csv("data/data_breakdown_withOther.csv", rowConverterArea, function(error, data){
 
 	if (error) {
 		console.log(error);
