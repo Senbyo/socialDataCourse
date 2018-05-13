@@ -65,15 +65,31 @@ figcaption {
 	text-align: left;
 }
 
-#stackedAreaButton rect {
-				fill: green;
-}
-
-#stackedAreaButton:hover rect {
-				fill: red;
-}
-
 .pan rect {
 	fill: black;
 	opacity: 0.2;
+}
+
+.zoom rect {
+	fill: black;
+	opacity: 0.2;
+}
+
+#stackedAreaButton rect {
+	fill: black;
+	opacity: 0.2;
+}
+#stackedAreaButton:hover text,
+#stackedAreaButton:hover rect {
+	fill: blue;
+	cursor: pointer;
+
+}
+
+.pan:hover rect,
+.pan:hover text,
+.zoom:hover rect,
+.zoom:hover text {
+	fill: blue;
+	cursor: pointer;
 }

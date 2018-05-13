@@ -190,10 +190,32 @@ var rescale = function(scaleMax, duration, delay) {
 		    .call(yAxisArea);
 	        }
 
-var buttonVisibility = function() {
+var buttonVisibility = function(type) {
 	var button = d3.select("#stackedAreaButton")
 
 	if (button.classed("unclickable")){
+
+		//Set up dynamic button text
+		var buttonText = "&larr; Back to ";
+		
+		//Text varies by mode and type
+		if (currentState == 1) {
+			buttonText += "all attack Types";
+
+		} else if (currentState == 2) {
+			buttonText += "all " + type;
+		}
+		
+		//Set text
+		button.select("text").html(buttonText);
+		
+		//Resize button depending on text width
+		var rectWidth = Math.round(button.select("text").node().getBBox().width + 16);
+
+		button.select("rect").attr("width", rectWidth);
+
+
+
 		button.classed("unclickable", false)
 		.transition()
 		.duration(500)
@@ -262,6 +284,7 @@ var generateAreaChart = function(){
 		})
 		.on("click", function(d) {
 			currentState ++;
+			buttonVisibility(thisType);
 			//Which type was clicked?
 			var thisType = d.key;
 
@@ -372,7 +395,8 @@ var generateAreaChart = function(){
 				.duration(1000)
 				.attr("d", area);
 
-			buttonVisibility();
+			buttonVisibility(thisType);
+
 			
 
 			} else if (currentState == 2){
@@ -386,6 +410,8 @@ var generateAreaChart = function(){
 						.attr("opacity", 0)
 
 			}
+
+			buttonVisibility(thisType);
 			
 
 			
@@ -404,15 +430,17 @@ var generateAreaChart = function(){
 		.attr("transform", "translate(" + xScaleArea.range()[0] + "," + yScaleArea.range()[1] + ")");
 
 	backButton.append("rect")
-		.attr("x", 0)
-		.attr("y", 0)
-		.attr("width", 70)
-		.attr("heigth", 30)
+     	.attr("text-anchor", "center")
+        .attr("rx", 5)
+        .attr("ry", 5)
+		.attr("width", 50)
+		.attr("height", 30)
 
 	backButton.append("text")
 		.attr("x", 7)
 		.attr("y", 20)
-		.text("Back")
+        .html("&larr;")
+
 
 	backButton.on("click", function(){
 			if (currentState == 1) {
@@ -431,7 +459,6 @@ var generateAreaChart = function(){
 					*/
 
 				d3.selectAll("#StackTypes path")
-					.transition()
 					.attr("d", area)
 
 				d3.selectAll("#StackGroups path")
@@ -442,12 +469,14 @@ var generateAreaChart = function(){
 
 			} else if (currentState == 2){
 
+				buttonVisibility();
 				var temp = d3.selectAll("#StackTypes path")
 					.classed("unclickable", false)
 					.transition(1000)
 					.attr("opacity", 1);
 
-				currentState --;				
+				currentState --;
+				buttonVisibility();								
 			}
 
 			if (currentState == 0) {
