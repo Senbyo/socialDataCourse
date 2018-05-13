@@ -32,6 +32,17 @@ var colors = ["rgb(188,189,220)",
 				"rgb(84,39,143)",
 				"rgb(63,0,125)"]
 
+var colorsAttackTypeArea = d3.scaleOrdinal()
+							.range(['#8c510a',
+									'#bf812d',
+									'#dfc27d',
+									'#f6e8c3',
+                                	'#f5f5f5',
+									'#c7eae5',
+									'#80cdc1',
+									'#35978f',
+									'#01665e']);
+
 var xScaleArea = d3.scaleTime()
 						.range([paddingArea, wArea - paddingArea]);
 
@@ -246,7 +257,7 @@ var generateAreaChart = function(){
 		.attr("d", area)
 		// Make a complicated fill function that divides everything into stuff
 		.attr("fill", function(d) {
-			return colorsAttackType(d.key);
+			return colorsAttackTypeArea(d.key);
 		})
 		.on("click", function(d) {
 			currentState ++;
@@ -333,9 +344,6 @@ var generateAreaChart = function(){
 			
 			pathsTypesTransition.transition()
 				.on("start", function() {
-					//Make vehicles visible instantly, so 
-					//they are revealed when this fades out
-					//d3.selectAll("#StackTypes path")
 					pathsTypes.transition()
 						.delay(200)
 						.duration(1000)
@@ -413,26 +421,20 @@ var generateAreaChart = function(){
 
 				rescale(1100, 1000, 0);
 
-
-
 				d3.selectAll("#StackTypes path")
 					.data(stackedTypeData)
-					// TODO fix transition where the stacks seem to pop in from out of no where
 					/*
-					.transition()
+					.transition() // TODO fix transition where the stacks seem to pop in from out of no where
 					.delay(1000)
 					.duration(1000)
 					*/
+
+				d3.selectAll("#StackTypes path")
+					.transition()
 					.attr("d", area)
 
 				d3.selectAll("#StackGroups path")
 					.data(stackedGroupData)
-					// TODO fix transition where the stacks seem to pop in from out of no where
-					/*
-					.transition()
-					.delay(1000)
-					.duration(1000)
-					*/
 					.attr("d", area)
 
 				currentState --;
@@ -450,29 +452,6 @@ var generateAreaChart = function(){
 			if (currentState == 0) {
 				buttonVisibility();
 			}
-
-
-
-			/*
-			var areaTransitions = pathsTypes.transition()
-				.duration(1000)
-				.attr("d", area);	
-			*/
-			/*
-			pathsTypes.transition()
-					.delay(1000)
-					.duration(1000)
-					.attr("opacity", 1)
-					.on("end", function(){
-						d3.selectAll("#StackGroups path")
-							.attr("opacity", 0);
-					});
-			*/
-		
-		/*
-		pathsGroups.transition()
-			.attr("d", area)
-		*/
 	})
 
 	// Draw x-axis included values along the axis.
@@ -486,5 +465,26 @@ var generateAreaChart = function(){
 		.attr("class", "axis yaxis")
 		.attr("transform", "translate(" + (paddingArea) + ",0)")
 		.call(yAxisArea);
+
+
+    var areaYaxisText = svgStackedArea.append("text");
+    var areaXaxisText = svgStackedArea.append("text");
+
+    // Adding text to the y-axis
+    areaYaxisText.attr("transform", "rotate(-90)")
+        .attr("x", 0 - (hArea / 2))
+        .attr("y", 0 )
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("# of attacks")
+        .attr("class", "yAxisLabel");
+
+    // Adding text to the x-axis
+    areaXaxisText.attr("x", (wArea/2))
+        .attr("y", (hArea - paddingArea + 10))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Year")
+        .attr("class", "xAxisLabel");
 
 };

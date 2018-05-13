@@ -56,7 +56,7 @@ figcaption {
 	fill: yellow;
 }
 
-.area.unclickable {
+.unclickable {
 	pointer-events: none;
 }
 
