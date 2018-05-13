@@ -10,6 +10,7 @@ var dataSeriesAttacksPerDay;
 // Dots on map
 var circles;
 var tooltipCircles;
+var tooltipCountry;
 
 var topGroups = [];
 var keysGroup = ["Others"];
@@ -309,7 +310,7 @@ var generateChoropleth = function(){
 				.projection(projection);
 
 	// Draw path
-	svgChoropleth.selectAll("path")
+	var countries = svgChoropleth.selectAll("path")
 		.data(jsonChoro.features)
 		.enter()
 		.append("path")
@@ -325,6 +326,12 @@ var generateChoropleth = function(){
 				return "#ff0000";
 			}
 		});
+
+    tooltipCountry = countries.append("title");
+
+    tooltipCountry.text(function (d) {
+        return d.properties.sovereignt;
+    });
 
     drawLegendTop(legendDensityTop);
 
@@ -493,8 +500,8 @@ var generateAttacks = function() {
 };
 
 //---------------- Tooltip Functionality ----------------------
-var addTooltip = function(textFunction) {
-    tooltipCircles.text(textFunction);
+var addTooltip = function(tooltipElement, textFunction) {
+    tooltipElement.text(textFunction);
 };
 
 var colorCirclesGroup = function() {
@@ -610,6 +617,9 @@ var drawChoroplethTab1 = function() {
 	showDensityColours();
     drawLegendTop(legendDensityTop);
     addTextBottom(descriptionTab1);
+    addTooltip(tooltipCountry, function (d) {
+        return d.properties.sovereignt;
+    })
 
 };
 
@@ -622,7 +632,7 @@ var drawChoroplethTab2 = function() {
     // What to show.
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
-    addTooltip(function(d) {
+    addTooltip(tooltipCircles, function(d) {
         var groupName = d.Group;
         if (keysGroup.includes(groupName)) {
             return "";
@@ -633,6 +643,7 @@ var drawChoroplethTab2 = function() {
     updateTimeLine();
 	showTimeLine();
     addTextBottom(descriptionTab2);
+    addTooltip(tooltipCountry, "");
 
 };
 
@@ -648,9 +659,12 @@ var drawChoroplethTab3 = function() {
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
-	addTooltip(function(d) {
+	addTooltip(tooltipCircles, function(d) {
 	    return "Group: " + d.Group + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType + "\nSummary: " + d.Summary;
 	});
+    addTooltip(tooltipCountry, function (d) {
+        return "";
+    });
     addTextBottom(descriptionTab3);
 
 };
