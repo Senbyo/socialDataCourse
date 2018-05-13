@@ -24,12 +24,15 @@ for year in years:
         group4_name = dataForYear["Group"].value_counts().index[3]
         data_year_group4 = dataForYear[dataForYear["Group"]==group4_name]
         #do metrics for this year, concat into dataframe
-        groupall_row = makeRowForGroup(dataForYear,year,attackTypes)
+        frames = [data_year_group1, data_year_group2, data_year_group3,data_year_group4]
+        result = pd.concat(frames)
+        groupall_row = makeRowForGroup(result,year,attackTypes)
         groupall_row[-1] = "All"
         group1_row = makeRowForGroup(data_year_group1,year,attackTypes)
         group2_row = makeRowForGroup(data_year_group2,year,attackTypes)
         group3_row = makeRowForGroup(data_year_group3,year,attackTypes)
         group4_row = makeRowForGroup(data_year_group4,year,attackTypes)
+        
         dataframe_forYear = pd.DataFrame([groupall_row,group1_row,group2_row,group3_row,group4_row],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
     else:
         groupnan_row = np.array([year,0,0,0,0,0,0,0,0,0,0,"No_attacks"])
@@ -38,4 +41,6 @@ for year in years:
     #merge and repeat
     finalDf = finalDf.append(dataframe_forYear)
 
-finalDf.to_csv("data_breakdown.csv",index = False)
+#finalDf.to_csv("data_breakdown.csv",index = False)
+
+#add feature for all current
