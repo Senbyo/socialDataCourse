@@ -62,7 +62,7 @@ figcaption {
 }
 
 #stackedAreaButton rect {
-				fill: #ccc;
+				fill: green;
 }
 
 #stackedAreaButton:hover rect {

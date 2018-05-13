@@ -3,7 +3,7 @@ var datasetArea;
 var stackedTypeData;
 var stackedGroupData;
 var AllDataset;
-var keys;
+var keysArea;
 var stack;
 var typeStackedData;
 var restackedTypeData;
@@ -45,7 +45,7 @@ var yAxisArea = d3.axisLeft(yScaleArea);
 
 
 //---------------- row converter ----------------------
-var rowConverter = function(d) {
+var rowConverterArea = function(d) {
 		return {
 				Year: new Date(d.Year),
 				Attacks: d.Attacks,
@@ -64,7 +64,7 @@ var rowConverter = function(d) {
 };
 
 //---------------- loading murder data ----------------------
-d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error, data){
+d3.csv("data/data_breakdown_betterTransitions.csv", rowConverterArea, function(error, data){
 
 	if (error) {
 		console.log(error);
@@ -72,7 +72,7 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 		//console.log(data);
 		datasetArea = data;
 
-		keys = ["Bombing", "Hijacking", "Infrastructure_Attack", "Armed_Assault", "Kidnapping", "Unarmed_Assault", "Assassination", "Unknown", "Hostage_Taking"];
+		keysArea = ["Bombing", "Hijacking", "Infrastructure_Attack", "Armed_Assault", "Kidnapping", "Unarmed_Assault", "Assassination", "Unknown", "Hostage_Taking"];
 
 
 		stack = d3.stack().order(d3.stackOrderDescending);
@@ -88,7 +88,7 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 			.object(datasetArea);
 
 
-		stack.keys(keys);
+		stack.keys(keysArea);
 		groupKeys = []
 		for (var i in attacksByGroup){
 			groupKeys[i] =attacksByGroup[i].key;
@@ -178,6 +178,24 @@ var rescale = function(scaleMax, duration, delay) {
 		    .call(yAxisArea);
 	        }
 
+var buttonVisibility = function() {
+	var button = d3.select("#stackedAreaButton")
+
+	if (button.classed("unclickable")){
+		button.classed("unclickable", false)
+		.transition()
+		.duration(500)
+		.attr("opacity", 1);	
+
+	} else {
+		button.classed("unclickable", true)
+		.transition()
+		.duration(500)
+		.attr("opacity", 0);	
+
+	}
+}
+
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
 
@@ -205,8 +223,12 @@ var generateAreaChart = function(){
     	.append("path")
     	.attr("class", "area")
     	.attr("d", area)
-		.attr("fill", function(d, i) {
-			return d3.schemeCategory20[i];
+		.attr("fill", function(d) {
+	        if (keysGroup.includes(d.key)) {
+	            return colorsGroup(d.key);
+	        } else {
+	            return colorsGroup("Others");
+	        }
 		})
 		.append("title")  //Make tooltip
 		.text(function(d, i) {
@@ -223,8 +245,8 @@ var generateAreaChart = function(){
 		.attr("class", "area")
 		.attr("d", area)
 		// Make a complicated fill function that divides everything into stuff
-		.attr("fill", function(d, i) {
-			return d3.schemeCategory20[i];
+		.attr("fill", function(d) {
+			return colorsAttackType(d.key);
 		})
 		.on("click", function(d) {
 			currentState ++;
@@ -340,9 +362,9 @@ var generateAreaChart = function(){
 				.delay(2000)
 				.duration(1000)
 				.attr("d", area);
+
+			buttonVisibility();
 			
-
-
 
 			} else if (currentState == 2){
 
@@ -367,7 +389,10 @@ var generateAreaChart = function(){
 
 	// create back button
 	var backButton = svgStackedArea.append("g")
-		.attr("id", "stackedAreaButton");
+		.attr("id", "stackedAreaButton")
+		.attr("class", "unclickable")
+		.attr("opacity", 0)
+		.attr("transform", "translate(" + xScaleArea.range()[0] + "," + yScaleArea.range()[1] + ")");
 
 	backButton.append("rect")
 		.attr("x", 0)
@@ -414,8 +439,16 @@ var generateAreaChart = function(){
 
 			} else if (currentState == 2){
 
+				var temp = d3.selectAll("#StackTypes path")
+					.classed("unclickable", false)
+					.transition(1000)
+					.attr("opacity", 1);
 
 				currentState --;				
+			}
+
+			if (currentState == 0) {
+				buttonVisibility();
 			}
 
 
