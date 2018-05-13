@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 from utilsFinal import makeRowForGroup
+from operator import sub
+
 terrorEU=pd.read_csv('C:\\Users\\Georg\\Desktop\\senbyo.github.io\\ProjectB\\data\\terror_EU_processed_data.csv',encoding='latin-1')
 
 years = range(1970,2017)
@@ -37,7 +39,10 @@ for year in years:
         data_year_group10 = dataForYear[dataForYear["Group"]==group10_name]
         group11_name = "First of October Antifascist Resistance Group (GRAPO)"
         data_year_group11 = dataForYear[dataForYear["Group"]==group11_name]
+        groupOther_name = "Other"
+        data_year_groupOther = dataForYear
         #do metrics for this year, concat into dataframe
+        
         frames = [data_year_group1, data_year_group2, data_year_group3,data_year_group4,data_year_group5,data_year_group6, data_year_group7, data_year_group8,data_year_group9,data_year_group10, data_year_group11]
         result = pd.concat(frames)
         groupall_row = makeRowForGroup(result,year,attackTypes)
@@ -53,16 +58,22 @@ for year in years:
         group9_row = makeRowForGroup(data_year_group9,year,attackTypes,group9_name)
         group10_row = makeRowForGroup(data_year_group10,year,attackTypes,group10_name)
         group11_row = makeRowForGroup(data_year_group11,year,attackTypes,group11_name)
-
+        groupOther = makeRowForGroup(data_year_groupOther,year,attackTypes,groupOther_name)
         
-        dataframe_forYear = pd.DataFrame([groupall_row,group1_row,group2_row,group3_row,group4_row,group5_row,group6_row,group7_row,group8_row,group9_row,group10_row,group11_row],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
+        #groupOther = groupOther - groupall_row
+        temp1 = groupOther[1:-1].astype(int)
+        
+        temp2 = groupall_row[1:-1].astype(int)
+        temp = [a - b for a, b in zip(temp1,temp2)]
+        groupOther[1:-1] = temp 
+        dataframe_forYear = pd.DataFrame([groupall_row,group1_row,group2_row,group3_row,group4_row,group5_row,group6_row,group7_row,group8_row,group9_row,group10_row,group11_row,groupOther],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
     else:
         groupnan_row = np.array([year,0,0,0,0,0,0,0,0,0,0,"No_attacks"])
-        dataframe_forYear = pd.DataFrame([groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
+        dataframe_forYear = pd.DataFrame([groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row,groupnan_row],columns = ["Year","Attacks",attackTypes[0],attackTypes[1],attackTypes[2],attackTypes[3],attackTypes[4],attackTypes[5],attackTypes[6],attackTypes[7],attackTypes[8],"Group"])
 
     #merge and repeat
     finalDf = finalDf.append(dataframe_forYear)
 
-finalDf.to_csv("'C:\\Users\\Georg\\Desktop\\senbyo.github.io\\ProjectB\\data\\data_breakdown.csv",index = False)
+#finalDf.to_csv("C:\\Users\\Georg\\Desktop\\senbyo.github.io\\ProjectB\\data\\data_breakdown.csv",index = False)
 
 #add feature for all current

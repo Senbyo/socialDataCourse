@@ -3,6 +3,7 @@ import numpy as np
 def makeRowForGroup(data,year,attackTypes,groupName = ""):
     if(len(data)==0):
         return np.array([year,0,0,0,0,0,0,0,0,0,0,groupName])
+    
     attacks1_all = len(data["AttackType"])
     attack1_bomb = (data["AttackType"]==attackTypes[0]).sum()
     attack1_assass = (data["AttackType"]==attackTypes[1]).sum()
@@ -13,5 +14,8 @@ def makeRowForGroup(data,year,attackTypes,groupName = ""):
     attack1_unarmed = (data["AttackType"]==attackTypes[6]).sum()
     attack1_hostage = (data["AttackType"]==attackTypes[7]).sum()
     attack1_hijack = (data["AttackType"]==attackTypes[8]).sum()
-    group1_rowAll = np.array([year,attacks1_all,attack1_bomb,attack1_assass,attack1_armedass,attack1_infr,attack1_kidn,attack1_unknown,attack1_unarmed,attack1_hostage,attack1_hijack,data["Group"].iloc[0]])
+    if(len(groupName)==0):
+        group1_rowAll = np.array([year,attacks1_all,attack1_bomb,attack1_assass,attack1_armedass,attack1_infr,attack1_kidn,attack1_unknown,attack1_unarmed,attack1_hostage,attack1_hijack,data["Group"].iloc[0]])
+    else:
+        group1_rowAll = np.array([year,attacks1_all,attack1_bomb,attack1_assass,attack1_armedass,attack1_infr,attack1_kidn,attack1_unknown,attack1_unarmed,attack1_hostage,attack1_hijack,groupName])
     return group1_rowAll

@@ -32,16 +32,17 @@ var colors = ["rgb(188,189,220)",
 				"rgb(84,39,143)",
 				"rgb(63,0,125)"]
 
+
 var colorsAttackTypeArea = d3.scaleOrdinal()
-							.range(['#8c510a',
-									'#bf812d',
-									'#dfc27d',
-									'#f6e8c3',
-                                	'#f5f5f5',
-									'#c7eae5',
-									'#80cdc1',
-									'#35978f',
-									'#01665e']);
+								.range(['#d53e4f',
+										'#f46d43',
+										'#fdae61',
+										'#fee08b',
+										'#ffffbf',
+										'#e6f598',
+										'#abdda4',
+										'#66c2a5',
+										'#3288bd']);
 
 var xScaleArea = d3.scaleTime()
 						.range([paddingArea, wArea - paddingArea]);
