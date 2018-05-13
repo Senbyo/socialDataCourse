@@ -1,11 +1,14 @@
 //---------------- Global variables ----------------------
 var datasetArea;
-var dataSeries;
 var stackedTypeData;
 var stackedGroupData;
 var AllDataset;
 var keys;
 var stack;
+var typeStackedData;
+var restackedTypeData;
+var pathsTypes;
+var pathsGroups;
 var area;
 var currentState = 0;
 var yAxisGroup;
@@ -168,14 +171,12 @@ var unNest =  function(dataset){
 
 var rescale = function(scaleMax, duration, delay) {
 	    yScaleArea.domain([0, scaleMax]);
-	    yAxisGroup.transition()
+	    yAxisGroup.transition("rescale animation")
 	    	.delay(delay)
 	    	.duration(duration)
 			.ease(d3.easeQuadIn)
 		    .call(yAxisArea);
 	        }
-
-
 
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
@@ -196,7 +197,7 @@ var generateAreaChart = function(){
 	    .y1(function(d) { return yScaleArea(d[1]); });
 
     //Create areas for groups
-    svgStackedArea.append("g")
+    pathsGroups = svgStackedArea.append("g")
     	.attr("id", "StackGroups")
     	.selectAll("path")
     	.data(stackedGroupData)
@@ -213,7 +214,7 @@ var generateAreaChart = function(){
 		});
 
 	//Create areas for types
-	svgStackedArea.append("g")
+	pathsTypes = svgStackedArea.append("g")
 		.attr("id", "StackTypes")
 		.selectAll("path")
 		.data(stackedTypeData)
@@ -226,7 +227,7 @@ var generateAreaChart = function(){
 			return d3.schemeCategory20[i];
 		})
 		.on("click", function(d) {
-			
+			currentState ++;
 			//Which type was clicked?
 			var thisType = d.key;
 
@@ -288,18 +289,19 @@ var generateAreaChart = function(){
 
 		  	var unnestedThisTypeDataset = unNest(nestedThisTypeDataset);
 
-			var typeStackedData = stack_number_two(unnestedThisTypeDataset);
-			var restackedTypeData = stack(allDataSet);
+			typeStackedData = stack_number_two(unnestedThisTypeDataset);
+			restackedTypeData = stack(allDataSet);
 
 
-			var pathsTypes = d3.selectAll("#StackTypes path")
+			pathsTypes = d3.selectAll("#StackTypes path")
 								.data(restackedTypeData)
-								.classed("unclickable", "true");
 
-			var pathsGroups = d3.selectAll("#StackGroups path")
-								.data(typeStackedData);
+			pathsGroups = d3.selectAll("#StackGroups path")
+								.data(typeStackedData)
+								.attr("opacity", 1);
 
-			pathsTypesTransition = pathsTypes.transition()
+			if (currentState == 1) {
+				pathsTypesTransition = pathsTypes.transition()
 				.duration(1000)
 				.attr("d", area);
 
@@ -315,7 +317,7 @@ var generateAreaChart = function(){
 					pathsTypes.transition()
 						.delay(200)
 						.duration(1000)
-						.attr("opacity", 0);
+						.attr("opacity", 1);
 				})
 				.attr("d", area);
 			
@@ -326,14 +328,35 @@ var generateAreaChart = function(){
 				return sum;
 			});
 			
-			rescale(max, 1000, 2000)
+			rescale(max, 1000, 1000)
+
+			d3.selectAll("#StackTypes path").transition("named")
+				.delay(1000)
+				.duration(1000)
+				.attr("d", area);
+
 			
 			var areaTransitions = pathsGroups.transition()
 				.delay(2000)
 				.duration(1000)
-				.attr("d", area);	
+				.attr("d", area);
 			
+
+
+
+			} else if (currentState == 2){
+
+				var stacktypes = d3.selectAll("#StackTypes path")
+						.data(restackedTypeData)
+						.classed("unclickable", true);
+
+				stacktypes.transition()
+						.duration(1000)
+						.attr("opacity", 0)
+
+			}
 			
+
 			
 		})
 		.attr("opacity", 1)
@@ -358,20 +381,65 @@ var generateAreaChart = function(){
 		.text("Back")
 
 	backButton.on("click", function(){
+			if (currentState == 1) {
+				
+				d3.selectAll("#StackGroups path")
+					.attr("opacity", 0)
 
-		var pathsTypes = d3.selectAll("#StackTypes path")
-							.data(stackedTypeData);
+				rescale(1100, 1000, 0);
 
-		var pathsGroups = d3.selectAll("#StackGroups path")
-							.data(stackedGroupData);
 
-		pathsTypes.transition()
-			.duration(1000)
-			.attr("opacity", 1)
-			.attr("d", area)
 
+				d3.selectAll("#StackTypes path")
+					.data(stackedTypeData)
+					// TODO fix transition where the stacks seem to pop in from out of no where
+					/*
+					.transition()
+					.delay(1000)
+					.duration(1000)
+					*/
+					.attr("d", area)
+
+				d3.selectAll("#StackGroups path")
+					.data(stackedGroupData)
+					// TODO fix transition where the stacks seem to pop in from out of no where
+					/*
+					.transition()
+					.delay(1000)
+					.duration(1000)
+					*/
+					.attr("d", area)
+
+				currentState --;
+
+			} else if (currentState == 2){
+
+
+				currentState --;				
+			}
+
+
+
+			/*
+			var areaTransitions = pathsTypes.transition()
+				.duration(1000)
+				.attr("d", area);	
+			*/
+			/*
+			pathsTypes.transition()
+					.delay(1000)
+					.duration(1000)
+					.attr("opacity", 1)
+					.on("end", function(){
+						d3.selectAll("#StackGroups path")
+							.attr("opacity", 0);
+					});
+			*/
+		
+		/*
 		pathsGroups.transition()
 			.attr("d", area)
+		*/
 	})
 
 	// Draw x-axis included values along the axis.
