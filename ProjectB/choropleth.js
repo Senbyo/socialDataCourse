@@ -59,11 +59,17 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#01665e']);
 
 // Descriptions for tabs
-var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each country are display in the period from 1970 to 2016." +
-    "Hovering over a country on the plot will reveal the name of the country." +
-    "Click on tab \"Organisations\" to continue the exploration.";
-var descriptionTab2 = "And this is the description for tab 2";
-var descriptionTab3 = "Finally this is the description for tab 3";
+var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
+    "country are display in the period from 1970 to 2016.</br>" +
+    "Hovering over a country on the plot will reveal the name of the country.</br>" +
+    "Click on tab <i>Organisations</i> to continue the exploration.";
+var descriptionTab2 = "This is an overview of every terror attack committed in the selected period from the timeline. " +
+    "The 11 most active groups have been explicitly coloured and the remaining groups including unknown groups " +
+    "performing the attacks are coloured as <i>Others</i>.</br>" +
+    "Hovering over an attacks performed by <i>Others</i> will display a tooltip showing the specific group.</br>" +
+    "Click on tab <i>Attacks</i> to continue the exploration.";
+var descriptionTab3 = "This plots focuses on the type of the terror attack. Every attack performed is also shown here" +
+    " where the number of casualties for an attack is proportional with the size of the circle.";
 
 // Timeline variables
 var wSvgTimeLine = 1200;
@@ -632,12 +638,12 @@ var drawChoroplethTab3 = function() {
 
     // What to show.
 	showCircles(function (d) {
-        return Math.sqrt(d.Killed);
+        return Math.sqrt(d.Killed) + 1;
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
 	addTooltip(function(d) {
-	    return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
+	    return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType + "\nSummary: " + d.Summary;
 	});
     addTextBottom(descriptionTab3);
 
