@@ -94,6 +94,18 @@
                         <li>January seems to be the most frequent month for terrorist attacks.</li>
                       </ul>
              </ul>
+
+             Preprocessing done on this dataset includes the classical null-value replacement in the field Victims with 0 and Group, Target and Weapon type with Unknown.
+             All the attacks had coordinates associated with them, along with Country and Region. A problem, though, was that since the 1970s some of the countries (Yugoslavia, for example)
+             did not exist any longer and others had their borders changed. As such, we had to cross-reference each country with the coordinates.
+             Another issue was that excessive data handling in javascript (given the size of our dataset) resulted in noticable delays. As such,
+             we agreed to generally sacrifice space for speed and made a number of different grouped-up(binned) versions of our data to be used with
+             our different illustrations. The stacked area graph, for example, uses a version of our dataset where each year is composed of 5 rows, the
+             activity of the four most active groups and the total activity. The features of this dataset were the types of attack. This encoding allowed us to
+             encode a 21000-row,19 columns dataset into 236 rows and 12 columns. Information was, of course, lost but the dataset worked wonders with optimizing
+             our stacked area graph.
+             All pre-processing was done in python and can be found in the git-repository.
+
             </p>
 
             <!--Write about your choices in data cleaning and preprocessing
