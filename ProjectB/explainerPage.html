@@ -43,7 +43,7 @@
 
             <p>The dataset that was used for this assignment tracks the spread of terrorism across Europe. It was derived from
                 a dataset on global terrorism found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>, that tracks
-                terror attacks across the globe. <\br>
+                terror attacks across the globe. </br>
                 Our Terrorism in Europe dataset has approximately 22000 records (terrorism attacks), spanning 46 years. It contains every
                 attack carried out and formally recorded, regardless of success, from the 1970s to 2016. To provide more context to the reader,
                 1970s were the decade that started with Assad (the current ruling regime in Syria) taking power through a coup(1970), the US withdrawal from
@@ -59,8 +59,11 @@
               <!--mention martini?-->
             <p>
               Our goal for the end users' experience would be to provide a "Martini glass" structure, where we start on a rigid, author-driven path which gives
-              readers the time they need to familiarize themselves with our notation, colours and tools (choropleths/graphs). Then, we gradually pass more and more
-              control to the user, ending up allowing them to take full control over the process and individually explore our dataset.
+              readers the time they need to familiarize themselves with our notation, colours and tools (choropleths/graphs). Then, we pass more
+              control to the user, ending up allowing them to take full control over the process and individually explore our dataset. This is done by adding more and
+              more adjustable/interactive elements on the same choropleth. We start by a plain choropleth with only attack density over the entire timeline displayed.
+              Then we advance towards allowing the user to interact with the timeline and filter out periods of interest. Finally, we plot the entirety of terror attacks
+              throughout the years on the same choropleth and allow the user to explore the type of attacks used and the groups chiefly responsible for them.
             </p>
         </div>
         <div class="container subsection">
@@ -203,18 +206,21 @@
             we change the timeline update to be on release instead of update, which saves a lot of computations and allows us to use such a big dataset. The colors used
             are the same throughout, for consistency.
             missing: tacit tutorial, text, more aggressive performance, 1993 missing data
--->
-            This was a very interesting and relevant dataset to work with. It's size meant that we had to employ certain domain-specific measures to keep
-            the illustrations peformant and we believe the end result to be successful in that regard. We encoded the dataset in different ways to accomodate the needs
-            of each illustration and re-used the SVG elements instead of reloading them constantly (for example we rendered the circles on the map once and faded them in-out instead
-            of redrawing them constantly). Also, colors and illustrations were kept relevant and matching throughout the story, to make it consistent and in-line with
-            our chosen visual narrative tools.
-            Missing features that we would very much like to include would be a tacit tutorial, as they are doing a great job at kicking-off interactive stories. Problems we faced with
-            integrating text in svg elements (had to do with the version of d3 we worked on) prevented us from doing it. While we believe we did well on managing
-            the performance of the illustrations, there was still room for more aggressive data encapsulation. Finally, the original dataset had a problem with missing data.
-            The entire 1993 is missing, something that we could do nothing about from our end.
+            -->
+            <p>
+                This was a very interesting and relevant dataset to work with. It's size meant that we had to employ certain domain-specific measures to keep
+                the illustrations peformant and we believe the end result to be successful in that regard. We encoded the dataset in different ways to accomodate the needs
+                of each illustration and re-used the SVG elements instead of reloading them constantly (for example we rendered the circles on the map once and faded them in-out instead
+                of redrawing them constantly). Also, colors and illustrations were kept relevant and matching throughout the story, to make it consistent and in-line with
+                our chosen visual narrative tools.</br>
+                Missing features that we would very much like to include would be a tacit tutorial, as they are doing a great job at kicking-off interactive stories. Problems we faced with
+                integrating text in svg elements (had to do with the version of d3 we worked on) prevented us from doing it. While we believe we did well on managing
+                the performance of the illustrations, there was still room for more aggressive data encapsulation. Finally, the original dataset had a problem with missing data.
+                The entire 1993 is missing, something that we could do nothing about from our end. Finally we shoul mention that we intended to implement an alluvial chart along with
+                the stacked graph. We realized, though, that the information conveyed by the two were the same in our case and so having them both would be redundant. As the
+                stacked flowchart is cleaner-looking and more intuitive, we decided on using that.
+            </p>
         </div>
-
 
         <div class="container subsection">
             <h2>Contributions</h2>
@@ -223,7 +229,19 @@
             took lead role on certain portions of the work. That’s what you should explain).
 
             It is not OK simply to write "All group members contributed equally".-->
-
+            <p>
+                <ul>
+                    <li>Choropleth tab 1: Georg</li>
+                    <li>Choropleth tab 2: Marc</li>
+                    <li>Choropleth tab 3: Mark</li>
+                    <li>Timeline and interaction: Marc</li>
+                    <li>Explanatory elements: Marc</li>
+                    <li>Stacked bar chart: Mark</li>
+                    <li>Transitions: Mark</li>
+                    <li>Preprocessing and Exploratory Analysis: Georg</li>
+                    <li>Explainer page: Georg</li>
+                </ul>
+            </p>
         </div>
 
 

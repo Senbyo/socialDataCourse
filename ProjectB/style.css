@@ -18,6 +18,7 @@ figcaption {
 
 .hidden {
 	opacity: 0;
+	pointer-events: none;
 }
 
 .visible {
@@ -42,7 +43,7 @@ figcaption {
 
 .line {
 	fill: none;
-	stroke: rgb(84,39,143);
+	stroke: #54278F;
 	stroke-width: 1.5;
 	opacity: 1;
 }
@@ -53,7 +54,7 @@ figcaption {
 }
 
 .area:hover {
-	fill: yellow;
+	fill: #54278f;
 }
 
 .unclickable {

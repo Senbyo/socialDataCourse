@@ -10,6 +10,7 @@ var dataSeriesAttacksPerDay;
 // Dots on map
 var circles;
 var tooltipCircles;
+var tooltipCountry;
 
 var topGroups = [];
 var keysGroup = ["Others"];
@@ -59,13 +60,23 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#01665e']);
 
 // Descriptions for tabs
-var descriptionTab1 = "Inline styling serves a purpose however, it is not recommended in most situations.\n" +
-    "\n" +
-    "The more \"proper\" solution, would be to make a separate CSS sheet, include it in your HTML document, and then use either an ID or a class to reference your div.\n" +
-    "\n" +
-    "if you have the file structure:";
-var descriptionTab2 = "And this is the description for tab 2";
-var descriptionTab3 = "Finally this is the description for tab 3";
+var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
+    "country are display in the period from 1970 to 2016.</br>" +
+    "Hovering over a country on the plot will reveal the name of the country.</br>" +
+    "Click on tab <i>Organisations</i> to continue the exploration.";
+var descriptionTab2 = "This is an overview of every terror attack committed in the selected period from the timeline. " +
+    "The 11 most active groups have been explicitly coloured and the remaining groups including unknown groups " +
+    "performing the attacks are coloured as <i>Others</i>.</br>" +
+    "Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group.</br>" +
+    "Click on tab <i>Attacks</i> to continue the exploration.";
+var descriptionTab3 = "This plots focuses on the type of the terror attack. Every attack performed is shown here," +
+    " where the number of casualties for an attack is proportional with the size of the circle.</br>" +
+    "Hovering over an attack will reveal the group, number of casualties, type of attack and a summary for the attack.</br>" +
+    "In the bottom plot are the number of attacks for each attack type accumulated for each year, using the same " +
+    "colourcode as in the top plot. Hovering over an area in the bottom plot will reveal the attack type as well." +
+    "Clicking on an area in the plot will single out the selected area. Clicking on the area again will reveal how " +
+    "this attack type are distributed within the 11 most attack groups, which coloured as they were in the tab " +
+    "<i>Organisations</i>.";
 
 // Timeline variables
 var wSvgTimeLine = 1200;
@@ -179,6 +190,7 @@ d3.csv("data/terror_EU_processed_data_stupidDate.csv", rowConverter, function(er
             keysAttackType.push(dataSeriesAttackType[k].key);
         }
 
+        colorsAttackType.domain(keysAttackType);
 
         loadJson();
 
@@ -244,7 +256,7 @@ function loadJson() {
 
 var legendDensityTop = d3.legendColor()
     .labelFormat(d3.format(".0f"))
-    .title("Number of attacks")
+    .title("Number of attacks from 1970 - 2016")
     .titleWidth(200)
     .scale(colorsCountry);
 
@@ -299,7 +311,7 @@ var generateChoropleth = function(){
 				.projection(projection);
 
 	// Draw path
-	svgChoropleth.selectAll("path")
+	var countries = svgChoropleth.selectAll("path")
 		.data(jsonChoro.features)
 		.enter()
 		.append("path")
@@ -315,6 +327,12 @@ var generateChoropleth = function(){
 				return "#ff0000";
 			}
 		});
+
+    tooltipCountry = countries.append("title");
+
+    tooltipCountry.text(function (d) {
+        return d.properties.sovereignt;
+    });
 
     drawLegendTop(legendDensityTop);
 
@@ -483,8 +501,8 @@ var generateAttacks = function() {
 };
 
 //---------------- Tooltip Functionality ----------------------
-var addTooltip = function(textFunction) {
-    tooltipCircles.text(textFunction);
+var addTooltip = function(tooltipElement, textFunction) {
+    tooltipElement.text(textFunction);
 };
 
 var colorCirclesGroup = function() {
@@ -600,6 +618,9 @@ var drawChoroplethTab1 = function() {
 	showDensityColours();
     drawLegendTop(legendDensityTop);
     addTextBottom(descriptionTab1);
+    addTooltip(tooltipCountry, function (d) {
+        return d.properties.sovereignt;
+    })
 
 };
 
@@ -612,7 +633,7 @@ var drawChoroplethTab2 = function() {
     // What to show.
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
-    addTooltip(function(d) {
+    addTooltip(tooltipCircles, function(d) {
         var groupName = d.Group;
         if (keysGroup.includes(groupName)) {
             return "";
@@ -623,6 +644,7 @@ var drawChoroplethTab2 = function() {
     updateTimeLine();
 	showTimeLine();
     addTextBottom(descriptionTab2);
+    addTooltip(tooltipCountry, "");
 
 };
 
@@ -634,14 +656,18 @@ var drawChoroplethTab3 = function() {
 
     // What to show.
 	showCircles(function (d) {
-        return Math.sqrt(d.Killed);
+        return Math.sqrt(d.Killed) + 1;
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
-	addTooltip(function(d) {
-	    return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
+	addTooltip(tooltipCircles, function(d) {
+	    return "Group: " + d.Group + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType + "\nSummary: " + d.Summary;
 	});
+
     addPan();
+    addTooltip(tooltipCountry, function (d) {
+        return "";
+    });
     addTextBottom(descriptionTab3);
 
 };
