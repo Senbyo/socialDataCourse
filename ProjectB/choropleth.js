@@ -15,7 +15,9 @@ var topGroups = [];
 var keysGroup = ["Others"];
 var keysAttackType = [];
 
+var pDescription;
 var svgChoropleth;
+var svgLegend;
 var svgTimeLine;
 
 var wSvgChoro = 1200;
@@ -56,6 +58,15 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#35978f',
 									'#01665e']);
 
+// Descriptions for tabs
+var descriptionTab1 = "Inline styling serves a purpose however, it is not recommended in most situations.\n" +
+    "\n" +
+    "The more \"proper\" solution, would be to make a separate CSS sheet, include it in your HTML document, and then use either an ID or a class to reference your div.\n" +
+    "\n" +
+    "if you have the file structure:";
+var descriptionTab2 = "And this is the description for tab 2";
+var descriptionTab3 = "Finally this is the description for tab 3";
+
 // Timeline variables
 var wSvgTimeLine = 1200;
 var hSvgTimeLine = 300;
@@ -79,9 +90,6 @@ var tlYaxisText;
 
 // Brush variables
 var brushTimeLineGroup;
-
-// Legend variables
-var legendRightOffset = 841; // Makes sure it doesn't overlap with the choropleth
 
 //---------------- Row converter ----------------------
 var rowConverter = function(d) {
@@ -254,56 +262,52 @@ var legendAttackTypeTop = d3.legendColor()
 
 function drawLegendTop(legendToDraw) {
 	// Create legend
-    svgChoropleth.append("g")
+    svgLegend.append("g")
         .attr("id", "legendTop")
         .attr("class", "legend")
-        .attr("transform", "translate(" + legendRightOffset + ", 20)");
+        .attr("transform", "translate(0, 20)");
 
-    svgChoropleth.select(".legend")
+    svgLegend.select(".legend")
         .call(legendToDraw);
 }
-
-/*function drawLegendBottom() {
-
-	/*
-<svg height="90" width="200">
-        <text x="10" y="20" style="fill:red;">Several lines:
-        <tspan x="10" y="45">First line.</tspan>
-    <tspan x="10" y="70">Second line.</tspan>
-    </text>
-    </svg>
-*/
-/*
-    // Create legend
-    svgChoropleth.append("svg")
-        .attr("id", "legendBottom")
-        .attr("class", "legend")
-        .attr("transform", "translate(" + legendRightOffset + ", 420)")
-		.attr("height", 400)
-		.attr("width", 380)
-		.append("text")
-        .attr("dy", "1em")
-        .text("# of Murders Committed higugvyu gity vityv ityvi uy vbitgv  yub uijn ii viutyo ")
-		.append("tspan")
-		.text("this is some random text that is supposed to line break automatically.");
-
-    //svgChoropleth.select(".legend")
-    //    .call(legendToDraw);
-}*/
 
 //---------------- Generate choropleth ----------------------
 var generateChoropleth = function(){
 
+    pDescription = d3.select("#choro")
+        .append("div")
+        .attr("class", "container")
+        .append("p")
+        .attr("id", "choroDescrip");
+
+    pDescription.html(descriptionTab1);
+
 	// Create SVG for choropleth
-	svgChoropleth = d3.select("#choro").append("svg").attr("width", wSvgChoro).attr("height", hSvgChoro).attr("id", "choropleth")
-        //.attr("xmlns", "http://www.w3.org/2000/svg");
-        //.attr("xmlns:xlink", "http://www.w3.org/1999/xlink");
+	svgChoropleth = d3.select("#choro").append("svg").attr("width", 850).attr("height", 800).attr("id", "choropleth");
+
+    svgLegend = d3.select("#choro").append("svg").attr("width", 355).attr("height", 800).attr("id", "svgLegend");
+
+
+    //d3.select("choroDescrip")
+
+
+
+
+
+
+
+	//var rightDiv = d3.select("#choro").append("div").attr("id", "flo1");
+
+
+    //rightDiv.append("div").attr("id", "second");
+
+
 
 	// Use projection on path to get propper wrapping of the lon/lat
 	projection = d3.geoAzimuthalEqualArea()
 						.center([20, 55])
 						.scale(900)
-						.translate([wChoro/3, hChoro/2]);
+						.translate([850/2, hChoro/2]);
 
 	// Create path
 	var path = d3.geoPath()
@@ -396,7 +400,6 @@ function brushEnd() {
 
 var brushTimeline = d3.brushX()
     .extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
-    //.on("brush", highlightTimeLine)
     .on("end", brushEnd);
 
 //---------------- Generate timeline ------------------------
@@ -593,99 +596,14 @@ var showTimeLine = function() {
 
 };
 
-//
-var addTextBottom = function() {
+//---------------- Text In SVG Functionality ----------------------
+var addTextBottom = function(description) {
 
-    var testSVG = d3.select("#testid")
-        .append("svg")
-        .attr("class", "testSVG")
-        /*.attr({
-            'width': 500,
-            'height': 300
-        })*/
-        .attr("width", 500)
-        .attr("height", 300)
-        .append('g');
+    pDescription.html(description);
 
-    //svgChoropleth.append("text").attr("width", 100).attr("x", legendRightOffset).attr("y",400).text("Styled SVG TEXT and some other text to see if it breaks lines automagically");
-    /*var svgForForeignObject = svgChoropleth.append("svg")
-            .attr("class", "testSVG")
-            .attr("width", 200)
-            .attr("height", 200);
-*/
-
-    var fo = svg.append('foreignObject')
-        .attr({
-            'x': 40,
-            'y': 20,
-            'width': 100,
-            'height': 50,
-            'class': 'node'
-        });
-
-    var svgForeignObject = testSVG
-        .append("foreignobject")
-        .attr("class", "node")
-        .attr("x", 40)
-        .attr("y", 20)
-        .attr("width", 100)
-        .attr("height", 50);
-
-    svgForeignObject.append("div")
-        .attr("class", "testClass")
-        .html("I'm a div inside a SVG.");
-
-
-    /*
-    <svg width="500" height="300" style="border:1px red solid">
-                <foreignobject class="node" x="46" y="22" width="100" height="100">
-
-                    <div style="border:1px green solid">I'm a div inside a SVG.</div>
-                </foreignobject>
-            </svg>
-     */
-
-        //.attr("requiredExtensions", "http://www.w3.org/1999/xhtml");
-
-    /*svgForeignObject.append("p")
-        .attr("xmlns", "http://www.w3.org/1999/xhtml")
-        .text("this is some hopefully very long text that can be used to displayusd nfgoa spdfkpp asmdf")
-    */
-
-    //svgForeignObject.append("text").text("Styled SVG TEXT and some other text to see if it breaks lines automagically");
 };
 
-/*
-<svg width="500" height="300" style="border:1px red solid">
-            <foreignobject class="node" x="46" y="22" width="100" height="100">
-
-                    <div style="border:1px green solid">I'm a div inside a SVG.</div>
-            </foreignobject>
-        </svg>
- */
-
-
-/*
-<svg xmlns="http://www.w3.org/2000/svg"
-     width="21cm" height="29.7cm" style="border:1px solid black;">
-  <foreignObject x="6.4cm" y="3.6cm" width="10cm" height="10cm">
-    <p xmlns="http://www.w3.org/1999/xhtml"
-       style="font-size:48px;">The paragraph here</p>
-  </foreignObject>
-</svg>
- */
-
-
-/*<text x="20"  y="40"
-style="font-family: Arial;
-font-size  : 34;
-stroke     : #000000;
-fill       : #00ff00;
-"
->Styled SVG text</text>*/
-
 //---------------- Functions for drawing each of the three tabs ----------------------
-
 var drawChoroplethTab1 = function() {
 
 	// What to hide.
@@ -696,6 +614,7 @@ var drawChoroplethTab1 = function() {
 	// What to show.
 	showDensityColours();
     drawLegendTop(legendDensityTop);
+    addTextBottom(descriptionTab1);
 
 };
 
@@ -708,7 +627,6 @@ var drawChoroplethTab2 = function() {
     // What to show.
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
-    //drawLegendBottom();
     addTooltip(function(d) {
         var groupName = d.Group;
         if (keysGroup.includes(groupName)) {
@@ -719,7 +637,7 @@ var drawChoroplethTab2 = function() {
     });
     updateTimeLine();
 	showTimeLine();
-    addTextBottom();
+    addTextBottom(descriptionTab2);
 
 };
 
@@ -738,5 +656,6 @@ var drawChoroplethTab3 = function() {
 	addTooltip(function(d) {
 	    return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
 	});
+    addTextBottom(descriptionTab3);
 
 };
