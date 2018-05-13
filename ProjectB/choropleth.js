@@ -49,8 +49,20 @@ var colorsGroup = d3.scaleOrdinal()
 									'#2166ac',
 									'#053061']);
 */
+
 var colorsGroup = d3.scaleOrdinal()
-    .range(['#808080','#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99']);
+                            .range(['#808080',
+                                    '#a6cee3',
+                                    '#1f78b4',
+                                    '#b2df8a',
+                                    '#33a02c',
+                                    '#fb9a99',
+                                    '#e31a1c',
+                                    '#fdbf6f',
+                                    '#ff7f00',
+                                    '#cab2d6',
+                                    '#6a3d9a',
+                                    '#ffff99']);
 
 /*
 var colorsAttackType = d3.scaleOrdinal()
@@ -66,7 +78,15 @@ var colorsAttackType = d3.scaleOrdinal()
 */
 
 var colorsAttackType = d3.scaleOrdinal()
-    .range(['#d53e4f','#f46d43','#fdae61','#fee08b','#ffffbf','#e6f598','#abdda4','#66c2a5','#3288bd']);
+                            .range(['#d53e4f',
+                                    '#f46d43',
+                                    '#fdae61',
+                                    '#fee08b',
+                                    '#ffffbf',
+                                    '#e6f598',
+                                    '#abdda4',
+                                    '#66c2a5',
+                                    '#3288bd']);
 
 // Descriptions for tabs
 var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
