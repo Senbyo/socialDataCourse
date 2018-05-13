@@ -72,3 +72,8 @@ figcaption {
 #stackedAreaButton:hover rect {
 				fill: red;
 }
+
+.pan rect {
+	fill: black;
+	opacity: 0.2;
+}

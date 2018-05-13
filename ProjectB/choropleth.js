@@ -21,7 +21,7 @@ var svgChoropleth;
 var svgLegend;
 var svgTimeLine;
 
-var wSvgChoro = 1200;
+var wSvgChoro = 850;
 var hSvgChoro = 800;
 var wChoro = 1200;
 var hChoro = 800;
@@ -34,6 +34,7 @@ var colorsCountry = d3.scaleQuantize()
 						"#54278f",
 						"#3f007d"]);
 
+/*
 var colorsGroup = d3.scaleOrdinal()
 							.range(['#808080',
 									'#67001f',
@@ -47,7 +48,23 @@ var colorsGroup = d3.scaleOrdinal()
 									'#4393c3',
 									'#2166ac',
 									'#053061']);
+*/
 
+var colorsGroup = d3.scaleOrdinal()
+                            .range(['#808080',
+                                    '#a6cee3',
+                                    '#1f78b4',
+                                    '#b2df8a',
+                                    '#33a02c',
+                                    '#fb9a99',
+                                    '#e31a1c',
+                                    '#fdbf6f',
+                                    '#ff7f00',
+                                    '#cab2d6',
+                                    '#6a3d9a',
+                                    '#ffff99']);
+
+/*
 var colorsAttackType = d3.scaleOrdinal()
 							.range(['#8c510a',
 									'#bf812d',
@@ -58,6 +75,18 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#80cdc1',
 									'#35978f',
 									'#01665e']);
+*/
+
+var colorsAttackType = d3.scaleOrdinal()
+                            .range(['#d53e4f',
+                                    '#f46d43',
+                                    '#fdae61',
+                                    '#fee08b',
+                                    '#ffffbf',
+                                    '#e6f598',
+                                    '#abdda4',
+                                    '#66c2a5',
+                                    '#3288bd']);
 
 // Descriptions for tabs
 var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
@@ -93,6 +122,7 @@ var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
 var line;
 var pathGroup;
+var path;
 var tlLine;
 var tlXaxis;
 var tlYaxis;
@@ -306,7 +336,7 @@ var generateChoropleth = function(){
 						.translate([850/2, hChoro/2]);
 
 	// Create path
-	var path = d3.geoPath()
+	path = d3.geoPath()
 				.projection(projection);
 
 	// Draw path
@@ -662,9 +692,133 @@ var drawChoroplethTab3 = function() {
 	addTooltip(tooltipCircles, function(d) {
 	    return "Group: " + d.Group + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType + "\nSummary: " + d.Summary;
 	});
+
+    addPan();
     addTooltip(tooltipCountry, function (d) {
         return "";
     });
     addTextBottom(descriptionTab3);
 
 };
+
+var addPan = function() {
+
+    /* draggin map
+    var drag = d3.drag()
+        .on("drag", dragging);
+
+    var map = svg.append("g")
+        .attr("id", "map")
+        .call(drag);
+    */
+
+    var north = svgChoropleth.append("g")
+        .attr("class", "pan")
+        .attr("id", "north");
+
+    north.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", wSvgChoro)
+        .attr("height", 30);
+
+
+    north.append("text")
+        .attr("x", wSvgChoro/2)
+        .attr("y", 20)
+        .html("&uarr;")
+
+    var south = svgChoropleth.append("g")
+        .attr("class", "pan")
+        .attr("id", "south");
+
+    south.append("rect")
+        .attr("x", 0)
+        .attr("y", hSvgChoro- 30)
+        .attr("width", wSvgChoro)
+        .attr("height", 30);
+
+
+    south.append("text")
+        .attr("x", wSvgChoro/2)
+        .attr("y", hSvgChoro - 10)
+        .html("&darr;")
+
+    var east = svgChoropleth.append("g")
+        .attr("class", "pan")
+        .attr("id", "east");
+
+    east.append("rect")
+        .attr("x", wSvgChoro - 30)
+        .attr("y", 30)
+        .attr("width", 30)
+        .attr("height", hSvgChoro - 60);
+
+    south.append("text")
+        .attr("x", wSvgChoro - 20)
+        .attr("y", hSvgChoro/2)
+        .html("&rarr;")
+
+    var west = svgChoropleth.append("g")
+        .attr("class", "pan")
+        .attr("id", "west");
+
+    west.append("rect")
+        .attr("x", 0)
+        .attr("y", 30)
+        .attr("width", 30)
+        .attr("height", hSvgChoro - 60);
+
+    west.append("text")
+        .attr("x", 15)
+        .attr("y", hSvgChoro/2)
+        .html("&larr;")
+
+    d3.selectAll(".pan")
+        .on("click", function() {
+
+            var offset = projection.translate();
+            console.log(offset)
+
+            var moveAmount = 15;
+
+            var direction = d3.select(this).attr("id");
+
+            switch (direction) {
+                case "north":
+                    offset[1] += moveAmount; // increase y offset
+                    break;
+
+                case "south":
+                    offset[1] -= moveAmount; // decrese y offset
+                    break;
+
+                case "east":
+                    offset[0] += moveAmount; // increase x offset
+                    break;
+
+                case "west":
+                    offset[0] -= moveAmount; // decrease x offset
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            projection.translate(offset);
+
+            console.log(svgChoropleth.selectAll("path"));
+
+            svgChoropleth.selectAll("path")
+                .attr("d", path)
+
+            svgChoropleth.selectAll("circle")
+            .attr("cx", function(d) {
+                return projection([d.Longitude, d.Latitude])[0];
+            })
+            .attr("cy", function(d) {
+                return projection([d.Longitude, d.Latitude])[1];
+            });
+});
+}
