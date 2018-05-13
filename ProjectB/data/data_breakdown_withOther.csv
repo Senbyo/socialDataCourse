@@ -1,5 +1,5 @@
 Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack,Kidnapping,Unknown,Unarmed Assault,Hostage Taking,Hijacking,Group
-1970,10,2,0,7,0,1,0,0,0,0,All
+1970,60,23,0,17,12,2,0,1,0,5,All
 1970,7,2,0,5,0,0,0,0,0,0,Irish Republican Army (IRA)
 1970,1,0,0,0,0,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1970,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -11,8 +11,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1970,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1970,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1970,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1970,50,21,0,10,12,1,0,1,0,5,Other
-1971,71,20,46,1,2,2,0,0,0,0,All
+1970,50,21,0,10,12,1,0,1,0,5,Others
+1971,128,50,59,5,10,3,0,0,0,1,All
 1971,60,14,45,1,0,0,0,0,0,0,Irish Republican Army (IRA)
 1971,4,1,0,0,1,2,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1971,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -24,8 +24,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1971,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1971,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1971,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1971,57,30,13,4,8,1,0,0,0,1,Other
-1972,261,56,155,41,1,8,0,0,0,0,All
+1971,57,30,13,4,8,1,0,0,0,1,Others
+1972,353,107,180,50,3,9,1,0,0,3,All
 1972,162,45,77,32,1,7,0,0,0,0,Irish Republican Army (IRA)
 1972,4,0,2,1,0,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1972,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -37,8 +37,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1972,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1972,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1972,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1972,92,51,25,9,2,1,1,0,0,3,Other
-1973,185,48,121,7,3,4,0,0,0,2,All
+1972,92,51,25,9,2,1,1,0,0,3,Others
+1973,289,89,137,26,24,4,0,2,3,4,All
 1973,108,36,61,4,3,2,0,0,0,2,Irish Republican Army (IRA)
 1973,3,1,1,0,0,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1973,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -50,8 +50,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1973,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1973,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1973,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1973,104,41,16,19,21,0,0,2,3,2,Other
-1974,200,65,114,15,3,2,0,1,0,0,All
+1973,104,41,16,19,21,0,0,2,3,2,Others
+1974,316,126,136,21,25,5,0,2,1,0,All
 1974,112,49,58,4,0,1,0,0,0,0,Irish Republican Army (IRA)
 1974,10,1,6,3,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1974,1,1,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -63,8 +63,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1974,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1974,4,0,0,0,3,1,0,0,0,0,Red Brigades
 1974,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1974,116,61,22,6,22,3,0,1,1,0,Other
-1975,203,68,102,23,3,6,1,0,0,0,All
+1974,116,61,22,6,22,3,0,1,1,0,Others
+1975,432,164,149,50,56,7,1,0,5,0,All
 1975,75,33,33,4,0,4,1,0,0,0,Irish Republican Army (IRA)
 1975,32,14,10,5,3,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1975,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -76,8 +76,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1975,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1975,1,0,0,1,0,0,0,0,0,0,Red Brigades
 1975,13,2,4,7,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1975,229,96,47,27,53,1,0,0,5,0,Other
-1976,234,62,125,28,6,8,1,0,4,0,All
+1975,229,96,47,27,53,1,0,0,5,0,Others
+1976,573,232,153,73,94,13,2,1,4,1,All
 1976,93,27,59,3,4,0,0,0,0,0,Irish Republican Army (IRA)
 1976,16,2,9,1,0,4,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1976,2,1,0,0,0,0,0,0,1,0,Corsican National Liberation Front (FLNC)
@@ -89,8 +89,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1976,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1976,22,4,4,8,2,2,0,0,2,0,Red Brigades
 1976,21,13,0,7,0,1,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1976,339,170,28,45,88,5,1,1,0,1,Other
-1977,249,79,63,60,35,9,1,0,2,0,All
+1976,339,170,28,45,88,5,1,1,0,1,Others
+1977,766,308,93,184,146,21,5,0,6,3,All
 1977,109,22,35,24,28,0,0,0,0,0,Irish Republican Army (IRA)
 1977,54,31,10,5,1,6,0,0,1,0,Basque Fatherland and Freedom (ETA)
 1977,2,2,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -102,8 +102,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1977,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1977,41,7,7,20,5,1,0,0,1,0,Red Brigades
 1977,22,11,4,4,1,2,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1977,517,229,30,124,111,12,4,0,4,3,Other
-1978,303,113,77,76,11,13,4,1,8,0,All
+1977,517,229,30,124,111,12,4,0,4,3,Others
+1978,707,317,121,106,112,24,10,3,14,0,All
 1978,80,42,13,22,1,2,0,0,0,0,Irish Republican Army (IRA)
 1978,129,38,47,22,8,7,4,0,3,0,Basque Fatherland and Freedom (ETA)
 1978,12,12,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -115,8 +115,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1978,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1978,55,14,12,23,2,3,0,0,1,0,Red Brigades
 1978,18,5,4,4,0,1,0,0,4,0,First of October Antifascist Resistance Group (GRAPO)
-1978,404,204,44,30,101,11,6,2,6,0,Other
-1979,590,289,131,92,51,11,10,1,5,0,All
+1978,404,204,44,30,101,11,6,2,6,0,Others
+1979,1016,500,201,130,107,41,23,4,8,2,All
 1979,206,91,44,30,33,2,6,0,0,0,Irish Republican Army (IRA)
 1979,170,63,62,31,4,8,1,0,1,0,Basque Fatherland and Freedom (ETA)
 1979,132,120,0,1,11,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -128,8 +128,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1979,2,1,1,0,0,0,0,0,0,0,Neo-Nazi extremists
 1979,33,4,8,14,1,0,1,1,4,0,Red Brigades
 1979,26,8,13,2,2,0,1,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1979,426,211,70,38,56,30,13,3,3,2,Other
-1980,274,103,99,37,18,12,4,0,1,0,All
+1979,426,211,70,38,56,30,13,3,3,2,Others
+1980,589,269,166,63,59,19,9,0,2,2,All
 1980,94,43,26,11,8,4,1,0,1,0,Irish Republican Army (IRA)
 1980,124,42,53,19,2,6,2,0,0,0,Basque Fatherland and Freedom (ETA)
 1980,8,8,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -141,8 +141,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1980,2,2,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1980,24,2,13,1,6,2,0,0,0,0,Red Brigades
 1980,7,2,2,1,2,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1980,315,166,67,26,41,7,5,0,1,2,Other
-1981,220,91,69,37,2,16,4,0,1,0,All
+1980,315,166,67,26,41,7,5,0,1,2,Others
+1981,479,228,133,50,30,17,9,2,5,5,All
 1981,103,43,36,17,2,4,0,0,1,0,Irish Republican Army (IRA)
 1981,66,34,15,7,0,8,2,0,0,0,Basque Fatherland and Freedom (ETA)
 1981,12,12,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -154,8 +154,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1981,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1981,20,2,7,6,0,4,1,0,0,0,Red Brigades
 1981,5,0,3,2,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1981,259,137,64,13,28,1,5,2,4,5,Other
-1982,216,120,66,8,4,10,3,2,3,0,All
+1981,259,137,64,13,28,1,5,2,4,5,Others
+1982,404,255,100,16,10,10,4,2,7,0,All
 1982,56,24,24,3,0,1,1,0,3,0,Irish Republican Army (IRA)
 1982,114,77,23,3,4,6,1,0,0,0,Basque Fatherland and Freedom (ETA)
 1982,6,5,1,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -167,8 +167,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1982,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1982,8,2,3,2,0,0,1,0,0,0,Red Brigades
 1982,13,12,1,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1982,188,135,34,8,6,0,1,0,4,0,Other
-1983,267,139,73,17,26,8,4,0,0,0,All
+1982,188,135,34,8,6,0,1,0,4,0,Others
+1983,473,291,101,19,38,12,6,2,2,2,All
 1983,134,50,43,15,25,1,0,0,0,0,Irish Republican Army (IRA)
 1983,98,69,16,2,1,6,4,0,0,0,Basque Fatherland and Freedom (ETA)
 1983,20,20,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -180,8 +180,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1983,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1983,1,0,1,0,0,0,0,0,0,0,Red Brigades
 1983,5,0,4,0,0,1,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1983,206,152,28,2,12,4,2,2,2,2,Other
-1984,273,168,60,26,16,0,3,0,0,0,All
+1983,206,152,28,2,12,4,2,2,2,2,Others
+1984,541,358,107,38,29,2,3,1,1,2,All
 1984,118,63,28,19,7,0,1,0,0,0,Irish Republican Army (IRA)
 1984,80,44,20,7,8,0,1,0,0,0,Basque Fatherland and Freedom (ETA)
 1984,36,36,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -193,8 +193,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1984,2,0,0,0,1,0,1,0,0,0,Neo-Nazi extremists
 1984,1,0,1,0,0,0,0,0,0,0,Red Brigades
 1984,29,25,4,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1984,268,190,47,12,13,2,0,1,1,2,Other
-1985,200,127,58,10,1,3,1,0,0,0,All
+1984,268,190,47,12,13,2,0,1,1,2,Others
+1985,468,314,83,23,18,5,18,0,3,4,All
 1985,53,27,19,4,1,1,1,0,0,0,Irish Republican Army (IRA)
 1985,93,51,34,6,0,2,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1985,49,49,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -206,8 +206,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1985,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1985,1,0,1,0,0,0,0,0,0,0,Red Brigades
 1985,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1985,268,187,25,13,17,2,17,0,3,4,Other
-1986,168,93,47,17,3,4,2,2,0,0,All
+1985,268,187,25,13,17,2,17,0,3,4,Others
+1986,454,304,67,28,40,5,7,3,0,0,All
 1986,45,20,22,1,0,1,1,0,0,0,Irish Republican Army (IRA)
 1986,101,69,11,16,2,3,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1986,4,4,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -219,8 +219,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1986,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1986,1,0,1,0,0,0,0,0,0,0,Red Brigades
 1986,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1986,286,211,20,11,37,1,5,1,0,0,Other
-1987,196,98,65,9,20,4,0,0,0,0,All
+1986,286,211,20,11,37,1,5,1,0,0,Others
+1987,418,231,103,19,34,5,24,1,0,1,All
 1987,79,34,39,5,0,1,0,0,0,0,Irish Republican Army (IRA)
 1987,65,55,5,2,0,3,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1987,16,9,3,2,2,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -232,8 +232,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1987,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1987,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1987,1,0,1,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1987,222,133,38,10,14,1,24,1,0,1,Other
-1988,265,166,70,13,13,2,1,0,0,0,All
+1987,222,133,38,10,14,1,24,1,0,1,Others
+1988,491,314,97,25,50,3,2,0,0,0,All
 1988,133,83,35,8,6,1,0,0,0,0,Irish Republican Army (IRA)
 1988,82,56,13,4,7,1,1,0,0,0,Basque Fatherland and Freedom (ETA)
 1988,27,25,2,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -245,8 +245,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1988,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1988,2,1,1,0,0,0,0,0,0,0,Red Brigades
 1988,4,0,4,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1988,226,148,27,12,37,1,1,0,0,0,Other
-1989,275,157,75,14,26,3,0,0,0,0,All
+1988,226,148,27,12,37,1,1,0,0,0,Others
+1989,457,257,104,25,63,5,1,0,0,2,All
 1989,124,73,38,10,1,2,0,0,0,0,Irish Republican Army (IRA)
 1989,126,79,20,2,24,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1989,4,3,0,0,1,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -258,8 +258,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1989,1,0,1,0,0,0,0,0,0,0,Neo-Nazi extremists
 1989,1,0,0,1,0,0,0,0,0,0,Red Brigades
 1989,4,0,4,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1989,182,100,29,11,37,2,1,0,0,2,Other
-1990,234,131,85,11,2,3,1,0,1,0,All
+1989,182,100,29,11,37,2,1,0,0,2,Others
+1990,441,252,121,31,29,4,1,1,1,1,All
 1990,107,61,36,7,0,3,0,0,0,0,Irish Republican Army (IRA)
 1990,77,49,26,2,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1990,15,10,2,0,2,0,0,0,1,0,Corsican National Liberation Front (FLNC)
@@ -271,8 +271,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1990,1,0,0,0,0,0,1,0,0,0,Neo-Nazi extremists
 1990,1,1,0,0,0,0,0,0,0,0,Red Brigades
 1990,13,10,3,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1990,207,121,36,20,27,1,0,1,0,1,Other
-1991,378,143,92,29,105,3,5,1,0,0,All
+1990,207,121,36,20,27,1,0,1,0,1,Others
+1991,767,373,123,64,161,11,24,4,3,4,All
 1991,202,60,36,12,91,3,0,0,0,0,Irish Republican Army (IRA)
 1991,85,60,18,7,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1991,21,19,1,1,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -284,8 +284,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1991,19,0,5,5,3,0,5,1,0,0,Neo-Nazi extremists
 1991,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1991,3,3,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1991,389,230,31,35,56,8,19,3,3,4,Other
-1992,450,189,81,48,102,1,26,2,0,1,All
+1991,389,230,31,35,56,8,19,3,3,4,Others
+1992,854,344,141,109,169,10,66,11,0,4,All
 1992,183,106,27,18,31,0,0,0,0,1,Irish Republican Army (IRA)
 1992,48,26,14,5,3,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1992,47,46,0,0,0,1,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -297,7 +297,7 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1992,123,5,5,23,62,0,26,2,0,0,Neo-Nazi extremists
 1992,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1992,6,5,0,1,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1992,404,155,60,61,67,9,40,9,0,3,Other
+1992,404,155,60,61,67,9,40,9,0,3,Others
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
@@ -312,7 +312,7 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
 1993,0,0,0,0,0,0,0,0,0,0,No_attacks
-1994,346,140,70,67,55,0,7,4,3,0,All
+1994,665,282,127,111,95,2,26,9,7,6,All
 1994,147,57,18,21,47,0,1,0,3,0,Irish Republican Army (IRA)
 1994,40,26,11,2,1,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1994,46,39,0,6,0,0,1,0,0,0,Corsican National Liberation Front (FLNC)
@@ -324,8 +324,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1994,41,1,1,25,5,0,5,4,0,0,Neo-Nazi extremists
 1994,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1994,2,2,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1994,319,142,57,44,40,2,19,5,4,6,Other
-1995,67,48,10,4,0,2,1,1,1,0,All
+1994,319,142,57,44,40,2,19,5,4,6,Others
+1995,383,152,52,25,129,4,10,2,1,8,All
 1995,4,1,3,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 1995,35,26,5,3,0,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1995,14,14,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -337,8 +337,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1995,10,6,1,1,0,0,1,1,0,0,Neo-Nazi extremists
 1995,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1995,1,0,0,0,0,1,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1995,316,104,42,21,129,2,9,1,0,8,Other
-1996,82,71,8,1,1,1,0,0,0,0,All
+1995,316,104,42,21,129,2,9,1,0,8,Others
+1996,638,445,63,31,78,10,7,2,1,1,All
 1996,12,11,1,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 1996,43,36,4,1,1,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1996,24,24,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -350,8 +350,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1996,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1996,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1996,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1996,556,374,55,30,77,9,7,2,1,1,Other
-1997,82,45,11,11,6,4,2,3,0,0,All
+1996,556,374,55,30,77,9,7,2,1,1,Others
+1997,583,369,51,70,35,40,8,6,0,4,All
 1997,14,7,0,7,0,0,0,0,0,0,Irish Republican Army (IRA)
 1997,43,32,4,0,5,2,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1997,5,5,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -363,8 +363,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1997,5,0,1,0,1,0,2,1,0,0,Neo-Nazi extremists
 1997,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1997,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1997,501,324,40,59,29,36,6,3,0,4,Other
-1998,30,20,5,5,0,0,0,0,0,0,All
+1997,501,324,40,59,29,36,6,3,0,4,Others
+1998,241,143,10,52,29,5,1,1,0,0,All
 1998,12,8,0,4,0,0,0,0,0,0,Irish Republican Army (IRA)
 1998,9,6,2,1,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1998,4,3,1,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -376,8 +376,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1998,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1998,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1998,2,2,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1998,211,123,5,47,29,5,1,1,0,0,Other
-1999,42,23,2,10,1,3,0,2,1,0,All
+1998,211,123,5,47,29,5,1,1,0,0,Others
+1999,370,207,15,66,53,8,6,10,4,1,All
 1999,10,2,0,5,0,1,0,2,0,0,Irish Republican Army (IRA)
 1999,3,2,1,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 1999,6,5,0,0,0,0,0,0,1,0,Corsican National Liberation Front (FLNC)
@@ -389,8 +389,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 1999,1,1,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 1999,0,0,0,0,0,0,0,0,0,0,Red Brigades
 1999,1,1,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-1999,328,184,13,56,52,5,6,8,3,1,Other
-2000,165,105,15,33,9,0,2,1,0,0,All
+1999,328,184,13,56,52,5,6,8,3,1,Others
+2000,486,303,35,90,47,2,3,6,0,0,All
 2000,6,3,0,3,0,0,0,0,0,0,Irish Republican Army (IRA)
 2000,46,29,13,0,4,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2000,2,2,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -402,8 +402,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2000,2,2,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2000,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2000,14,13,1,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2000,321,198,20,57,38,2,1,5,0,0,Other
-2001,142,99,10,22,5,3,0,1,1,1,All
+2000,321,198,20,57,38,2,1,5,0,0,Others
+2001,483,273,28,100,54,13,5,7,2,1,All
 2001,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2001,37,30,5,1,0,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2001,6,5,0,0,1,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -415,8 +415,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2001,1,0,0,1,0,0,0,0,0,0,Neo-Nazi extremists
 2001,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2001,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2001,341,174,18,78,49,10,5,6,1,0,Other
-2002,77,55,4,12,3,2,1,0,0,0,All
+2001,341,174,18,78,49,10,5,6,1,0,Others
+2002,230,161,16,26,13,5,2,5,2,0,All
 2002,2,1,0,1,0,0,0,0,0,0,Irish Republican Army (IRA)
 2002,28,25,1,1,1,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2002,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -428,8 +428,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2002,2,0,0,0,2,0,0,0,0,0,Neo-Nazi extremists
 2002,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2002,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2002,153,106,12,14,10,3,1,5,2,0,Other
-2003,75,56,4,10,5,0,0,0,0,0,All
+2002,153,106,12,14,10,3,1,5,2,0,Others
+2003,219,143,11,24,26,1,1,12,0,1,All
 2003,2,1,0,1,0,0,0,0,0,0,Irish Republican Army (IRA)
 2003,11,10,1,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2003,15,15,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -441,8 +441,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2003,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2003,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2003,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2003,144,87,7,14,21,1,1,12,0,1,Other
-2004,33,26,3,3,1,0,0,0,0,0,All
+2003,144,87,7,14,21,1,1,12,0,1,Others
+2004,97,74,7,9,3,0,1,1,1,1,All
 2004,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2004,20,20,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2004,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -454,8 +454,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2004,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2004,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2004,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2004,64,48,4,6,2,0,1,1,1,1,Other
-2005,44,40,0,4,0,0,0,0,0,0,All
+2004,64,48,4,6,2,0,1,1,1,1,Others
+2005,174,131,7,29,6,0,0,1,0,0,All
 2005,1,1,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2005,20,20,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2005,18,18,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -467,8 +467,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2005,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2005,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2005,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2005,130,91,7,25,6,0,0,1,0,0,Other
-2006,38,33,1,1,1,1,0,0,1,0,All
+2005,130,91,7,25,6,0,0,1,0,0,Others
+2006,163,101,2,16,31,2,2,8,1,0,All
 2006,2,1,1,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2006,18,16,0,0,1,1,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2006,12,11,0,0,0,0,0,0,1,0,Corsican National Liberation Front (FLNC)
@@ -480,8 +480,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2006,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2006,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2006,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2006,125,68,1,15,30,1,2,8,0,0,Other
-2007,18,13,1,2,0,2,0,0,0,0,All
+2006,125,68,1,15,30,1,2,8,0,0,Others
+2007,134,72,3,41,13,2,1,2,0,0,All
 2007,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2007,8,5,1,0,0,2,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2007,6,6,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -493,8 +493,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2007,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2007,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2007,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2007,116,59,2,39,13,0,1,2,0,0,Other
-2008,47,36,0,6,4,0,0,1,0,0,All
+2007,116,59,2,39,13,0,1,2,0,0,Others
+2008,371,182,14,74,90,4,1,6,0,0,All
 2008,1,0,0,0,1,0,0,0,0,0,Irish Republican Army (IRA)
 2008,32,29,0,1,2,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2008,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -506,8 +506,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2008,3,1,0,1,0,0,0,1,0,0,Neo-Nazi extremists
 2008,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2008,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2008,324,146,14,68,86,4,1,5,0,0,Other
-2009,16,12,1,2,1,0,0,0,0,0,All
+2008,324,146,14,68,86,4,1,5,0,0,Others
+2009,345,138,19,66,108,7,1,1,0,5,All
 2009,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2009,14,10,1,2,1,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2009,1,1,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -519,8 +519,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2009,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2009,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2009,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2009,329,126,18,64,107,7,1,1,0,5,Other
-2010,3,3,0,0,0,0,0,0,0,0,All
+2009,329,126,18,64,107,7,1,1,0,5,Others
+2010,393,242,35,77,32,2,0,1,1,3,All
 2010,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2010,1,1,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2010,2,2,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -532,8 +532,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2010,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2010,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2010,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2010,390,239,35,77,32,2,0,1,1,3,Other
-2011,4,3,0,1,0,0,0,0,0,0,All
+2010,390,239,35,77,32,2,0,1,1,3,Others
+2011,289,169,21,71,21,3,1,1,0,2,All
 2011,1,1,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2011,1,0,0,1,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2011,2,2,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -545,8 +545,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2011,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2011,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2011,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2011,285,166,21,70,21,3,1,1,0,2,Other
-2012,60,60,0,0,0,0,0,0,0,0,All
+2011,285,166,21,70,21,3,1,1,0,2,Others
+2012,363,259,16,61,19,2,1,4,1,0,All
 2012,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2012,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2012,58,58,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -558,8 +558,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2012,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2012,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2012,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2012,303,199,16,61,19,2,1,4,1,0,Other
-2013,3,0,0,2,0,0,0,1,0,0,All
+2012,303,199,16,61,19,2,1,4,1,0,Others
+2013,418,247,17,72,66,3,3,7,1,2,All
 2013,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2013,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2013,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -571,8 +571,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2013,1,0,0,0,0,0,0,1,0,0,Neo-Nazi extremists
 2013,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2013,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2013,415,247,17,70,66,3,3,6,1,2,Other
-2014,332,121,0,98,30,56,21,3,3,0,All
+2013,415,247,17,70,66,3,3,6,1,2,Others
+2014,1175,558,14,284,157,92,49,12,7,2,All
 2014,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2014,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2014,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -584,8 +584,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2014,0,0,0,0,0,0,0,0,0,0,Neo-Nazi extremists
 2014,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2014,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2014,843,437,14,186,127,36,28,9,4,2,Other
-2015,279,169,0,86,2,9,13,0,0,0,All
+2014,843,437,14,186,127,36,28,9,4,2,Others
+2015,1016,561,16,224,161,15,21,9,9,0,All
 2015,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2015,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2015,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -597,8 +597,8 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2015,1,0,0,0,1,0,0,0,0,0,Neo-Nazi extremists
 2015,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2015,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2015,737,392,16,138,159,6,8,9,9,0,Other
-2016,18,3,1,5,2,5,0,2,0,0,All
+2015,737,392,16,138,159,6,8,9,9,0,Others
+2016,399,125,19,95,126,15,3,12,2,2,All
 2016,0,0,0,0,0,0,0,0,0,0,Irish Republican Army (IRA)
 2016,0,0,0,0,0,0,0,0,0,0,Basque Fatherland and Freedom (ETA)
 2016,0,0,0,0,0,0,0,0,0,0,Corsican National Liberation Front (FLNC)
@@ -610,4 +610,4 @@ Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack
 2016,7,2,1,0,2,0,0,2,0,0,Neo-Nazi extremists
 2016,0,0,0,0,0,0,0,0,0,0,Red Brigades
 2016,0,0,0,0,0,0,0,0,0,0,First of October Antifascist Resistance Group (GRAPO)
-2016,381,122,18,90,124,10,3,10,2,2,Other
+2016,381,122,18,90,124,10,3,10,2,2,Others
