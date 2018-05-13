@@ -56,9 +56,12 @@ figcaption {
 	fill: yellow;
 }
 
-
 .area.unclickable {
 	pointer-events: none;
+}
+
+#choroDescrip {
+	text-align: left;
 }
 
 #stackedAreaButton rect {
