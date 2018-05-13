@@ -1,4 +1,4 @@
-Year,Attacks,Bombing/Explosion,Assassination,Armed Assault,Infrastructure Attack,Kidnapping,Unknown,Unarmed Assault,Hostage Taking,Hijacking,Group
+Year,Attacks,BombingExplosion,Assassination,Armed_Assault,Infrastructure_Attack,Kidnapping,Unknown,Unarmed_Assault,Hostage_Taking,Hijacking,Group
 1970,39,13,0,10,11,0,0,1,0,4,All
 1970,21,10,0,2,7,0,0,1,0,1,Unknown
 1970,7,2,0,5,0,0,0,0,0,0,Irish Republican Army (IRA)
