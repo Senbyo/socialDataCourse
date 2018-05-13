@@ -14,7 +14,8 @@ Tab 2
 - Groups that only performed less than X number of attacks, it should be grouped as others. - DONE
 - Legend, colours and group names, including others. - DONE
     - Potentially be able to filter by organisations. Click/unclick groups in legend.
-- Tooltips on hover. For attacks performed by others, it should contain group name.
+- Tooltips on hover. For attacks performed by others, it should contain group name. - DONE
+- Should be explained on the page that the tooltop for others are possible.
 - Timeline - DONE
     - Make it work with brush (Copy from assignment 2) - DONE
 - Explain it is the CONTINENT of Europe.

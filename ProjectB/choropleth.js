@@ -9,6 +9,7 @@ var dataSeriesAttacksPerDay;
 
 // Dots on map
 var circles;
+var tooltipCircles;
 
 var topGroups = [];
 var keysGroup = ["Others"];
@@ -472,9 +473,7 @@ updateTimeLine = function() {
 
 
 //---------------- Visualizing terror attacks ----------------------
-var tooltipCircles;
 var generateAttacks = function() {
-
     // Adding circles for attacks
     circles = svgChoropleth.selectAll("circle")
         .data(terrorDataSet)
@@ -490,15 +489,17 @@ var generateAttacks = function() {
         .attr("r", function (d) {
         	return Math.sqrt(d.Killed);
         });
-
-    /*
-    tooltipCircles = circles.append("title")
-        .text(function(d){
-            return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
-        });
-	*/
+    tooltipCircles = circles.append("title");
 };
 
+//---------------- Tooltip Functionality ----------------------
+function addTooltip(textFunction) {
+    tooltipCircles.text(textFunction);
+        /*.text(function(d){
+            return textFunction;
+            //return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;
+        });*/
+}
 
 var colorCirclesGroup = function() {
 	circles.style("fill", function(d){
@@ -619,6 +620,14 @@ var drawChoroplethTab2 = function() {
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
     //drawLegendBottom();
+    addTooltip(function(d) {
+        var groupName = d.Group;
+        if (keysGroup.includes(groupName)) {
+            return "";
+        } else {
+            return "Group: " + groupName
+        }
+    });
     updateTimeLine();
 	showTimeLine();
 
@@ -636,5 +645,6 @@ var drawChoroplethTab3 = function() {
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
+	addTooltip(function(d) {return "Date: " + d.Date + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType;})
 
 };
