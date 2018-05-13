@@ -25,8 +25,8 @@ Tab 3
 - Explanation to the right of the choro
 - Make plot zoomable and panable
 - Tooltip with casualties.
-- Colours of circles is depending on the type attack
-- Legend explaining colour and attack type
+- Colours of circles is depending on the type attack - DONE
+- Legend explaining colour and attack type - DONE
 - Click on circle will showcase information corresponding to the selected attack to the right
 - Circles should have some opacity gradient, so big circles doesn’t “eat” small circles. - DONE
 

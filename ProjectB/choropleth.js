@@ -366,6 +366,9 @@ function compareHourAndDate(timeline_selection, date, d){
 
 // Consider to recal
 function brushEnd() {
+
+    highlightTimeLine();
+
     // Return if nothing is selected
     if (!d3.event.selection) return;
 
@@ -390,7 +393,7 @@ function brushEnd() {
 
 var brushTimeline = d3.brushX()
     .extent([[xScaleTimeline.range()[0], yScaleTimeLine.range()[1]], [xScaleTimeline.range()[1], yScaleTimeLine.range()[0]]])
-    .on("brush", highlightTimeLine)
+    //.on("brush", highlightTimeLine)
     .on("end", brushEnd);
 
 //---------------- Generate timeline ------------------------
