@@ -1,12 +1,17 @@
 //---------------- Global variables ----------------------
 var datasetArea;
-var dataSeries;
 var stackedTypeData;
 var stackedGroupData;
 var AllDataset;
-var keys;
+var keysArea;
 var stack;
+var typeStackedData;
+var restackedTypeData;
+var pathsTypes;
+var pathsGroups;
 var area;
+var currentState = 0;
+var yAxisGroup;
 var groupDataset = []
 var svgStackedArea;
 var wArea = 1200;
@@ -40,7 +45,7 @@ var yAxisArea = d3.axisLeft(yScaleArea);
 
 
 //---------------- row converter ----------------------
-var rowConverter = function(d) {
+var rowConverterArea = function(d) {
 		return {
 				Year: new Date(d.Year),
 				Attacks: d.Attacks,
@@ -59,7 +64,7 @@ var rowConverter = function(d) {
 };
 
 //---------------- loading murder data ----------------------
-d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error, data){
+d3.csv("data/data_breakdown_betterTransitions.csv", rowConverterArea, function(error, data){
 
 	if (error) {
 		console.log(error);
@@ -67,17 +72,7 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 		//console.log(data);
 		datasetArea = data;
 
-		console.log(datasetArea);
-		// Grab keys from the data set used for stacking
-		//dataSeries = d3.nest()
-		//  .key(function(d) { return d.Bombing ; }).entries(datasetArea);
-
-		  //.rollup(function(v) { return v.length; })
-		  //.entries(data);
-		keys = ["Bombing", "Hijacking", "Infrastructure_Attack", "Armed_Assault", "Kidnapping", "Unarmed_Assault", "Assassination", "Unknown", "Hostage_Taking"];
-		//var groupkeys = ["Unknown", "Irish Republican Army (IRA)", "Extraparliamentary Opposition (APO)", "Popular Front for the Liberation of Palestine (PFLP)"]
-		//var keys = ["Bombing", "Hijacking", "Infrastructure_Attack"];
-		//var keys = Object.keys(datasetArea[0]);
+		keysArea = ["Bombing", "Hijacking", "Infrastructure_Attack", "Armed_Assault", "Kidnapping", "Unarmed_Assault", "Assassination", "Unknown", "Hostage_Taking"];
 
 
 		stack = d3.stack().order(d3.stackOrderDescending);
@@ -93,9 +88,7 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 			.object(datasetArea);
 
 
-
-
-		stack.keys(keys);
+		stack.keys(keysArea);
 		groupKeys = []
 		for (var i in attacksByGroup){
 			groupKeys[i] =attacksByGroup[i].key;
@@ -135,7 +128,6 @@ d3.csv("data/data_breakdown_betterTransitions.csv", rowConverter, function(error
 
 		}
 
-		console.log(AllDataset);
 
 
 
@@ -177,6 +169,32 @@ var unNest =  function(dataset){
 	return unNestedData;
 }
 
+var rescale = function(scaleMax, duration, delay) {
+	    yScaleArea.domain([0, scaleMax]);
+	    yAxisGroup.transition("rescale animation")
+	    	.delay(delay)
+	    	.duration(duration)
+			.ease(d3.easeQuadIn)
+		    .call(yAxisArea);
+	        }
+
+var buttonVisibility = function() {
+	var button = d3.select("#stackedAreaButton")
+
+	if (button.classed("unclickable")){
+		button.classed("unclickable", false)
+		.transition()
+		.duration(500)
+		.attr("opacity", 1);	
+
+	} else {
+		button.classed("unclickable", true)
+		.transition()
+		.duration(500)
+		.attr("opacity", 0);	
+
+	}
+}
 
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
@@ -193,13 +211,11 @@ var generateAreaChart = function(){
 	var area = d3.area()
 	    .x(function(d) {
 	     return xScaleArea(d.data.Year); })
-	    .y0(function(d) { 
-	    	console.log(yScaleArea(d[0]))
-	    	return yScaleArea(d[0]); })
+	    .y0(function(d) { return yScaleArea(d[0]); })
 	    .y1(function(d) { return yScaleArea(d[1]); });
 
     //Create areas for groups
-    svgStackedArea.append("g")
+    pathsGroups = svgStackedArea.append("g")
     	.attr("id", "StackGroups")
     	.selectAll("path")
     	.data(stackedGroupData)
@@ -207,8 +223,12 @@ var generateAreaChart = function(){
     	.append("path")
     	.attr("class", "area")
     	.attr("d", area)
-		.attr("fill", function(d, i) {
-			return d3.schemeCategory20[i];
+		.attr("fill", function(d) {
+	        if (keysGroup.includes(d.key)) {
+	            return colorsGroup(d.key);
+	        } else {
+	            return colorsGroup("Others");
+	        }
 		})
 		.append("title")  //Make tooltip
 		.text(function(d, i) {
@@ -216,7 +236,7 @@ var generateAreaChart = function(){
 		});
 
 	//Create areas for types
-	svgStackedArea.append("g")
+	pathsTypes = svgStackedArea.append("g")
 		.attr("id", "StackTypes")
 		.selectAll("path")
 		.data(stackedTypeData)
@@ -225,11 +245,11 @@ var generateAreaChart = function(){
 		.attr("class", "area")
 		.attr("d", area)
 		// Make a complicated fill function that divides everything into stuff
-		.attr("fill", function(d, i) {
-			return d3.schemeCategory20[i];
+		.attr("fill", function(d) {
+			return colorsAttackType(d.key);
 		})
 		.on("click", function(d) {
-			
+			currentState ++;
 			//Which type was clicked?
 			var thisType = d.key;
 
@@ -291,53 +311,74 @@ var generateAreaChart = function(){
 
 		  	var unnestedThisTypeDataset = unNest(nestedThisTypeDataset);
 
-			var typeStackedData = stack_number_two(unnestedThisTypeDataset);
-			var restackedTypeData = stack(allDataSet);
+			typeStackedData = stack_number_two(unnestedThisTypeDataset);
+			restackedTypeData = stack(allDataSet);
 
-			console.log(typeStackedData);
-			console.log(restackedTypeData);
 
-			var pathsTypes = d3.selectAll("#StackTypes path")
+			pathsTypes = d3.selectAll("#StackTypes path")
 								.data(restackedTypeData)
-								.classed("unclickable", "true");
 
-			var paths = d3.selectAll("#StackGroups path")
-								.data(typeStackedData);
+			pathsGroups = d3.selectAll("#StackGroups path")
+								.data(typeStackedData)
+								.attr("opacity", 1);
 
-			var pathsTypesTransition = pathsTypes.transition()
+			if (currentState == 1) {
+				pathsTypesTransition = pathsTypes.transition()
 				.duration(1000)
 				.attr("d", area);
+
+			var areaTransitions = pathsGroups.transition()
+				.attr("d", area);				
+
 			
-			var areaTransitions = paths.transition()
-				.delay(800)
+			pathsTypesTransition.transition()
 				.on("start", function() {
 					//Make vehicles visible instantly, so 
 					//they are revealed when this fades out
 					//d3.selectAll("#StackTypes path")
-					pathsTypes.transition(1000)
-						.delay(500)
+					pathsTypes.transition()
+						.delay(200)
 						.duration(1000)
-						.attr("opacity", 0);
+						.attr("opacity", 1);
 				})
 				.attr("d", area);
-
-			//Update scale
-			yScaleArea.domain([
-					0,
-					d3.max(typeStackedData, function(d) {
-						var sum = 0
-						sum += parseInt(d[thisType]);
-
-						return sum;
-					})
-				]);
 			
-			areaTransitions.transition()
-				.delay(1500)
+			var max = d3.max(datasetArea, function(d) {
+				var sum = 0
+				sum += parseInt(d[thisType])
+				
+				return sum;
+			});
+			
+			rescale(max, 1000, 1000)
+
+			d3.selectAll("#StackTypes path").transition("named")
+				.delay(1000)
 				.duration(1000)
 				.attr("d", area);
+
 			
+			var areaTransitions = pathsGroups.transition()
+				.delay(2000)
+				.duration(1000)
+				.attr("d", area);
+
+			buttonVisibility();
 			
+
+			} else if (currentState == 2){
+
+				var stacktypes = d3.selectAll("#StackTypes path")
+						.data(restackedTypeData)
+						.classed("unclickable", true);
+
+				stacktypes.transition()
+						.duration(1000)
+						.attr("opacity", 0)
+
+			}
+			
+
 			
 		})
 		.attr("opacity", 1)
@@ -346,6 +387,94 @@ var generateAreaChart = function(){
 			return d.key;
 		});
 
+	// create back button
+	var backButton = svgStackedArea.append("g")
+		.attr("id", "stackedAreaButton")
+		.attr("class", "unclickable")
+		.attr("opacity", 0)
+		.attr("transform", "translate(" + xScaleArea.range()[0] + "," + yScaleArea.range()[1] + ")");
+
+	backButton.append("rect")
+		.attr("x", 0)
+		.attr("y", 0)
+		.attr("width", 70)
+		.attr("heigth", 30)
+
+	backButton.append("text")
+		.attr("x", 7)
+		.attr("y", 20)
+		.text("Back")
+
+	backButton.on("click", function(){
+			if (currentState == 1) {
+				
+				d3.selectAll("#StackGroups path")
+					.attr("opacity", 0)
+
+				rescale(1100, 1000, 0);
+
+
+
+				d3.selectAll("#StackTypes path")
+					.data(stackedTypeData)
+					// TODO fix transition where the stacks seem to pop in from out of no where
+					/*
+					.transition()
+					.delay(1000)
+					.duration(1000)
+					*/
+					.attr("d", area)
+
+				d3.selectAll("#StackGroups path")
+					.data(stackedGroupData)
+					// TODO fix transition where the stacks seem to pop in from out of no where
+					/*
+					.transition()
+					.delay(1000)
+					.duration(1000)
+					*/
+					.attr("d", area)
+
+				currentState --;
+
+			} else if (currentState == 2){
+
+				var temp = d3.selectAll("#StackTypes path")
+					.classed("unclickable", false)
+					.transition(1000)
+					.attr("opacity", 1);
+
+				currentState --;				
+			}
+
+			if (currentState == 0) {
+				buttonVisibility();
+			}
+
+
+
+			/*
+			var areaTransitions = pathsTypes.transition()
+				.duration(1000)
+				.attr("d", area);	
+			*/
+			/*
+			pathsTypes.transition()
+					.delay(1000)
+					.duration(1000)
+					.attr("opacity", 1)
+					.on("end", function(){
+						d3.selectAll("#StackGroups path")
+							.attr("opacity", 0);
+					});
+			*/
+		
+		/*
+		pathsGroups.transition()
+			.attr("d", area)
+		*/
+	})
+
 	// Draw x-axis included values along the axis.
 	svgStackedArea.append("g")
 		.attr("class", "axis")
@@ -353,7 +482,7 @@ var generateAreaChart = function(){
 		.call(xAxisArea);
 
 	// Draw y-axis included values along the axis.
-	svgStackedArea.append("g")
+	yAxisGroup = svgStackedArea.append("g")
 		.attr("class", "axis yaxis")
 		.attr("transform", "translate(" + (paddingArea) + ",0)")
 		.call(yAxisArea);

@@ -63,3 +63,11 @@ figcaption {
 #choroDescrip {
 	text-align: left;
 }
+
+#stackedAreaButton rect {
+				fill: green;
+}
+
+#stackedAreaButton:hover rect {
+				fill: red;
+}
