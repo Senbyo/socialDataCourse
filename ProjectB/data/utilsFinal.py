@@ -1,6 +1,8 @@
 import numpy as np
 
-def makeRowForGroup(data,year,attackTypes):
+def makeRowForGroup(data,year,attackTypes,groupName = ""):
+    if(len(data)==0):
+        return np.array([year,0,0,0,0,0,0,0,0,0,0,groupName])
     attacks1_all = len(data["AttackType"])
     attack1_bomb = (data["AttackType"]==attackTypes[0]).sum()
     attack1_assass = (data["AttackType"]==attackTypes[1]).sum()
