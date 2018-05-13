@@ -34,6 +34,7 @@ var colorsCountry = d3.scaleQuantize()
 						"#54278f",
 						"#3f007d"]);
 
+/*
 var colorsGroup = d3.scaleOrdinal()
 							.range(['#808080',
 									'#67001f',
@@ -47,7 +48,11 @@ var colorsGroup = d3.scaleOrdinal()
 									'#4393c3',
 									'#2166ac',
 									'#053061']);
+*/
+var colorsGroup = d3.scaleOrdinal()
+    .range(['#808080','#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99']);
 
+/*
 var colorsAttackType = d3.scaleOrdinal()
 							.range(['#8c510a',
 									'#bf812d',
@@ -58,6 +63,10 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#80cdc1',
 									'#35978f',
 									'#01665e']);
+*/
+
+var colorsAttackType = d3.scaleOrdinal()
+    .range(['#d53e4f','#f46d43','#fdae61','#fee08b','#ffffbf','#e6f598','#abdda4','#66c2a5','#3288bd']);
 
 // Descriptions for tabs
 var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
