@@ -60,23 +60,27 @@ var colorsAttackType = d3.scaleOrdinal()
 									'#01665e']);
 
 // Descriptions for tabs
-var descriptionTab1 = "This is a plot over the continent of Europe, where the density of the number of attacks for each " +
-    "country are display in the period from 1970 to 2016.</br>" +
-    "Hovering over a country on the plot will reveal the name of the country.</br>" +
-    "Click on tab <i>Organisations</i> to continue the exploration.";
-var descriptionTab2 = "This is an overview of every terror attack committed in the selected period from the timeline. " +
-    "The 11 most active groups have been explicitly coloured and the remaining groups including unknown groups " +
-    "performing the attacks are coloured as <i>Others</i>.</br>" +
-    "Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group.</br>" +
-    "Click on tab <i>Attacks</i> to continue the exploration.";
-var descriptionTab3 = "This plots focuses on the type of the terror attack. Every attack performed is shown here," +
-    " where the number of casualties for an attack is proportional with the size of the circle.</br>" +
-    "Hovering over an attack will reveal the group, number of casualties, type of attack and a summary for the attack.</br>" +
-    "In the bottom plot are the number of attacks for each attack type accumulated for each year, using the same " +
-    "colourcode as in the top plot. Hovering over an area in the bottom plot will reveal the attack type as well." +
-    "Clicking on an area in the plot will single out the selected area. Clicking on the area again will reveal how " +
-    "this attack type are distributed within the 11 most attack groups, which coloured as they were in the tab " +
-    "<i>Organisations</i>.";
+var descriptionTab1 = "The continent of Europe (not to be confused with the Union) is illustrated below.</br> "+
+	  "Different colors represent the total number of attacks for each " +
+    "country for the period from 1970 to 2016.</br>" +
+    "Hovering over a country will reveal its name.</br>" +
+    "Click on the <i>Organisations</i> tab to continue with a more in-depth exploration.";
+var descriptionTab2 = "An overview of every terror attack committed within a pre-selected time period can be found below." +
+	  "You may interact with the timeline below the map to adjust the time period"+
+		"The selection is versatile and can be adjusted and dragged to fit any time period. Release the brush to update the map."+
+    "The 11 most active groups have been explicitly coloured and the remaining groups (including unknown)" +
+    "are coloured as <i>Others</i>.</br>" +
+    "Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group responsible for that attack.</br>" +
+    "Click on the <i>Attacks</i> tab to continue with a more in-depth exploration.";
+var descriptionTab3 = "The illustrations below focus on the evolution of the type of attacks in time. Every attack since the 1970s is shown on the map," +
+    " with circle size being relative to the severity of the attack in human casualties.</br>" +
+    " Hovering over an attack will reveal the name of the group responsible, the number of casualties, the type of attack and a summary of the event when available.</br>" +
+    " The illustration at the bottom of this page presents the number of attacks per attack type each year. Notice that the coloring corresponds to that of the map." +
+    " Hovering over a colored area in the bottom plot will reveal the attack type it represents." +
+    "Clicking on such an area will single it out for closer inspection. Clicking again will reveal" +
+    " the relativistic usage of that type of attack by each of the eleven most deadly terror groups. The morbid contribution of each group follows the same color coding as the" +
+    "<i>Organisations</i> tab. </br>"+
+		"Press Back to reverse the selection process.";
 
 // Timeline variables
 var wSvgTimeLine = 1200;
@@ -305,7 +309,7 @@ var generateChoropleth = function(){
                         .center([20, 55])
 						.scale(900)
 						.translate([850/2, hChoro/2]);
-                        
+
 	// Create path
 	path = d3.geoPath()
 				.projection(projection);
@@ -667,7 +671,7 @@ var createZoom = function() {
 
             }
             map.transition()
-                .call(zoom.scaleBy, scaleFactor);          
+                .call(zoom.scaleBy, scaleFactor);
         })
 }
 
@@ -713,7 +717,7 @@ var hideZoomAndPan = function(){
     d3.selectAll(".pan")
         .classed("unclickable", true)
         .attr("opacity", 0);
- 
+
 }
 
 var zoom =  d3.zoom()
@@ -914,5 +918,3 @@ var drawChoroplethTab3 = function() {
 
 
 };
-
-
