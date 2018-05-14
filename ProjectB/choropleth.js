@@ -182,7 +182,6 @@ d3.csv("data/terror_EU_processed_data_stupidDate.csv", rowConverter, function(er
         for (var j = 0; j < topGroups.length; j++) {
             keysGroup.push(topGroups[j].key);
         }
-
         colorsGroup.domain(keysGroup);
 
 

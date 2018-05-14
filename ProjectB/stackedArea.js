@@ -32,6 +32,22 @@ var colors = ["rgb(188,189,220)",
 				"rgb(84,39,143)",
 				"rgb(63,0,125)"]
 
+var keygroupArea = ["Others", "Irish Republican Army (IRA)", "Basque Fatherland and Freedom (ETA)", "Corsican National Liberation Front (FLNC)",
+"Donetsk People's Republic", "Protestant extremists", "Chechen Rebels", "Ulster Volunteer Force (UVF)", "Ulster Freedom Fighters (UFF)",
+"Neo-Nazi extremists", "Red Brigades", "First of October Antifascist Resistance Group (GRAPO)"];
+var colorsGroupArea = d3.scaleOrdinal()
+                            .range(['#808080',
+                                    '#a6cee3',
+                                    '#1f78b4',
+                                    '#b2df8a',
+                                    '#33a02c',
+                                    '#fb9a99',
+                                    '#e31a1c',
+                                    '#fdbf6f',
+                                    '#ff7f00',
+                                    '#cab2d6',
+                                    '#6a3d9a',
+                                    '#ffff99']);
 
 var colorsAttackTypeArea = d3.scaleOrdinal()
 								.range(['#d53e4f',
@@ -240,6 +256,8 @@ var generateAreaChart = function(){
 		d3.min(datasetArea, function(d) { return d.Year; }),
 		d3.max(datasetArea, function(d) { return d.Year; })
 		]);
+
+    colorsGroupArea.domain(keygroupArea);
 	
 
 	var area = d3.area()
@@ -258,10 +276,10 @@ var generateAreaChart = function(){
     	.attr("class", "area")
     	.attr("d", area)
 		.attr("fill", function(d) {
-	        if (keysGroup.includes(d.key)) {
-	            return colorsGroup(d.key);
+	        if (keygroupArea.includes(d.key)) {
+	            return colorsGroupArea(d.key);
 	        } else {
-	            return colorsGroup("Others");
+	            return colorsGroupArea("Others");
 	        }
 		})
 		.append("title")  //Make tooltip
