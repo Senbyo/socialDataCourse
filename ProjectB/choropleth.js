@@ -35,29 +35,29 @@ var colorsCountry = d3.scaleQuantize()
 						"#3f007d"]);
 
 var colorsGroup = d3.scaleOrdinal()
-							.range(['#808080',
-									'#67001f',
-									'#b2182b',
-									'#d6604d',
-									'#f4a582',
-									'#fddbc7',
-									'#f7f7f7',
-									'#d1e5f0',
-									'#92c5de',
-									'#4393c3',
-									'#2166ac',
-									'#053061']);
+                            .range(['#808080',
+                                    '#a6cee3',
+                                    '#1f78b4',
+                                    '#b2df8a',
+                                    '#33a02c',
+                                    '#fb9a99',
+                                    '#e31a1c',
+                                    '#fdbf6f',
+                                    '#ff7f00',
+                                    '#cab2d6',
+                                    '#6a3d9a',
+                                    '#ffff99']);
 
 var colorsAttackType = d3.scaleOrdinal()
-							.range(['#8c510a',
-									'#bf812d',
-									'#dfc27d',
-									'#f6e8c3',
-                                	'#f5f5f5',
-									'#c7eae5',
-									'#80cdc1',
-									'#35978f',
-									'#01665e']);
+                            .range(['#d53e4f',
+                                    '#f46d43',
+                                    '#fdae61',
+                                    '#fee08b',
+                                    '#ffffbf',
+                                    '#e6f598',
+                                    '#abdda4',
+                                    '#66c2a5',
+                                    '#3288bd']);
 
 // Descriptions for tabs
 var descriptionTab1 = "The continent of Europe (not to be confused with the Union) is illustrated below.</br> "+
@@ -914,5 +914,5 @@ var drawChoroplethTab3 = function() {
         return "";
     });
     addTextBottom(descriptionTab3);
-    
+
 };
