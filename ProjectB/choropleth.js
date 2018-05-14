@@ -63,11 +63,13 @@ var colorsAttackType = d3.scaleOrdinal()
 var descriptionTab1 = "The continent of Europe (not to be confused with the Union) is illustrated below.</br> "+
     "Different colors represent the total number of attacks for each country for the period from 1970 to 2016.</br>" +
     "Hovering over a country will reveal its name.</br>" +
-    "Click on the <i>Organisations</i> tab to continue with a more in-depth exploration.";
+    "Click on the <i>Organisations</i> tab to continue with a more in-depth exploration.</br>"+
+		"Disclaimer: We strongly suggest using Firefox for the best experience. Chrome tends to be much slower given the big amounts of data we use and Internet Explorer generally miss-behaves alot.";
 var descriptionTab2 = "An overview of every terror attack committed within a pre-selected time period can be found below. " +
     "You may interact with the timeline below the map to adjust the time period. The selection is versatile and can be " +
     "adjusted and dragged to fit any time period. Release the brush to update the map. The 11 most active groups have " +
     "been explicitly coloured and the remaining groups are coloured as <i>Others</i>.</br>" +
+		"Notice that we miss the 1993 information (a problem of the original dataset) and that can clearly be seen in the timeline.</br>"+
     "Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group responsible " +
     "for that attack.</br>" +
     "Click on the <i>Attacks</i> tab to continue with a more in-depth exploration.";
@@ -724,23 +726,6 @@ var zoom =  d3.zoom()
          .on("zoom", zooming);
 var map;
 
-var resetProjection = function () {
-
-    projection.center([20, 55])
-    .scale(900)
-    .translate([850/2, hChoro/2]);
-
-    svgChoropleth.selectAll("path")
-        .attr("d", path)
-
-    svgChoropleth.selectAll("circle")
-    .attr("cx", function(d) {
-        return projection([d.Longitude, d.Latitude])[0];
-    })
-    .attr("cy", function(d) {
-        return projection([d.Longitude, d.Latitude])[1];
-    });
-}
 
 //---------------- Tooltip Functionality ----------------------
 var addTooltip = function(tooltipElement, textFunction) {
@@ -859,7 +844,6 @@ var drawChoroplethTab1 = function() {
     hideZoomAndPan();
 
 	// What to show.
-    resetProjection();
 	showDensityColours();
     drawLegendTop(legendDensityTop);
     addTextBottom(descriptionTab1);
@@ -876,7 +860,6 @@ var drawChoroplethTab2 = function() {
     hideZoomAndPan();
 
     // What to show.
-    resetProjection();
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
     addTooltip(tooltipCircles, function(d) {
