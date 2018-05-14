@@ -871,7 +871,7 @@ var drawChoroplethTab2 = function() {
     updateTimeLine();
 	showTimeLine();
     addTextBottom(descriptionTab2);
-    addTooltip(tooltipCountry, "");
+    /*addTooltip(tooltipCountry, "");*/
 
 };
 
@@ -910,9 +910,9 @@ var drawChoroplethTab3 = function() {
 	});
 
     showZoomAndPan();
-    addTooltip(tooltipCountry, function (d) {
+    /*addTooltip(tooltipCountry, function (d) {
         return "";
-    });
+    });*/
     addTextBottom(descriptionTab3);
 
 };
