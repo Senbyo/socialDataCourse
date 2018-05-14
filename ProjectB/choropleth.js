@@ -900,7 +900,7 @@ var drawChoroplethTab3 = function() {
         .attr("opacity", 0);
     */
 	showCircles(function (d) {
-        return Math.sqrt(d.Killed) + 1;
+        return Math.sqrt(d.Killed) + 2;
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
