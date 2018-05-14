@@ -75,7 +75,8 @@ var descriptionTab3 = "The illustrations below focus on the evolution of the typ
     "the 1970s is shown on the map, with circle size being relative to the severity of the attack in human casualties.</br>" +
     "Hovering over an attack will reveal the name of the group responsible, the number of casualties, the type of attack " +
     "and a summary of the event when available.</br>" +
-    "The illustration at the bottom of this page presents the number of attacks per attack type each year. Notice that " +
+		"Zooming and panning on the map can be achieved by the buttons at the bottom and around the frame respectively. Please allow a short time for the map to update. "+
+    "</br>The illustration at the bottom of this page presents the number of attacks per attack type each year. Notice that " +
     "the coloring corresponds to that of the map. Hovering over a colored area in the bottom plot will reveal the attack " +
     "type it represents. Clicking on such an area will single it out for closer inspection. Clicking again will reveal " +
     "the relativistic usage of that type of attack by each of the eleven most deadly terror groups. The morbid " +
