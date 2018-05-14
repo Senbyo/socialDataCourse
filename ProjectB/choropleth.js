@@ -724,6 +724,23 @@ var zoom =  d3.zoom()
          .on("zoom", zooming);
 var map;
 
+var resetProjection = function () {
+
+    projection.center([20, 55])
+    .scale(900)
+    .translate([850/2, hChoro/2]);
+
+    svgChoropleth.selectAll("path")
+        .attr("d", path)
+
+    svgChoropleth.selectAll("circle")
+    .attr("cx", function(d) {
+        return projection([d.Longitude, d.Latitude])[0];
+    })
+    .attr("cy", function(d) {
+        return projection([d.Longitude, d.Latitude])[1];
+    });
+}
 
 //---------------- Tooltip Functionality ----------------------
 var addTooltip = function(tooltipElement, textFunction) {
@@ -842,6 +859,7 @@ var drawChoroplethTab1 = function() {
     hideZoomAndPan();
 
 	// What to show.
+    resetProjection();
 	showDensityColours();
     drawLegendTop(legendDensityTop);
     addTextBottom(descriptionTab1);
@@ -858,6 +876,7 @@ var drawChoroplethTab2 = function() {
     hideZoomAndPan();
 
     // What to show.
+    resetProjection();
     showCircles(2, true);
     drawLegendTop(legendOrganisationTop);
     addTooltip(tooltipCircles, function(d) {
