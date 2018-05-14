@@ -43,7 +43,8 @@
 
             <p>The dataset used in this assignment is a record of the spread of terrorism across Europe since the 1970s. It was derived from
                 a dataset on global terrorism found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>, that tracks
-                terror attacks across the globe.</br>
+                terror attacks across the globe. We chose this dataset as we feel that a more data-driven, subjective look into the hot topic of
+                terrorism would be interesting and useful to put the current situation into perspective.</br>
                 It is composed of approximately 22000 records (terrorism attacks), spanning 46 years. It contains every
                 attack carried out and formally recorded, regardless of success, from the 1970s to 2016. To provide more context to the reader,
                 1970s were the decade that started with Assad (the current ruling regime in Syria) taking power through a coup(1970), the US withdrawal from
@@ -107,14 +108,13 @@
              and merge incidents that happened to the same geographical location despite the change in its name or sovereignity.</br>
              Another issue was that excessive data handling in javascript (given the size of our dataset) resulted in noticable delays. As such,
              we agreed to generally sacrifice space for speed and made a number of different grouped-up(binned) versions of our dataset to be used with
-             each of our different illustrations. The stacked area graph, for example, uses a version of our dataset where each year is composed of 12 rows, the
-             activity of the 11 most active groups and the total activity. The features of this dataset were the types of attack. This encoding allowed us to
-             encode a 21000-row,19 columns dataset into 236 rows and 12 columns. Information was, of course, lost in the transition but the dataset worked wonders with optimizing
+             each of our different illustrations. The stacked area graph, for example, uses a version of our dataset where each year is composed of 13 rows, the
+             activity of the 11 most active groups, the activity of the rest grouped as "Others" and the total activity. The features of this dataset were the types of attack (Bombing, Assassination etc). This encoding allowed us to
+             encode a 21000-row, 19-column dataset into 613 rows and 12 columns. Information was, of course, lost in the transition but the dataset worked wonders with optimizing
              our stacked area graph. </br>
              Another issue that we should mention here was the missing data for 1993. This was a problem of the original dataset (probably some corruption on their records) and it was not a problem
-             we could do anything from our part to fix.
-             All pre-processing was done in python and can be found in the git-repository.
-
+             we could do anything from our side to fix. We did email the person responsible but without response as of 12/05.</br>
+             All pre-processing was done in Python and all scripts can be found in the git-repository under "Data".</br></br>
             </p>
 
             <!--Write about your choices in data cleaning and preprocessing
@@ -122,18 +122,20 @@
             Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.-->
 
             <!--  write sth about preprocessing and older countries, structuring etc -->
+            <h2>Exploratory Analysis</h2>
             <p>
               <figure align="middle" style="padding: 7em 0 0 7em;">
                   <img src="/images/terror_per_year.png" alt="Terrorism in Europe over the years" width="80%" >
                   <figcaption>Figure 1: <i>An illustration of the evolution of terrorism in Europe since the 1970s. </i></figcaption>
               </figure>
 
-              Figure 1 illustrates the number of terror attacks over the years in Europe. The first spike in activity, in 1979, is mostly caused mostly by the activity of the IRA (Irish Republican Army) and ETA (Basque Fatherland and Freedom), that operated mostly within Spain(the Basque regions).
-              The second spike in activity, in 1992, was caused by those same groups along with Neo-Nazi extremists and a high number of unkown assailants. The final spike in activity, in 2014, was caused mostly by unknown assailants and two Ukrainian groups, the Donetsk and Luhansk People's Republic (DPR and LPR). For reference,
-              ISIS and ISIS-inspired militants have carried out a grand total of 47 attacks since it formed (1999). DPR alone carried out 330 attacks in 2014 alone.
-              Clearly, all organizations take human lives and have an immense negative impact on society. But the impact of the most deadly of them, though, is ridiculously disproportionate to the media coverage they receive.
-              On the other hand, organizations that receive the most coverage (ISIS) actually have a presence that pales in comparison to the five most active organizations, even when taking into account only data from 2014 and later (44 ISIS and ISIS-inspired attacks as opposed to 613 attacks from DPR-only).
-              And when taking into account the impact of organizations since the 1970s, DPR is not even in the top-3 as can be seen in Figure 2.
+              Figure 1 illustrates the number of terror attacks in Europe each year. The first spike in activity, in 1979, is mostly caused by the activity of the IRA (Irish Republican Army) and ETA (Basque Fatherland and Freedom), that operated mostly within Spain(the Basque regions).
+              The second spike, in 1992, was caused by those same groups along with Neo-Nazi extremists and a high number of unkown assailants. The final spike in activity, in 2014, was caused mostly by unknown assailants and two Ukrainian groups, the Donetsk and Luhansk People's Republic (DPR and LPR).
+              For reference,
+              ISIS and ISIS-inspired militants have carried out a grand total of 47 attacks since it formed (1999). DPR carried out 330 attacks in 2014 alone.
+              Clearly, all organizations take human lives and have an immense negative impact on society. But the impact of the most deadly of them is ridiculously disproportionate to the media coverage they receive.
+              On the other hand, organizations that receive the most coverage (ISIS) actually have a presence that pales in comparison to the five most active organizations, even when taking into account only data from 2014 and after (44 ISIS and ISIS-inspired attacks as opposed to 613 attacks from DPR).
+              And when taking into account the wholistic impact of organizations since the 70s, DPR is not even in the top-3 as can be seen in Figure 2.
 
               <figure align="middle" style="padding: 7em 0 0 7em;">
                   <img src="/images/terrorOrganizationsTotalAttacksPlot.png" alt="Most active groups" width="60%" >
@@ -149,6 +151,9 @@
                 <figcaption>Figure 3: The number of killed and wounded for the 15 coutries in Europe in terms of terror activity.<i></i></figcaption>
             </figure>
 
+            Figure 4 illustrates each attack along with the group chiefly responsible for utilizing it and the total attack count of that group.
+            Bombing was, for example, the main means of attack for IRA which carried out more than 2500 recorded attacks. On the other hand, more than 10000 bombing attacks
+            have been performed by all groups since the 70s (and until 2016).
             <figure align="middle" style="padding: 7em 0 0 7em;">
                 <img src="/images/terroristOrgWithFavoriteAttackType.png" alt="Organization with favorite attack type" width="70%" >
                 <figcaption>Figure 4: Number of attacks per attack-type and per organization meaningfully plotted together. Coloring and positioning represents the organization mostly utilizing each attack type.<i></i></figcaption>
@@ -165,17 +170,17 @@
             </p>
             <h4>Visual Narrative</h4>
             <p>Our story begins with an Establishing Shot, a basic Choropleth of Europe with minimal information on it. This is in-line with the Martini glass-type of structure we're aiming for,
-            as it sets the stage, work nicely with a more author-driven initial experience
+            as it sets the stage, works nicely with a more author-driven initial experience
             and is a natural starting point for a Consistent Visual Platform, the other structuring tool we used.
             Familiar Objects (which makes sence given the Consistent Visual Platform) and a constant Viewing Angle help to solidify the position of the user
             and bring attention to the ever changing details on the graphs. As such, Motion was used for highlighting mostly in the form of transitions in D3.
-            Continuity Editing via Animated Transitions is, thus, the cornerstone of our approach and the building blocks of our story.
+            Continuity Editing via Animated Transitions is, thus, the cornerstone of our approach and the building block of our story.
             </p>
             <h4>Narative Structure</h4>
             <p>To create a martini glass structure, we employeed a User Directed Path that encourages rather than enforces an initial linear path through the ordering of the tabs.
             Interactivity is vital part of this process and at the heart of the course. We used Hover Highlighting to display information on labels and attacks along with
             brushes to filter the timeline (Filtering). Furthermore, tabs can be considered Navigation(pagination) Buttons.
-            Finally, classic messaging tools such as captions, annotations and text were used to mark and explain interesting parts of our story.
+            Finally, classic messaging tools such as captions, tooltips and text were used to mark and explain interesting parts of our story and guide the user through it.
             </p>
             <!--
             Visual Narrative:(structuring) Establishing Shot,Consistent Visual Platform, (Highlighting)Motion,
@@ -192,12 +197,10 @@
 
             Why are they right for the story you want to tell?-->
             <p>Due to the geographical nature of our dataset, a choropleth would be the natural choice to base a data-driven story on.
-            A timeline tied into the choropleth, with a brush to filter, adds a lot of intuitive control over the process and allows for flexible, personal exploration.
-            But in our case, this was only part of the story as the type of attack was not touched at all. A stacked flowchart is a great tool for allowing a user
-            insight into the evolution of each type of attack over the years and a breakdown of each of those types to the groups mostly utilizing it over each period of time.
+            A timeline tied into the choropleth with a filtering brush adds a lot of intuitive control over the process and allows for flexible, personal exploration.
+            But in our case, this was only part of the story as the type of attack was not touched at all by this illustration. A stacked flowchart is a great tool for allowing user
+            insight into the evolution of each type of attack over the years and a breakdown of each of those types to the groups mostly utilizing it.
             These visualizations build a decent, subjective, data-driven picture of how terrorism in all its forms, as carried out by different groups, evolved and spread throughout Europe.
-            It is, also, naturally able to fit within the Martini glass structure and the Continuity Editing tool, as the base of our story, the choropleth, is unchanged and everything else
-            simply adds to the story/interactability.
           </p>
 
         </div>
@@ -212,16 +215,19 @@
             missing: tacit tutorial, text, more aggressive performance, 1993 missing data
             -->
             <p>
-                This was a very interesting and relevant dataset to work with. It's size meant that we had to employ certain domain-specific measures to keep
-                the illustrations peformant and we believe the end result to be successful in that regard. We encoded the dataset in different ways to accomodate the needs
+                This was a very interesting and relevant dataset to work with. Its size meant that we had to employ certain problem-specific measures to keep
+                the illustrations peformant and we believe the end result to be relatively successful in that regard. We transformed the dataset in different ways to accomodate the needs
                 of each illustration and re-used the SVG elements instead of reloading them constantly (for example we rendered the circles on the map once and faded them in-out instead
-                of redrawing them constantly). Also, colors and illustrations were kept relevant and matching throughout the story, to make it consistent and in-line with
+                of reloading and redrawing them). Finally, colors and illustrations were kept relevant and matching throughout the story to make it consistent and compatible to
                 our chosen visual narrative tools.</br>
-                Missing features that we would very much like to include would be a tacit tutorial, as they are doing a great job at kicking-off interactive stories. Problems we faced with
-                integrating text in svg elements (had to do with the version of d3 we worked on) prevented us from doing it. While we believe we did well on managing
-                the performance of the illustrations, there was still room for more aggressive data encapsulation. Finally, the original dataset had a problem with missing data.
-                The entire 1993 is missing, something that we could do nothing about from our end. Finally we shoul mention that we intended to implement an alluvial chart along with
-                the stacked graph. We realized, though, that the information conveyed by the two were the same in our case and so having them both would be redundant. As the
+                A missing feature that we would have very much liked to include would be a tacit tutorial, as they are doing an incredible job at kicking-off interactive stories. Problems we faced with
+                integrating text in svg elements (had to do with the version of d3 we worked on) prevented us from doing it in a visually pleasing and bug-free way. And since a buggy tacit tutorial
+                essencially stops being tacit and starts being problematic, we decided to scrape it entirely and replace it with an explicit tutorial in the form of text.
+                While we believe we did well on managing the performance of the illustrations given the size of our dataset, there was still room for more aggressive data encapsulation that could
+                potentially make our illustrations (especially the zooming/panning part) slightly more performant.
+                Another problem was that the original dataset had missing data.
+                There were no records of 1993, a problem that we could do nothing about from our end.</br>Finally we should mention that we intended to implement an alluvial chart along with
+                the stacked graph, as described in the video. We realized, though, that the information conveyed by the two were the same in our case and so having them both would be redundant. As the
                 stacked flowchart is cleaner-looking and more intuitive, we decided on using that.
             </p>
         </div>
@@ -234,6 +240,10 @@
 
             It is not OK simply to write "All group members contributed equally".-->
             <p>
+              Georg: s170258</br>
+              Marc: s144452</br>
+              Mark: s144474</br>
+
                 <ul>
                     <li>Choropleth tab 1: Georg</li>
                     <li>Choropleth tab 2: Marc</li>
