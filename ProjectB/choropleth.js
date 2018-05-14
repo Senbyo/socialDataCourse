@@ -85,14 +85,14 @@ var descriptionTab3 = "The illustrations below focus on the evolution of the typ
 
 // Timeline variables
 var wSvgTimeLine = 1200;
-var hSvgTimeLine = 300;
+var hSvgTimeLine = 200;
 var padding = 45;
 
 var xScaleTimeline = d3.scaleTime()
     .range([padding, wSvgTimeLine - padding]);
 
 var yScaleTimeLine = d3.scaleLinear()
-    .range([hSvgTimeLine - padding, padding]);
+    .range([hSvgTimeLine - padding, 0]);
 
 var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
@@ -813,6 +813,20 @@ var showAreaChart = function() {
 
 };
 
+/*
+var hideAreaLegend = function() {
+
+    document.getElementById('svgLegendAreaId').hidden = true;
+
+};
+
+var showAreaLegend = function() {
+
+    document.getElementById('svgLegendAreaId').hidden = false;
+
+};
+*/
+
 var hideTimeLine = function() {
 
     document.getElementById('timeline').hidden = true;
@@ -839,6 +853,7 @@ var drawChoroplethTab1 = function() {
 	// What to hide.
 	hideCircles();
     hideAreaChart();
+    //hideAreaLegend();
     hideTimeLine();
     hideZoomAndPan();
 
@@ -856,6 +871,7 @@ var drawChoroplethTab2 = function() {
     // What to hide.
 	hideDensityColours();
 	hideAreaChart();
+    //hideAreaLegend();
     hideZoomAndPan();
 
     // What to show.
@@ -872,7 +888,6 @@ var drawChoroplethTab2 = function() {
     updateTimeLine();
 	showTimeLine();
     addTextBottom(descriptionTab2);
-    /*addTooltip(tooltipCountry, "");*/
 
 };
 
@@ -891,29 +906,18 @@ var drawChoroplethTab3 = function() {
             .scale(0.45)
             .translate(20, 55));
 
-    /*
-    //Create a new, invisible background rect to catch drag events
-    map.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", wSvgChoro)
-        .attr("height", hSvgChoro)
-        .attr("opacity", 0);
-    */
 	showCircles(function (d) {
         return Math.sqrt(d.Killed) + 2;
     }, false);
     drawLegendTop(legendAttackTypeTop);
 	showAreaChart();
+	//showAreaLegend();
 
     addTooltip(tooltipCircles, function(d) {
 	    return "Group: " + d.Group + "\nCasualties: "+  d.Killed + "\nAttack Type: " + d.AttackType + "\nSummary: " + d.Summary;
 	});
 
     showZoomAndPan();
-    /*addTooltip(tooltipCountry, function (d) {
-        return "";
-    });*/
     addTextBottom(descriptionTab3);
 
 };

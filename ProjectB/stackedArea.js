@@ -14,7 +14,8 @@ var currentState = 0;
 var yAxisGroup;
 var groupDataset = []
 var svgStackedArea;
-var wArea = 1200;
+var svgLegendArea;
+var wArea = 850;
 var hArea = 400;
 var paddingArea = 50;
 var colorsStackedArea = d3.scaleQuantize()
@@ -43,6 +44,20 @@ var colorsAttackTypeArea = d3.scaleOrdinal()
 										'#abdda4',
 										'#66c2a5',
 										'#3288bd']);
+
+var colorsGroupArea = d3.scaleOrdinal()
+    .range(['#808080',
+        '#a6cee3',
+        '#1f78b4',
+        '#b2df8a',
+        '#33a02c',
+        '#fb9a99',
+        '#e31a1c',
+        '#fdbf6f',
+        '#ff7f00',
+        '#cab2d6',
+        '#6a3d9a',
+        '#ffff99']);
 
 var xScaleArea = d3.scaleTime()
 						.range([paddingArea, wArea - paddingArea]);
@@ -230,11 +245,37 @@ var buttonVisibility = function(type) {
 	}
 }
 
+//---------------- Legends Functionality ----------------------
+var legendGroupArea = d3.legendColor()
+    .labelFormat(d3.format(".0f"))
+    .title("Organisations")
+    .titleWidth(200)
+	//.scale();
+
+function drawLegendArea() {
+    // Create legend
+    svgLegendArea.append("g")
+        .attr("id", "legendArea")
+        .attr("class", "legendArea")
+        .attr("transform", "translate(0, 20)");
+
+    legendGroupArea = d3.legendColor()
+        .labelFormat(d3.format(".0f"))
+        .title("Organisations")
+        .titleWidth(200)
+    //.scale();
+
+    svgLegendArea.select(".legendArea")
+        .call(legendGroupArea);
+}
+
 //---------------- Generate Stacked Area chart ----------------------
 var generateAreaChart = function(){
 
 
 	svgStackedArea = d3.select("#area").append("svg").attr("width", wArea).attr("height", hArea);
+
+    svgLegendArea = d3.select("#area").append("svg").attr("width", 355).attr("height", 400);
 
 	xScaleArea.domain([
 		d3.min(datasetArea, function(d) { return d.Year; }),
@@ -516,5 +557,7 @@ var generateAreaChart = function(){
         .style("text-anchor", "middle")
         .text("Year")
         .attr("class", "xAxisLabel");
+
+    drawLegendArea();
 
 };
