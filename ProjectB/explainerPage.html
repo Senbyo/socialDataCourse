@@ -41,29 +41,32 @@
             Why did you choose this/these particular dataset(s)
           -->
 
-            <p>The dataset that was used for this assignment tracks the spread of terrorism across Europe. It was derived from
+            <p>The dataset used in this assignment is a record of the spread of terrorism across Europe since the 1970s. It was derived from
                 a dataset on global terrorism found on <a href="https://www.kaggle.com/START-UMD/gtd">www.kaggle.com</a>, that tracks
-                terror attacks across the globe. </br>
-                Our Terrorism in Europe dataset has approximately 22000 records (terrorism attacks), spanning 46 years. It contains every
+                terror attacks across the globe.</br>
+                It is composed of approximately 22000 records (terrorism attacks), spanning 46 years. It contains every
                 attack carried out and formally recorded, regardless of success, from the 1970s to 2016. To provide more context to the reader,
                 1970s were the decade that started with Assad (the current ruling regime in Syria) taking power through a coup(1970), the US withdrawal from
                 the unpopular Vietnam war(1974) and Saddam Hussein beginning to rise in power. It ended with the Iranian Revolution(1979) that turned Iran from a
                 pro-Western progressive counrty to a theocracy. Even more noteworthy was the so called "Skyjack Sunday"(1970), where Palestinian terrorists hijacked
                 four airliners and took
-                over 300 people on board as hostage. The hostages were later released, but the planes were blown up. This event marked
+                the 300 people on-board as hostage. The hostages were later released, but the planes were blown up. This event marked
                 beginning of modern rebellious fighting and terrorism as we know it.</br>
-                As such, the 70s can be considered the trigger-point for many of the current woes that plague the west and a natural starting point to a
+                As such, the 70s can be considered the trigger-point for many of the current woes that plague Europe and a natural starting point to a
                 narrative about the rise of modern terrorism.
             </p>
               <!--What was your goal for the end user’s experience?-->
               <!--mention martini?-->
             <p>
-              Our goal for the end users' experience would be to provide a "Martini glass" structure, where we start on a rigid, author-driven path which gives
-              readers the time they need to familiarize themselves with our notation, colours and tools (choropleths/graphs). Then, we pass more
-              control to the user, ending up allowing them to take full control over the process and individually explore our dataset. This is done by adding more and
-              more adjustable/interactive elements on the same choropleth. We start by a plain choropleth with only attack density over the entire timeline displayed.
-              Then we advance towards allowing the user to interact with the timeline and filter out periods of interest. Finally, we plot the entirety of terror attacks
-              throughout the years on the same choropleth and allow the user to explore the type of attacks used and the groups chiefly responsible for them.
+              Our goal for the end users' experience would be to provide a "Martini glass" structure, where we start on a relatively rigid, author-driven path which gives
+              readers the time they need to familiarize themselves with our notation, colours and tools (choropleths/graphs). Then we pass more
+              control to the user, ending up allowing them to take full control over the process and individually explore our dataset. The transition from linear to user-driven
+              is smoothly and intuitively implemented by adding more and
+              more adjustable/interactive elements on the same choropleth, while always keeping that choropleth at the center of our story.
+              More specifically, we start by a plain choropleth that displays only information on the relative number of attacks in each country. Country names
+              are discretely accessible to the user through tooltips and they are the sole interactive element of this initial visualization.</br>
+              Then we pass-on more control to the user by introducing the timeline and the ability to filter-out periods of interest. Finally, we plot the entirety of terror attacks
+              throughout the years on the same choropleth and allow the user to freely explore each individual attack, along with their type and the groups chiefly responsible for them.
             </p>
         </div>
         <div class="container subsection">
@@ -99,12 +102,13 @@
              </ul>
 
              Preprocessing done on this dataset includes the classical null-value replacement in the field Victims with 0 and Group, Target and Weapon type with Unknown.
-             All the attacks had coordinates associated with them, along with Country and Region. A problem, though, was that since the 1970s some of the countries (Yugoslavia, for example)
-             did not exist any longer and others had their borders changed. As such, we had to cross-reference each country with the coordinates.
+             All the attacks had coordinates associated with them, along with Country and Region. A problem we faced was the fact that during the 1970s some countries (Yugoslavia, for example)
+             existed that later disolved and others had their borders changed. As such, and to provide a solid modern perspective to the story, we had to cross-reference each country with the coordinates provided
+             and merge incidents that happened to the same geographical location despite the change in its name or sovereignity.</br>
              Another issue was that excessive data handling in javascript (given the size of our dataset) resulted in noticable delays. As such,
-             we agreed to generally sacrifice space for speed and made a number of different grouped-up(binned) versions of our data to be used with
-             our different illustrations. The stacked area graph, for example, uses a version of our dataset where each year is composed of 5 rows, the
-             activity of the four most active groups and the total activity. The features of this dataset were the types of attack. This encoding allowed us to
+             we agreed to generally sacrifice space for speed and made a number of different grouped-up(binned) versions of our dataset to be used with
+             each of our different illustrations. The stacked area graph, for example, uses a version of our dataset where each year is composed of 12 rows, the
+             activity of the 11 most active groups and the total activity. The features of this dataset were the types of attack. This encoding allowed us to
              encode a 21000-row,19 columns dataset into 236 rows and 12 columns. Information was, of course, lost in the transition but the dataset worked wonders with optimizing
              our stacked area graph. </br>
              Another issue that we should mention here was the missing data for 1993. This was a problem of the original dataset (probably some corruption on their records) and it was not a problem
