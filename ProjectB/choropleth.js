@@ -60,30 +60,30 @@ var colorsAttackType = d3.scaleOrdinal()
                                     '#3288bd']);
 
 // Descriptions for tabs
-var descriptionTab1 = "The continent of Europe (not to be confused with the Union) is illustrated below.</br> "+
-    "Different colors represent the total number of attacks for each country for the period from 1970 to 2016.</br>" +
-    "Hovering over a country will reveal its name.</br>" +
-    "Click on the <i>Organisations</i> tab to continue with a more in-depth exploration.</br>"+
-		"Disclaimer: We strongly suggest using Firefox for the best experience. Chrome tends to be much slower given the big amounts of data we use and Internet Explorer generally miss-behaves alot.";
-var descriptionTab2 = "An overview of every terror attack committed within a pre-selected time period can be found below. " +
-    "You may interact with the timeline below the map to adjust the time period. The selection is versatile and can be " +
-    "adjusted and dragged to fit any time period. Release the brush to update the map. The 11 most active groups have " +
-    "been explicitly coloured and the remaining groups are coloured as <i>Others</i>.</br>" +
-		"Notice that we miss the 1993 information (a problem of the original dataset) and that can clearly be seen in the timeline.</br>"+
-    "Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group responsible " +
-    "for that attack.</br>" +
-    "Click on the <i>Attacks</i> tab to continue with a more in-depth exploration.";
-var descriptionTab3 = "The illustrations below focus on the evolution of the type of attacks in time. Every attack since " +
-    "the 1970s is shown on the map, with circle size being relative to the severity of the attack in human casualties.</br>" +
-    "Hovering over an attack will reveal the name of the group responsible, the number of casualties, the type of attack " +
-    "and a summary of the event when available.</br>" +
-		"Zooming and panning on the map can be achieved by the buttons at the bottom and around the frame respectively. Please allow a short time for the map to update. "+
-    "</br>The illustration at the bottom of this page presents the number of attacks per attack type each year. Notice that " +
-    "the coloring corresponds to that of the map. Hovering over a colored area in the bottom plot will reveal the attack " +
-    "type it represents. Clicking on such an area will single it out for closer inspection. Clicking again will reveal " +
-    "the relativistic usage of that type of attack by each of the eleven most deadly terror groups. The morbid " +
-    "contribution of each group follows the same color coding as the <i>Organisations</i> tab.</br>"+
-    "Press Back to reverse the selection process.";
+var descriptionTab1 = "<ul><li>The continent of Europe (not to be confused with the Union) is illustrated below.</li>"+
+    "<li>Different colors represent the total number of attacks for each country for the period from 1970 to 2016.</li>" +
+    "<li>Hovering over a country will reveal its name.</li>" +
+		"<li>We strongly suggest using Firefox for the best experience.</li>"+
+    "<li>Click on the <i>Organisations</i> tab to continue with a more in-depth exploration.</li></ul>";
+var descriptionTab2 = "<ul><li>An overview of every terror attack committed within a pre-selected time period can be found below. " +
+    "You may interact with the timeline to adjust the time period.</li>" +
+    "<li>Release the brush to update the map. The 11 most active groups have " +
+    "been explicitly coloured and the remaining groups are grouped under <i>Others</i>.</li>" +
+		"<li>Hovering over an attack performed by <i>Others</i> will display a tooltip showing the specific group responsible " +
+		"for that attack.</li>" +
+		"<li>Notice that we miss information on 1993 (a problem of the original dataset) as can clearly be seen in the timeline.</li>"+
+    "<li>Click on the <i>Attacks</i> tab to continue with a more in-depth exploration.</li></ul>";
+var descriptionTab3 = "<ul><li>The illustrations below focus on the evolution of attack types in time.</li><li>Every attack since " +
+    "the 1970s is shown on the map, with circle size being relative to human casualties.</li>" +
+    "<li>Hovering over an attack will reveal the name of the group responsible, the number of casualties, the type of attack " +
+    "and a summary of the event.</li>" +
+		"<li>Zooming and panning on the map can be achieved by the buttons at the bottom and around the frame respectively.</li>"+
+    "<li>The illustration at the bottom of this page presents the number of attacks per attack type each year." +
+    " The coloring corresponds to that of the map. Hovering over a colored area in the bottom plot will reveal the attack " +
+    "type it represents.</li> <li>Clicking on such an area will single it out for closer inspection. </li>"+
+		"<li>Clicking again will reveal the relativistic usage of that type of attack by each of the eleven most deadly terror groups. The morbid " +
+    "contribution of each group follows the same color coding as the <i>Organisations</i> tab.</li>"+
+    "<li>Press Back to reverse the selection process.</li></ul>";
 
 // Timeline variables
 var wSvgTimeLine = 1200;
