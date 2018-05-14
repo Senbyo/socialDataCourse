@@ -87,14 +87,14 @@ var descriptionTab3 = "<ul><li>The illustrations below focus on the evolution of
 
 // Timeline variables
 var wSvgTimeLine = 1200;
-var hSvgTimeLine = 300;
+var hSvgTimeLine = 200;
 var padding = 45;
 
 var xScaleTimeline = d3.scaleTime()
     .range([padding, wSvgTimeLine - padding]);
 
 var yScaleTimeLine = d3.scaleLinear()
-    .range([hSvgTimeLine - padding, padding]);
+    .range([hSvgTimeLine - padding, 0]);
 
 var xAxisTimeline = d3.axisBottom(xScaleTimeline).ticks(11);
 var yAxisTimeline = d3.axisLeft(yScaleTimeLine);
@@ -873,7 +873,6 @@ var drawChoroplethTab2 = function() {
     updateTimeLine();
 	showTimeLine();
     addTextBottom(descriptionTab2);
-    /*addTooltip(tooltipCountry, "");*/
 
 };
 
@@ -892,15 +891,6 @@ var drawChoroplethTab3 = function() {
             .scale(0.45)
             .translate(20, 55));
 
-    /*
-    //Create a new, invisible background rect to catch drag events
-    map.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", wSvgChoro)
-        .attr("height", hSvgChoro)
-        .attr("opacity", 0);
-    */
 	showCircles(function (d) {
         return Math.sqrt(d.Killed) + 2;
     }, false);
@@ -912,9 +902,6 @@ var drawChoroplethTab3 = function() {
 	});
 
     showZoomAndPan();
-    /*addTooltip(tooltipCountry, function (d) {
-        return "";
-    });*/
     addTextBottom(descriptionTab3);
 
 };
