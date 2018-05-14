@@ -278,14 +278,13 @@ var generateAreaChart = function(){
 		.append("path")
 		.attr("class", "area")
 		.attr("d", area)
-		// Make a complicated fill function that divides everything into stuff
 		.attr("fill", function(d) {
 			return colorsAttackTypeArea(d.key);
 		})
 		.on("click", function(d) {
 			currentState ++;
 			buttonVisibility(thisType);
-			//Which type was clicked?
+
 			var thisType = d.key;
 
 			// Generate a new dataset for the currently clicked key
