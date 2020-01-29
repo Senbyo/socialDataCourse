@@ -4,7 +4,7 @@ main();
 // Start here
 //
 function main() {
-  const canvas = document.querySelector('#glcanvas');
+  const canvas = document.getElementById('glcanvas');
   const gl = canvas.getContext('webgl');
 
   // If we don't have a GL context, give up now
@@ -65,10 +65,10 @@ function main() {
 //   drawScene(gl, programInfo, buffers);
 
 
-      // Set clear color to black, fully opaque
-      gl.clearColor(0.3921, 0.5843, 0.9294, 1.0);
-      // Clear the color buffer with specified clear color
-      gl.clear(gl.COLOR_BUFFER_BIT);
+    // Set clear color to black, fully opaque
+    gl.clearColor(0.3921, 0.5843, 0.9294, 1.0);
+    // Clear the color buffer with specified clear color
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
 }
 
