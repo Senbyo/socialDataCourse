@@ -30,7 +30,7 @@ function main() {
 
   const fsSource = `
     void main() {
-      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
     }
   `;
 
@@ -107,10 +107,6 @@ function initBuffers_plane(gl) {
        gl.bufferData(gl.ARRAY_BUFFER,
        new Float32Array(positions),
        gl.STATIC_DRAW);
-   
-   
-       const indexBuffer = gl.createBuffer();
-       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
    
        return {
        position: positionBuffer,
@@ -304,27 +300,27 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
   
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
-    {
-      const numComponents = 3;  // pull out 2 values per iteration
-      const type = gl.FLOAT;    // the data in the buffer is 32bit floats
-      const normalize = false;  // don't normalize
-      const stride = 0;         // how many bytes to get from one set of values to the next
-                                // 0 = use type and numComponents above
-      const offset = 0;         // how many bytes inside the buffer to start from
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
-      gl.vertexAttribPointer(
-          programInfo.attribLocations.vertexPosition,
-          numComponents,
-          type,
-          normalize,
-          stride,
-          offset);
-      gl.enableVertexAttribArray(
-          programInfo.attribLocations.vertexPosition);
-    }
+    // {
+    //   const numComponents = 3;  // pull out 2 values per iteration
+    //   const type = gl.FLOAT;    // the data in the buffer is 32bit floats
+    //   const normalize = false;  // don't normalize
+    //   const stride = 0;         // how many bytes to get from one set of values to the next
+    //                             // 0 = use type and numComponents above
+    //   const offset = 0;         // how many bytes inside the buffer to start from
+    //   gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+    //   gl.vertexAttribPointer(
+    //       programInfo.attribLocations.vertexPosition,
+    //       numComponents,
+    //       type,
+    //       normalize,
+    //       stride,
+    //       offset);
+    //   gl.enableVertexAttribArray(
+    //       programInfo.attribLocations.vertexPosition);
+    // }
 
-    // Tell WebGL which indices to use to index the vertices
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+    // // Tell WebGL which indices to use to index the vertices
+    // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
   
     // Tell WebGL to use our program when drawing
@@ -342,12 +338,12 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         modelViewMatrix);
   
-    {
-        const vertexCount = 36;
-        const type = gl.UNSIGNED_SHORT;
-        const offset = 0;
-        gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
-    }
+    // {
+    //     const vertexCount = 36;
+    //     const type = gl.UNSIGNED_SHORT;
+    //     const offset = 0;
+    //     gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+    // }
 
     {
         const numComponents = 2;  // pull out 2 values per iteration
@@ -366,7 +362,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
             offset);
         gl.enableVertexAttribArray(
             programInfo.attribLocations.vertexPosition);
-      }
+    }
 
     {
         const offset = 0;
