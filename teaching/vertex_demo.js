@@ -264,11 +264,6 @@ function drawScene(gl, programInfo, buffers) {
                     modelViewMatrix,  // matrix to rotate
                     45.0,   // amount to rotate in radians
                     [0, 1, 0]);       // axis to rotate around
-
-    mat4.rotate(modelViewMatrix,  // destination matrix
-                    modelViewMatrix,  // matrix to rotate
-                    45.0,   // amount to rotate in radians
-                    [0, 0, 1]);       // axis to rotate around
   
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
@@ -316,7 +311,5 @@ function drawScene(gl, programInfo, buffers) {
         const offset = 0;
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
-
-    console.log("hello");
   }
 
