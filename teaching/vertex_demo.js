@@ -338,12 +338,12 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         modelViewMatrix);
   
-    // {
-    //     const vertexCount = 36;
-    //     const type = gl.UNSIGNED_SHORT;
-    //     const offset = 0;
-    //     gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
-    // }
+    {
+        const vertexCount = 36;
+        const type = gl.UNSIGNED_SHORT;
+        const offset = 0;
+        gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+    }
 
     {
         const numComponents = 3;  // pull out 2 values per iteration
