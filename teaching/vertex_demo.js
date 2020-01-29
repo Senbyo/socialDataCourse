@@ -67,7 +67,7 @@ function main() {
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers, nuffers_plane);
+    drawScene(gl, programInfo, buffers, buffers_plane);
 
     requestAnimationFrame(render);
   }
