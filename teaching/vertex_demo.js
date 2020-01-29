@@ -94,10 +94,10 @@ function initBuffers_plane(gl) {
        // Now create an array of positions for the square.
      
        const positions = [
-            -1.0,  1.0,
-            1.0,  1.0,
-            -1.0, -1.0,
-            1.0, -1.0,
+            -1.0,  1.0, 1.0,
+            1.0,  1.0, 1.0,
+            -1.0, -1.0, -1.0,
+            1.0, -1.0, -1.0,
          ];
      
        // Now pass the list of positions into WebGL to build the
@@ -346,7 +346,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     // }
 
     {
-        const numComponents = 2;  // pull out 2 values per iteration
+        const numComponents = 3;  // pull out 2 values per iteration
         const type = gl.FLOAT;    // the data in the buffer is 32bit floats
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next
