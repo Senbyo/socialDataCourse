@@ -57,6 +57,7 @@ function main() {
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
   const buffers = initBuffers(gl);
+  const buffers_plane = initBuffers_plane(gl);
 
   var then = 0;
 
@@ -66,7 +67,7 @@ function main() {
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers);
+    drawScene(gl, programInfo, buffers, nuffers_plane);
 
     requestAnimationFrame(render);
   }
@@ -78,6 +79,42 @@ function main() {
     // // Clear the color buffer with specified clear color
     // gl.clear(gl.COLOR_BUFFER_BIT);
 
+}
+
+function initBuffers_plane(gl) {
+       // Create a buffer for the square's positions.
+  
+       const positionBuffer = gl.createBuffer();
+  
+       // Select the positionBuffer as the one to apply buffer
+       // operations to from here out.
+     
+       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+     
+       // Now create an array of positions for the square.
+     
+       const positions = [
+           -1.0,  1.0,  1.0,
+            1.0, -1.0, -1.0,
+            1.0,  1.0, -1.0,
+            1.0, -1.0,  1.0,
+         ];
+     
+       // Now pass the list of positions into WebGL to build the
+       // shape. We do this by creating a Float32Array from the
+       // JavaScript array, then use it to fill the current buffer.
+     
+       gl.bufferData(gl.ARRAY_BUFFER,
+       new Float32Array(positions),
+       gl.STATIC_DRAW);
+   
+   
+       const indexBuffer = gl.createBuffer();
+       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+   
+       return {
+       position: positionBuffer,
+       };
 }
 
 function initBuffers(gl) {
@@ -218,7 +255,7 @@ function initShaderProgram(gl, vsSource, fsSource) {
   }
 
 
-function drawScene(gl, programInfo, buffers) {
+function drawScene(gl, programInfo, buffers, Buffers_plane) {
     gl.clearColor(0.3921, 0.5843, 0.9294, 1.0);  // Clear to black, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -310,6 +347,31 @@ function drawScene(gl, programInfo, buffers) {
         const type = gl.UNSIGNED_SHORT;
         const offset = 0;
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
+    }
+
+    {
+        const numComponents = 2;  // pull out 2 values per iteration
+        const type = gl.FLOAT;    // the data in the buffer is 32bit floats
+        const normalize = false;  // don't normalize
+        const stride = 0;         // how many bytes to get from one set of values to the next
+                                  // 0 = use type and numComponents above
+        const offset = 0;         // how many bytes inside the buffer to start from
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+        gl.vertexAttribPointer(
+            programInfo.attribLocations.vertexPosition,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset);
+        gl.enableVertexAttribArray(
+            programInfo.attribLocations.vertexPosition);
+      }
+
+    {
+        const offset = 0;
+        const vertexCount = 4;
+        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
     }
   }
 
