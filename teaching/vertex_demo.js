@@ -183,6 +183,11 @@ function drawScene(gl, programInfo, buffers) {
                      aspect,
                      zNear,
                      zFar);
+
+    mat4.rotate(modelViewMatrix,  // destination matrix
+                    modelViewMatrix,  // matrix to rotate
+                    45.0,   // amount to rotate in radians
+                    [0, 1, 0]);       // axis to rotate around
   
     // Set the drawing position to the "identity" point, which is
     // the center of the scene.
