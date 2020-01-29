@@ -255,7 +255,7 @@ function initShaderProgram(gl, vsSource, fsSource) {
   }
 
 
-function drawScene(gl, programInfo, buffers, Buffers_plane) {
+function drawScene(gl, programInfo, buffers, buffers_plane) {
     gl.clearColor(0.3921, 0.5843, 0.9294, 1.0);  // Clear to black, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
