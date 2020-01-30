@@ -111,7 +111,7 @@ function main() {
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
       lightPosition: gl.getUniformLocation(shaderProgram, "ulightPos"),
-      diffusePosition: gl-getUniformLocation(shaderProgram, "udiffuseColor"),
+      diffusePosition: gl.getUniformLocation(shaderProgram, "udiffuseColor"),
     },
   };
 
