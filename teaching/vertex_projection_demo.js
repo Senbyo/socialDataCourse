@@ -515,7 +515,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
   
     if (document.getElementById("Red").value == 1.0){
       const temp = parseInt(document.getElementById("x"))
-      const fieldOfView = 60 * Math.PI / 180;   // in radians
+      const fieldOfView = temp * Math.PI / 180;   // in radians
       const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
       const zNear = parseFloat(document.getElementById("y").value);
       const zFar = parseFloat(document.getElementById("z").value);
