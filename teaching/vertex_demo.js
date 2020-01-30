@@ -37,7 +37,7 @@ function main() {
 
   varying highp vec3 vLighting;
 
-  void main(void) {
+  void main() {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
 
     // Apply lighting effect
@@ -63,9 +63,7 @@ function main() {
   const fsSource = `
   varying highp vec3 vLighting;
 
-  uniform sampler2D uSampler;
-
-  void main(void) {
+  void main() {
     highp vec4 texelColor = vec4(0.0, 1.0, 0.0, 1.0);
 
     gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
