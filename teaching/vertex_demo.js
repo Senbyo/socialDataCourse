@@ -35,7 +35,6 @@ function main() {
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
 
-  varying highp vec3 vLighting;
   varying vec3 normalInterp;
   varying vec3 vertPos;
 
@@ -56,7 +55,6 @@ function main() {
 //   `;
 
   const fsSource = `
-  varying highp vec3 vLighting;
   varying vec3 normalInterp;  // Surface normal
   varying vec3 vertPos;       // Vertex position 
 
