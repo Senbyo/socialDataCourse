@@ -417,10 +417,10 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     const orthoMatrix = mat4.create();
 
     mat4.ortho(orthoMatrix,
-                -5.0,       // left
-                5.0,        // right
-                5.0,        // bottom
-                5.0,        // top
+                3.0,       // left
+                3.0,        // right
+                -3.0,        // bottom
+                3.0,        // top
                 zNear,
                 zFar);
     
