@@ -524,16 +524,14 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         modelViewMatrix);
 
 
-        mat4.rotateX(document.getElementById("X").value);
+        mat4.rotateX(modelMatrix, modelMatrix, document.getElementById("X").value);
 
-        mat4.rotateY(document.getElementById("Y").value);
+        mat4.rotateY(modelMatrix, modelMatrix, document.getElementById("Y").value);
 
-        mat4.rotateZ(document.getElementById("Z").value);
+        mat4.rotateZ(modelMatrix, modelMatrix, document.getElementById("Z").value);
 
 
-        mat4.translateX(document.getElementById("Red").value);
-        mat4.translateY(document.getElementById("Green").value);
-        mat4.translateZ(document.getElementById("Blue").value);
+        mat4.translate(modelMatrix, modelMatrix, [document.getElementById("Red").value, document.getElementById("Green").value, document.getElementById("Blue").value]);
 
 
     gl.uniformMatrix4fv(
