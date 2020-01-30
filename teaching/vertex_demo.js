@@ -61,15 +61,15 @@ function main() {
   varying vec3 vertPos;       // Vertex position 
 
   void main() {
-    uniform float Ka = 0.82;   // Ambient reflection coefficient
-    uniform float Kd = 1.0;   // Diffuse reflection coefficient
-    uniform float Ks = 0.61;   // Specular reflection coefficient
-    uniform float shininessVal = 60; // Shininess
+    float Ka = 0.82;   // Ambient reflection coefficient
+    float Kd = 1.0;   // Diffuse reflection coefficient
+    float Ks = 0.61;   // Specular reflection coefficient
+    float shininessVal = 60.0; // Shininess
     // Material color
-    uniform vec3 ambientColor = vec3(0.1, 0.1, 0.1);
-    uniform vec3 diffuseColor = vec3(0.2, 1.0, 0.5);
-    uniform vec3 specularColor = vec3(1.0, 1.0, 1.0);
-    uniform vec3 lightPos = vec3(1.0, 1.0, 1.0); // Light position
+    vec3 ambientColor = vec3(0.1, 0.1, 0.1);
+    vec3 diffuseColor = vec3(0.2, 1.0, 0.5);
+    vec3 specularColor = vec3(1.0, 1.0, 1.0);
+    vec3 lightPos = vec3(1.0, 1.0, 1.0); // Light position
 
     vec3 N = normalize(normalInterp);
     vec3 L = normalize(lightPos - vertPos);
