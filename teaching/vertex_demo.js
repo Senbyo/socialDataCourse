@@ -39,7 +39,7 @@ function main() {
   varying vec3 vertPos;
 
   void main() {
-    vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition, 1.0);
+    vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition.xyz, 1.0);
     vertPos = vec3(vertPos4.xyz) / vertPos4.w;
     normalInterp = vec3(uNormalMatrix * vec4(aVertexNormal, 0.0));
     gl_Position = uProjectionMatrix * vertPos4;
@@ -55,6 +55,8 @@ function main() {
 //   `;
 
   const fsSource = `
+  precision mediump float;
+  
   varying vec3 normalInterp;  // Surface normal
   varying vec3 vertPos;       // Vertex position 
 
