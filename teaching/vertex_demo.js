@@ -491,7 +491,8 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         modelViewMatrix);
 
-    const lightpos = [1.0, 1.0, 1.0];
+    const lightpos = [document.getElementById("x").value, document.getElementById("y").value, document.getElementById("z").value];
+    console.log(lightpos);
 
     gl.uniform3fv(
         programInfo.uniformLocations.lightPosition,
