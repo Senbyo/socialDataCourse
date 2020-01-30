@@ -413,6 +413,16 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
   
     // Set the drawing position to the "identity" point, which is
     // the center of the scene.
+
+    const orthoMatrix = mat4.create();
+
+    mat4.lookAt(orthoMatrix,
+                -5.0,       // left
+                5.0,        // right
+                5.0,        // bottom
+                5.0,        // top
+                zNear,
+                zFar);
     
     const viewMatrix = mat4.create();
 
@@ -506,7 +516,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
         false,
-        projectionMatrix);
+        orthoMatrix);
 
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.modelViewMatrix,
