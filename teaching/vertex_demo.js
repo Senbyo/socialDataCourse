@@ -34,12 +34,16 @@ function main() {
   uniform mat4 uNormalMatrix;
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
+  uniform mat4 uModelMatrix;
+  uniform mat4 uViewMatrix;
 
   varying vec3 normalInterp;
   varying vec3 vertPos;
 
   void main() {
-    vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition.xyz, 1.0);
+    mat4 modelViewMatrix = uViewMatrix * uModelMatrix;
+    vec4 vertPos4 = modelViewMatrix * vec4(aVertexPosition.xyz, 1.0);
+
     vertPos = vec3(vertPos4.xyz) / vertPos4.w;
     normalInterp = vec3(uNormalMatrix * vec4(aVertexNormal, 0.0));
     gl_Position = uProjectionMatrix * vertPos4;
@@ -109,6 +113,8 @@ function main() {
     uniformLocations: {
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+      modelMatrix: gl.getUniformLocation(shaderProgram, 'uModelMatrix'),
+      viewMatrix: gl.getUniformLocation(shaderProgram, 'uViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
       lightPosition: gl.getUniformLocation(shaderProgram, "ulightPos"),
       diffusePosition: gl.getUniformLocation(shaderProgram, "udiffuseColor"),
@@ -407,6 +413,16 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
   
     // Set the drawing position to the "identity" point, which is
     // the center of the scene.
+    
+    const viewMatrix = mat4.create();
+
+    mat4.lookat(viewMatrix,
+                [-0.0, 0.0, -6.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0]);
+
+    const modelMatrix = mat4.create();
+
     const modelViewMatrix = mat4.create();
   
     // Now move the drawing position a bit to where we want to
@@ -496,6 +512,16 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         programInfo.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix);
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.modelMatrix,
+        false,
+        modelMatrix);
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.viewMatrix,
+        false,
+        viewMatrix);
 
     const lightpos = [document.getElementById("x").value, document.getElementById("y").value, document.getElementById("z").value];
 
