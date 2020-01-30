@@ -399,11 +399,11 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
   
     // note: glmatrix.js always has the first argument
     // as the destination to receive the result.
-    // mat4.perspective(projectionMatrix,
-    //                  fieldOfView,
-    //                  aspect,
-    //                  zNear,
-    //                  zFar);
+    mat4.perspective(projectionMatrix,
+                     fieldOfView,
+                     aspect,
+                     zNear,
+                     zFar);
   
     // Set the drawing position to the "identity" point, which is
     // the center of the scene.
