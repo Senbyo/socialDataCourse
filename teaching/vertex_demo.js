@@ -61,6 +61,7 @@ function main() {
   varying vec3 vertPos;       // Vertex position 
 
   uniform vec3 ulightPos;
+  uniform vec3 udiffuseColor;
 
   void main() {
     float Ka = 0.82;   // Ambient reflection coefficient
@@ -69,7 +70,6 @@ function main() {
     float shininessVal = 60.0; // Shininess
     // Material color
     vec3 ambientColor = vec3(0.1, 0.1, 0.1);
-    vec3 diffuseColor = vec3(0.2, 1.0, 0.5);
     vec3 specularColor = vec3(1.0, 1.0, 1.0);
 
 
@@ -87,7 +87,7 @@ function main() {
       specular = pow(specAngle, shininessVal);
     }
     gl_FragColor = vec4(Ka * ambientColor +
-                        Kd * lambertian * diffuseColor +
+                        Kd * lambertian * udiffuseColor +
                         Ks * specular * specularColor, 1.0);
   }
 `;
@@ -111,6 +111,7 @@ function main() {
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
       lightPosition: gl.getUniformLocation(shaderProgram, "ulightPos"),
+      diffusePosition: gl-getUniformLocation(shaderProgram, "udiffuseColor"),
     },
   };
 
@@ -492,12 +493,17 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         modelViewMatrix);
 
     const lightpos = [document.getElementById("x").value, document.getElementById("y").value, document.getElementById("z").value];
-    console.log(lightpos);
 
     gl.uniform3fv(
         programInfo.uniformLocations.lightPosition,
         lightpos);
-  
+
+    const diffuseColor = [document.getElementById("Red").value, document.getElementById("Green").value, document.getElementById("Blue").value];
+
+    gl.uniform3fv(
+        programInfo.uniformLocations.diffusePosition,
+        diffuseColor);
+
     {
         const vertexCount = 36;
         const type = gl.UNSIGNED_SHORT;

@@ -5,7 +5,8 @@
   <body>
     <canvas id="glcanvas" width="640" height="480"></canvas>
     <div id="uiContainer">
-      <div id="ui">
+      <div id="lightpos">
+        <label>Light Position</label>
         <div>
           <label for="x:">X:</label>
           <input name="x:" id="x" type="range" min="-5.0" max="5.0" value="1.0" step="0.1">
@@ -17,6 +18,21 @@
         <div>
           <label for="x:">Z:</label>
           <input name="z:" id="z" type="range" min="-5.0" max="5.0" value="1.0" step="0.1">
+        </div>
+      </div>
+      <div id="object color">
+        <label>Light Position</label>
+        <div>
+          <label for="Red:">Red:</label>
+          <input name="red:" id="Red" type="range" min="0.0" max="1.0" value="0.1" step="0.1">
+        </div>
+        <div>
+          <label for="Green:">Green:</label>
+          <input name="Green:" id="Green" type="range" min="0.0" max="1.0" value="1.0" step="0.1">
+        </div>
+        <div>
+          <label for="Blue:">Blue:</label>
+          <input name="Blue:" id="Blue" type="range" min="0.0" max="1.0" value="0.5" step="0.1">
         </div>
       </div>
     </div>
