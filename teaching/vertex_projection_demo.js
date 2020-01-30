@@ -551,11 +551,13 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         viewMatrix);
 
 
-    gl.uniform3fv(
-        programInfo.uniformLocations.lightPosition,
-        lightpos);
+      const lightpos = [1.0, 1.0, 1.0];
 
-    const diffuseColor = [, document.getElementById("Green").value, document.getElementById("Blue").value];
+      gl.uniform3fv(
+          programInfo.uniformLocations.lightPosition,
+          lightpos);
+    
+        const diffuseColor = [0.1, 1.0, 0.5];
 
     gl.uniform3fv(
         programInfo.uniformLocations.diffusePosition,
