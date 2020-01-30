@@ -516,7 +516,8 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     if (document.getElementById("Red").value == 1.0){
 
 
-      mat4.perspective(projectionMatrix,
+      const projection = mat4.create();
+      mat4.perspective(projection,
         document.getElementById("x") * Math.PI / 180,
         aspect,
         document.getElementById("y").value,
@@ -526,7 +527,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
       gl.uniformMatrix4fv(
           programInfo.uniformLocations.projectionMatrix,
           false,
-          projectionMatrix);
+          projection);
     } else {
       gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
