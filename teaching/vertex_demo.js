@@ -30,7 +30,6 @@ function main() {
   const vsSource = `
   attribute vec4 aVertexPosition;
   attribute vec3 aVertexNormal;
-  attribute vec2 aTextureCoord;
 
   uniform mat4 uNormalMatrix;
   uniform mat4 uModelViewMatrix;
@@ -41,7 +40,6 @@ function main() {
 
   void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    vTextureCoord = aTextureCoord;
 
     // Apply lighting effect
 
