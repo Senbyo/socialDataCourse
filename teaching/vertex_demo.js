@@ -85,8 +85,6 @@ function main() {
     gl_FragColor = vec4(Ka * ambientColor +
                         Kd * lambertian * diffuseColor +
                         Ks * specular * specularColor, 1.0);
-
-    gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
   }
 `;
 
