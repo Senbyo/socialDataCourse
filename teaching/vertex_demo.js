@@ -36,20 +36,15 @@ function main() {
   uniform mat4 uProjectionMatrix;
 
   varying highp vec3 vLighting;
+  varying vec3 normalInterp;
+  varying vec3 vertPos;
 
   void main() {
-    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition, 1.0);
+    vertPos = vec3(vertPos4) / vertPos4.w;
+    normalInterp = vec3(uNormalMatrix * vec4(aVertexNormal, 0.0));
+    gl_Position = uProjectionMatrix * vertPos4;
 
-    // Apply lighting effect
-
-    highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
-    highp vec3 directionalLightColor = vec3(0.5, 1.0, 0.5);
-    highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
-
-    highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
-
-    highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
-    vLighting = ambientLight + (directionalLightColor * directional);
   }
 `;
   // Fragment shader program
@@ -62,9 +57,36 @@ function main() {
 
   const fsSource = `
   varying highp vec3 vLighting;
+  varying vec3 normalInterp;  // Surface normal
+  varying vec3 vertPos;       // Vertex position 
 
   void main() {
-    highp vec4 texelColor = vec4(0.0, 1.0, 0.0, 1.0);
+    uniform float Ka = 0.82;   // Ambient reflection coefficient
+    uniform float Kd = 1.0;   // Diffuse reflection coefficient
+    uniform float Ks = 0.61;   // Specular reflection coefficient
+    uniform float shininessVal = 60; // Shininess
+    // Material color
+    uniform vec3 ambientColor = vec3(0.1, 0.1, 0.1);
+    uniform vec3 diffuseColor = vec3(0.2, 1.0, 0.5);
+    uniform vec3 specularColor = vec3(1.0, 1.0, 1.0);
+    uniform vec3 lightPos = vec3(1.0, 1.0, 1.0); // Light position
+
+    vec3 N = normalize(normalInterp);
+    vec3 L = normalize(lightPos - vertPos);
+  
+    // Lambert's cosine law
+    float lambertian = max(dot(N, L), 0.0);
+    float specular = 0.0;
+    if(lambertian > 0.0) {
+      vec3 R = reflect(-L, N);      // Reflected light vector
+      vec3 V = normalize(-vertPos); // Vector to viewer
+      // Compute the specular term
+      float specAngle = max(dot(R, V), 0.0);
+      specular = pow(specAngle, shininessVal);
+    }
+    gl_FragColor = vec4(Ka * ambientColor +
+                        Kd * lambertian * diffuseColor +
+                        Ks * specular * specularColor, 1.0);
 
     gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
   }
