@@ -514,8 +514,20 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         normalMatrix);
   
     if (document.getElementById("Red").value == 1.0){
-
-
+      // const fieldOfView = 45 * Math.PI / 180;   // in radians
+      // const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+      // const zNear = 0.1;
+      // const zFar = 100.0;
+      // const projectionMatrix = mat4.create();
+    
+      // // note: glmatrix.js always has the first argument
+      // // as the destination to receive the result.
+      // mat4.perspective(projectionMatrix,
+      //                  fieldOfView,
+      //                  aspect,
+      //                  zNear,
+      //                  zFar);
+      console.log("hello");
       const projection = mat4.create();
       mat4.perspective(projection,
         document.getElementById("x") * Math.PI / 180,
