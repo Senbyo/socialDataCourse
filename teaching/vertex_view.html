@@ -2,11 +2,14 @@
 <html>
   <meta charset="utf-8">
   <title>Vertex Shader Exercise</title>
+  <head>
+    <title>Global Coordinate Space</title>
+  </head>
   <body>
     <canvas id="glcanvas" width="640" height="480"></canvas>
     <div id="wrapper">
       <div id="left">
-        <label>Light Position</label>
+        <label>Rotation Around Axis</label>
         <div>
           <label for="x:">X:</label>
           <input name="x:" id="x" type="range" min="-5.0" max="5.0" value="1.0" step="0.1">
@@ -22,7 +25,7 @@
 
       </div>
       <div id="right">
-        <label>Color</label>
+        <label>Translation Around Axis</label>
         <div>
           <label for="Red:">Red:</label>
           <input name="red:" id="Red" type="range" min="0.0" max="1.0" value="0.1" step="0.1">

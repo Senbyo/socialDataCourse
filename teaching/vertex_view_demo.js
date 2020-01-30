@@ -528,18 +528,21 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         modelMatrix);
 
+        mat4.rotateX(viewMatrix, viewMatrix, document.getElementById("x").value);
+        mat4.rotateY(viewMatrix, viewMatrix, document.getElementById("y").value);
+        mat4.rotateZ(viewMatrix, viewMatrix, document.getElementById("z").value);
+        mat4.translate(viewMatrix, viewMatrix, [document.getElementById("Red").value, document.getElementById("Green").value, document.getElementById("Blue").value]);
+
+
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.viewMatrix,
         false,
         viewMatrix);
 
-    const lightpos = [document.getElementById("x").value, document.getElementById("y").value, document.getElementById("z").value];
-
     gl.uniform3fv(
         programInfo.uniformLocations.lightPosition,
         lightpos);
 
-    const diffuseColor = [document.getElementById("Red").value, document.getElementById("Green").value, document.getElementById("Blue").value];
 
     gl.uniform3fv(
         programInfo.uniformLocations.diffusePosition,
