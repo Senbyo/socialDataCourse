@@ -137,6 +137,9 @@ function initBuffers_plane(gl) {
             2.0, -1.0, -2.0,
          ];
 
+         gl.bufferData(gl.ARRAY_BUFFER,
+            new Float32Array(positions),
+            gl.STATIC_DRAW);
 
          const normalBuffer = gl.createBuffer();
          gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
@@ -155,9 +158,6 @@ function initBuffers_plane(gl) {
        // shape. We do this by creating a Float32Array from the
        // JavaScript array, then use it to fill the current buffer.
      
-       gl.bufferData(gl.ARRAY_BUFFER,
-       new Float32Array(positions),
-       gl.STATIC_DRAW);
    
        return {
        position: positionBuffer,
