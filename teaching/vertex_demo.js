@@ -60,6 +60,8 @@ function main() {
   varying vec3 normalInterp;  // Surface normal
   varying vec3 vertPos;       // Vertex position 
 
+  uniform vec3 ulightPos;
+
   void main() {
     float Ka = 0.82;   // Ambient reflection coefficient
     float Kd = 1.0;   // Diffuse reflection coefficient
@@ -69,7 +71,7 @@ function main() {
     vec3 ambientColor = vec3(0.1, 0.1, 0.1);
     vec3 diffuseColor = vec3(0.2, 1.0, 0.5);
     vec3 specularColor = vec3(1.0, 1.0, 1.0);
-    vec3 lightPos = vec3(1.0, 1.0, 1.0); // Light position
+
 
     vec3 N = normalize(normalInterp);
     vec3 L = normalize(lightPos - vertPos);
@@ -108,6 +110,7 @@ function main() {
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
+      lightPosition: gl.getUniformLocation(shaderProgram, "ulightPos");
     },
   };
 
@@ -482,10 +485,18 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         programInfo.uniformLocations.projectionMatrix,
         false,
         projectionMatrix);
+
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix);
+
+    const lightpos = [1.0, 1.0, 1.0];
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.lightPosition,
+        false,
+        lightpos);
   
     {
         const vertexCount = 36;
@@ -493,6 +504,8 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         const offset = 0;
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
+
+    // Set up plane
 
     {
         const numComponents = 3;  // pull out 2 values per iteration
