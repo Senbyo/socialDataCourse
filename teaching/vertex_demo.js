@@ -74,7 +74,7 @@ function main() {
 
 
     vec3 N = normalize(normalInterp);
-    vec3 L = normalize(lightPos - vertPos);
+    vec3 L = normalize(ulightPos - vertPos);
   
     // Lambert's cosine law
     float lambertian = max(dot(N, L), 0.0);
