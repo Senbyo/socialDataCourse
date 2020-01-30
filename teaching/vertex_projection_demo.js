@@ -513,10 +513,27 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         normalMatrix);
   
-    gl.uniformMatrix4fv(
+    if (document.getElementById("Red").value == 1.0){
+
+
+      mat4.perspective(projectionMatrix,
+        document.getElementById("x") * Math.PI / 180,
+        aspect,
+        document.getElementById("y").value,
+        document.getElementById("x").value);
+
+
+      gl.uniformMatrix4fv(
+          programInfo.uniformLocations.projectionMatrix,
+          false,
+          projectionMatrix);
+    } else {
+      gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
         false,
         orthoMatrix);
+    }
+
 
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.modelViewMatrix,
@@ -533,13 +550,12 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         false,
         viewMatrix);
 
-    const lightpos = [document.getElementById("x").value, document.getElementById("y").value, document.getElementById("z").value];
 
     gl.uniform3fv(
         programInfo.uniformLocations.lightPosition,
         lightpos);
 
-    const diffuseColor = [document.getElementById("Red").value, document.getElementById("Green").value, document.getElementById("Blue").value];
+    const diffuseColor = [, document.getElementById("Green").value, document.getElementById("Blue").value];
 
     gl.uniform3fv(
         programInfo.uniformLocations.diffusePosition,
