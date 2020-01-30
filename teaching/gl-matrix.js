@@ -5109,8 +5109,6 @@ function frustum(out, left, right, bottom, top, near, far) {
  */
 function perspective(out, fovy, aspect, near, far) {
   var f = 1.0 / Math.tan(fovy / 2);
-  console.log(fovy)
-  console.log(f)
   var nf = 1 / (near - far);
   out[0] = f / aspect;
   out[1] = 0;
