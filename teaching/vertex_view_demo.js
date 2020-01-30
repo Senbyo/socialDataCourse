@@ -433,6 +433,8 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
 
     const modelMatrix = mat4.create();
 
+    mat4.rotateX(modelMatrix, modelMatrix, 3.14):
+
     const modelViewMatrix = mat4.create();
   
     // Now move the drawing position a bit to where we want to

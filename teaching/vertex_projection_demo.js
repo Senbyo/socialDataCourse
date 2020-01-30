@@ -520,7 +520,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         document.getElementById("x") * Math.PI / 180,
         aspect,
         document.getElementById("y").value,
-        document.getElementById("x").value);
+        document.getElementById("z").value);
 
 
       gl.uniformMatrix4fv(
