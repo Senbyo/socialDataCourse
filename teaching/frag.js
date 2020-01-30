@@ -516,7 +516,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
         false,
-        orthoMatrix);
+        projectionMatrix);
 
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.modelViewMatrix,

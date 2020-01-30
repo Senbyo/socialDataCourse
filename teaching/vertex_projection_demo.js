@@ -514,10 +514,10 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         normalMatrix);
   
     if (document.getElementById("Red").value == 1.0){
-      const fieldOfView = document.getElementById("x") * Math.PI / 180;   // in radians
+      const fieldOfView = 45 * Math.PI / 180; //document.getElementById("x") * Math.PI / 180;   // in radians
       const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-      const zNear = document.getElementById("y").value;
-      const zFar = document.getElementById("z").value;
+      const zNear = 0.1; //document.getElementById("y").value;
+      const zFar = 100; //document.getElementById("z").value;
       const projectionMatrix = mat4.create();
     
       // note: glmatrix.js always has the first argument
