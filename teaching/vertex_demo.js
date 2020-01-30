@@ -40,7 +40,7 @@ function main() {
 
   void main() {
     vec4 vertPos4 = uModelViewMatrix * vec4(aVertexPosition, 1.0);
-    vertPos = vec3(vertPos4) / vertPos4.w;
+    vertPos = vec3(vertPos4.xyz) / vertPos4.w;
     normalInterp = vec3(uNormalMatrix * vec4(aVertexNormal, 0.0));
     gl_Position = uProjectionMatrix * vertPos4;
 
