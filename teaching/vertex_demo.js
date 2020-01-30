@@ -142,7 +142,6 @@ function initBuffers_plane(gl) {
          gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
        
          const vertexNormals = [
-           // Front
             0.0,  1.0,  0.0,
             0.0,  1.0,  0.0,
             0.0,  1.0,  0.0,
@@ -503,6 +502,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         const stride = 0;
         const offset = 0;
         gl.bindBuffer(gl.ARRAY_BUFFER, buffers_plane.normal);
+        
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexNormal,
             numComponents,
@@ -510,6 +510,8 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
             normalize,
             stride,
             offset);
+
+
         gl.enableVertexAttribArray(
             programInfo.attribLocations.vertexNormal);
     }
