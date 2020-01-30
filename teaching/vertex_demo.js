@@ -427,7 +427,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
     const viewMatrix = mat4.create();
 
     mat4.lookAt(viewMatrix,
-                [-2.0, 3.0, -6.0],
+                [-0.0, 0.0, -6.0], //[-2.0, 3.0, -6.0],
                 [0.0, 0.0, 0.0],
                 [0.0, 1.0, 0.0]);
 
