@@ -43,7 +43,7 @@ function main() {
     // Apply lighting effect
 
     highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
-    highp vec3 directionalLightColor = vec3(1.0, -2.0, 1.0);
+    highp vec3 directionalLightColor = vec3(0.5, 1.0, 0.5);
     highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
 
     highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
@@ -502,7 +502,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         const normalize = false;
         const stride = 0;
         const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers_plane.normal);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexNormal,
             numComponents,
