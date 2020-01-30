@@ -514,7 +514,7 @@ function drawScene(gl, programInfo, buffers, buffers_plane) {
         normalMatrix);
   
     if (document.getElementById("Red").value == 1.0){
-      const temp = parsefloat(document.getElementById("x").value);
+      const temp = parseFloat(document.getElementById("x").value);
       console.log(temp );//* (Math.PI / 180));
       const fieldOfView = parseFloat(temp * Math.PI / 180);   // in radians
       const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
